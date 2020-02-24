@@ -42,14 +42,11 @@ namespace PlanB.BL.Controller
         /// Creat new rider controller.
         /// </summary>
         /// <param name="raider"> Rider </param>
-        public RiderController(Rider rider)
+        public RiderController(int startNumber, string name, string surname, string riderGender, string location, string team)
         {
-            if (rider is null)
-            {
-                throw new ArgumentNullException("Rider can't be null", nameof(rider));
-            }
+            Gender gender = new Gender(riderGender);
 
-            Rider = rider;
+            Rider = new Rider(startNumber, name, surname, gender, location, team);
         }
 
         /// <summary>
