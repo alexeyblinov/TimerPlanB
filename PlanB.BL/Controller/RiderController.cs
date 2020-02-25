@@ -1,5 +1,6 @@
 ﻿using PlanB.BL.Model;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
@@ -13,28 +14,28 @@ namespace PlanB.BL.Controller
         
     {
         /// <summary>
-        /// umm just a rider field...
+        /// Riders list.
         /// </summary>
-        public Rider Rider { get; }
+        public List<Rider> Riders { get; }
 
         /// <summary>
         /// Constructor. Load Rider's data from file.
         /// </summary>
         /// <param name="rider"></param>
         /// <returns> Rider </returns>
-        public RiderController()
+        private List<Rider> GetRiders()
         {
             var formatter = new BinaryFormatter();
 
             using (var fileStream = new FileStream("riders.dat", FileMode.OpenOrCreate))
             {
-                if (formatter.Deserialize(fileStream) is Rider rider)
+                if (formatter.Deserialize(fileStream) is List<Rider> riders)
                 {
-                    Rider = rider;
+                    return riders;
                 }
                 else
                 {
-                    // TODO: to do thomething if exception is here..
+                    return new List<Rider>();
                 }
             }
         }
@@ -43,11 +44,15 @@ namespace PlanB.BL.Controller
         /// Creat new rider controller.
         /// </summary>
         /// <param name="raider"> Rider </param>
-        public RiderController(int startNumber, string name, string surname, string riderGender, string location, string team)
+        public RiderController(int startNumber)
         {
-            Gender gender = new Gender(riderGender);
-
-            Rider = new Rider(startNumber, name, surname, gender, location, team);
+            if (string.IsNullOrWhiteSpace(startNumber))
+            {
+                throw new ArgumentNullException("Start number can't be null.", nameof(startNumber));
+            }
+            Riders = GetRiders();
+            
+           
         }
 
         /// <summary>
