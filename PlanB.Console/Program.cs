@@ -1,4 +1,5 @@
-﻿using PlanB.BL.Model;
+﻿using PlanB.BL.Controller;
+using System; //wtf??
 
 namespace PlanB.Console
 {
@@ -6,9 +7,10 @@ namespace PlanB.Console
     {
         static void Main(string[] args)
         {
+            int startNunber;
             System.Console.WriteLine("Enter rider data.");
             System.Console.WriteLine("Start number: ");
-            var number = System.Console.ReadLine();
+            int.TryParse(System.Console.ReadLine(), out startNunber);
             System.Console.WriteLine("Name: ");
             var name = System.Console.ReadLine();
             System.Console.WriteLine("Surname: ");
@@ -19,15 +21,10 @@ namespace PlanB.Console
             var hometown = System.Console.ReadLine();
             System.Console.WriteLine("Team: ");
             var team = System.Console.ReadLine();
-
-            int startNumber;
-            int.TryParse(number, out startNumber);
-
-            Gender riderGender = new Gender(gender);
             
-
-            Rider rider = new Rider(startNumber, name, surname, riderGender, hometown, team);
-
+            RiderController riderController = new RiderController(startNunber, name, surname, gender, hometown, team);
+            riderController.Save(riderController);
+            System.Console.ReadLine();
         }
     }
 }

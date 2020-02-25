@@ -5,6 +5,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 namespace PlanB.BL.Controller
 {
+    [Serializable]
     /// <summary>
     /// Rider controller.
     /// </summary>
@@ -54,13 +55,13 @@ namespace PlanB.BL.Controller
         /// </summary>
         /// <param name="rider"></param>
         /// <returns></returns>
-        public void Save(Rider rider)
+        public void Save(RiderController riderController)
         {
             var formatter = new BinaryFormatter();
 
             using(var fileStream = new FileStream("riders.dat", FileMode.OpenOrCreate))
             {
-                formatter.Serialize(fileStream, Rider);
+                formatter.Serialize(fileStream, riderController);
             } 
         }
     }
