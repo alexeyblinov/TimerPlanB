@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 
 namespace PlanB.BL.Controller
@@ -19,17 +20,44 @@ namespace PlanB.BL.Controller
         public List<Rider> Riders { get; }
 
         /// <summary>
-        /// Constructor. Load Rider's data from file.
+        /// Some current rider.
         /// </summary>
-        /// <param name="rider"></param>
-        /// <returns> Rider </returns>
+        public Rider CurrentRider { get; }
+
+        /// <summary>
+        /// Create a new rider or get from a saved list.
+        /// </summary>
+        /// <param name="startNumber"> Rider's start number (Rider.riderId) </param>
+        public RiderController(int startNumber)
+        {
+            if (startNumber <= 0)
+            {
+                throw new ArgumentOutOfRangeException("Start number must be from 1 to 99.", nameof(startNumber));
+            }
+            Riders = GetRiders();
+
+            CurrentRider = Riders.SingleOrDefault(r => r.RiderId == startNumber);
+
+            if(CurrentRider == null)
+            {
+                CurrentRider = new Rider(startNumber);
+                Riders.Add(CurrentRider);
+                Save();
+            }
+        }
+
+
+        /// <summary>
+        /// Load Rider's data from file or create a new list.
+        /// </summary>
+        /// <returns></returns>
         private List<Rider> GetRiders()
         {
             var formatter = new BinaryFormatter();
 
             using (var fileStream = new FileStream("riders.dat", FileMode.OpenOrCreate))
             {
-                if (formatter.Deserialize(fileStream) is List<Rider> riders)
+                if (fileStream.Length != 0 && formatter.Deserialize(fileStream) is List<Rider> riders)
                 {
                     return riders;
                 }
@@ -40,33 +68,55 @@ namespace PlanB.BL.Controller
             }
         }
 
-        /// <summary>
-        /// Creat new rider controller.
-        /// </summary>
-        /// <param name="raider"> Rider </param>
-        public RiderController(int startNumber)
+        public void SetNewRiderData(string name, 
+                                    string surname, 
+                                    string gender, 
+                                    string location, 
+                                    string team)
         {
-            if (string.IsNullOrWhiteSpace(startNumber))
+            if (string.IsNullOrWhiteSpace(name))
             {
-                throw new ArgumentNullException("Start number can't be null.", nameof(startNumber));
+                throw new ArgumentException("Name is not exist.", nameof(name));
             }
-            Riders = GetRiders();
-            
-           
+
+            if (string.IsNullOrWhiteSpace(surname))
+            {
+                throw new ArgumentException("Surname is not exist.", nameof(surname));
+            }
+
+            if (string.IsNullOrWhiteSpace(gender))
+            {
+                throw new ArgumentException("You should use M or F.", nameof(gender));
+            }
+
+            if (string.IsNullOrWhiteSpace(location))
+            {
+                throw new ArgumentException("Hometown is not exist.", nameof(location));
+            }
+
+            if (string.IsNullOrWhiteSpace(team))
+            {
+                throw new ArgumentException("Team is not exist.", nameof(team));
+            }
+
+            CurrentRider.Name = name;
+            CurrentRider.Surname = surname;
+            CurrentRider.Gender = new Gender(gender);
+            CurrentRider.Location = location;
+            CurrentRider.Team = team;
+            Save();
         }
 
         /// <summary>
-        /// Save Rider/s data to file.
+        /// Save the list of riders to a file.
         /// </summary>
-        /// <param name="rider"></param>
-        /// <returns></returns>
-        public void Save(RiderController riderController)
+        public void Save()
         {
             var formatter = new BinaryFormatter();
 
             using(var fileStream = new FileStream("riders.dat", FileMode.OpenOrCreate))
             {
-                formatter.Serialize(fileStream, riderController);
+                formatter.Serialize(fileStream, Riders);
             } 
         }
     }

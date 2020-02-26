@@ -12,23 +12,23 @@ namespace PlanB.BL.Model
         /// <summary>
         /// Rider's name. Sets when creating an object.
         /// </summary>
-        public string Name { get; }
+        public string Name { get; set; }
         /// <summary>
         /// Rider's surname. Sets when creating an object.
         /// </summary>
-        public string Surname { get; }
+        public string Surname { get; set; }
         /// <summary>
         /// Rider's gender. Sets when creating an object.
         /// </summary>
-        public Gender Gender { get; }
+        public Gender Gender { get; set; }
         /// <summary>
         /// Rider's hometown. Sets when creating an object.
         /// </summary>
-        public string Location { get; }
+        public string Location { get; set; }
         /// <summary>
         /// Rider's team. Sets when creating an object.
         /// </summary>
-        public string Team { get; }
+        public string Team { get; set; }
 
         /// <summary>
         /// Create a new rider.
@@ -82,6 +82,15 @@ namespace PlanB.BL.Model
             Gender = gender;
             Location = location;
             Team = team;
+        }
+
+        public Rider(int riderId)
+        {
+            if (riderId <= 0)
+            {
+                throw new ArgumentOutOfRangeException("ID must be from 1 to 99.", nameof(riderId));
+            }
+            RiderId = riderId;
         }
 
         public override string ToString()
