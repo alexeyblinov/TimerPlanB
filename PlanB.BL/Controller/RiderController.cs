@@ -119,5 +119,10 @@ namespace PlanB.BL.Controller
                 formatter.Serialize(fileStream, Riders);
             } 
         }
+
+        public override string ToString()
+        {
+            return CurrentRider.ToString();
+        }
     }
 }

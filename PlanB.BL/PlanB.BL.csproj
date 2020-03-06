@@ -42,8 +42,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controller\RiderController.cs" />
+    <Compile Include="Controller\TimemachineController.cs" />
     <Compile Include="Model\Gender.cs" />
     <Compile Include="Model\Rider.cs" />
+    <Compile Include="Model\Timemachine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
