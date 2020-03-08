@@ -28,19 +28,32 @@ namespace PlanB.BL.Controller
         /// Create a new rider or get from a saved list.
         /// </summary>
         /// <param name="startNumber"> Rider's start number (Rider.riderId) </param>
-        public RiderController(int startNumber)
+        public RiderController(int startNumber, string classId)
         {
             if (startNumber <= 0)
             {
                 throw new ArgumentOutOfRangeException("Start number must be from 1 to 99.", nameof(startNumber));
             }
+
+            if (classId.Length != 1)
+            {
+                throw new ArgumentOutOfRangeException("Should be 'B' or 'C' or 'D' or 'N'.", nameof(classId));
+            }
+
             Riders = GetRiders();
 
             CurrentRider = Riders.SingleOrDefault(r => r.RiderId == startNumber);
 
             if(CurrentRider == null)
             {
-                CurrentRider = new Rider(startNumber);
+                if(classId.Contains('N'))
+                {
+                    CurrentRider = new RiderNovice(startNumber, classId);
+                }
+                else
+                {
+                    CurrentRider = new Rider(startNumber);
+                }
                 Riders.Add(CurrentRider);
                 Save();
             }
@@ -51,7 +64,7 @@ namespace PlanB.BL.Controller
         /// Load Rider's data from file or create a new list.
         /// </summary>
         /// <returns></returns>
-        private List<Rider> GetRiders()
+        internal List<Rider> GetRiders()
         {
             var formatter = new BinaryFormatter();
 

@@ -8,10 +8,14 @@ namespace PlanB.Console
         static void Main(string[] args)
         {
             int startNunber;
+            string classId;
+
             System.Console.WriteLine("Enter rider's Start number:");
             int.TryParse(System.Console.ReadLine(), out startNunber);
-            
-            RiderController riderController = new RiderController(startNunber);
+            System.Console.WriteLine("Enter rider's Class (B,C,D,N):");
+            classId = System.Console.ReadLine();
+
+            RiderController riderController = new RiderController(startNunber, classId);
             if (string.IsNullOrEmpty(riderController.CurrentRider.Name))
             {
                 System.Console.WriteLine("Enter rider data.");
