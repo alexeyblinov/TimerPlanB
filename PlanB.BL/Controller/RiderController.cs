@@ -15,27 +15,30 @@ namespace PlanB.BL.Controller
         
     {
         /// <summary>
-        /// Riders list.
+        /// Список участников.
         /// </summary>
         public List<Rider> Riders { get; }
 
         /// <summary>
-        /// Some current rider.
+        /// Текущий участник.
         /// </summary>
         public Rider CurrentRider { get; }
 
         /// <summary>
-        /// Create a new rider or get from a saved list.
+        /// Создать нового участника, если его нет в списке, иначе вернуть данные из списка.
         /// </summary>
-        /// <param name="startNumber"> Rider's start number (Rider.riderId) </param>
+        /// <param name="startNumber"> Стартовый номер участника (Rider.riderId) </param>
         public RiderController(int startNumber, string classId)
         {
+            // Строка списка возможных классов участников.
+            var classes = "BCDN";
+            
             if (startNumber <= 0)
             {
                 throw new ArgumentOutOfRangeException("Start number must be from 1 to 99.", nameof(startNumber));
             }
 
-            if (classId.Length != 1)
+            if (classId.Length != 1 || !classes.Contains(classId))
             {
                 throw new ArgumentOutOfRangeException("Should be 'B' or 'C' or 'D' or 'N'.", nameof(classId));
             }
@@ -61,7 +64,7 @@ namespace PlanB.BL.Controller
 
 
         /// <summary>
-        /// Load Rider's data from file or create a new list.
+        /// Загрузка списка участников из файла, если файл пустой или отсутствует, создание нового списка.
         /// </summary>
         /// <returns></returns>
         internal List<Rider> GetRiders()
@@ -81,6 +84,14 @@ namespace PlanB.BL.Controller
             }
         }
 
+        /// <summary>
+        /// Добавление данных об участнике, если у него есть только номер.
+        /// </summary>
+        /// <param name="name"> Имя. </param>
+        /// <param name="surname"> Фамилия. </param>
+        /// <param name="gender"> Пол. </param>
+        /// <param name="location"> Город, который представляет участник. </param>
+        /// <param name="team"> Название команды. </param>
         public void SetNewRiderData(string name, 
                                     string surname, 
                                     string gender, 
@@ -121,7 +132,7 @@ namespace PlanB.BL.Controller
         }
 
         /// <summary>
-        /// Save the list of riders to a file.
+        /// Сохранить список участников в файл.
         /// </summary>
         public void Save()
         {

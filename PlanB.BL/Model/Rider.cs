@@ -6,39 +6,39 @@ namespace PlanB.BL.Model
     public class Rider
     {
         /// <summary>
-        /// Rider's start number. Sets when creating an object.
+        /// Стартовый номер участника.
         /// </summary>
         public int RiderId { get; }
         /// <summary>
-        /// Rider's name. Sets when creating an object.
+        /// Имя участника.
         /// </summary>
         public string Name { get; set; }
         /// <summary>
-        /// Rider's surname. Sets when creating an object.
+        /// Фамилия участника.
         /// </summary>
         public string Surname { get; set; }
         /// <summary>
-        /// Rider's gender. Sets when creating an object.
+        /// Половая принадлежность. Пока реализована толька традиционная.
         /// </summary>
         public Gender Gender { get; set; }
         /// <summary>
-        /// Rider's hometown. Sets when creating an object.
+        /// Город, который представляет участник.
         /// </summary>
         public string Location { get; set; }
         /// <summary>
-        /// Rider's team. Sets when creating an object.
+        /// Команда, за которую выступает участник.
         /// </summary>
         public string Team { get; set; }
 
         /// <summary>
-        /// Create a new rider.
+        /// Конструктор для создания нового участника.
         /// </summary>
-        /// <param name="riderId"> Rider's start number. </param>
-        /// <param name="name"> Rider's name. </param>
-        /// <param name="surname"> Rider's surname. </param>
-        /// <param name="gender"> Rider's gender. </param>
-        /// <param name="location"> Rider's hometown. </param>
-        /// <param name="team"> Rider's team. </param>
+        /// <param name="riderId"> Стартовый номер. </param>
+        /// <param name="name"> Имя. </param>
+        /// <param name="surname"> Фамилия. </param>
+        /// <param name="gender"> Пол. </param>
+        /// <param name="location"> Город, который представляет участник. </param>
+        /// <param name="team"> Название команды. </param>
         public Rider(int riderId, 
                      string name, 
                      string surname, 
@@ -84,6 +84,10 @@ namespace PlanB.BL.Model
             Team = team;
         }
 
+        /// <summary>
+        /// Конструктор для создания или поиска участника по стартовому номеру.
+        /// </summary>
+        /// <param name="riderId"></param>
         public Rider(int riderId)
         {
             if (riderId <= 0)

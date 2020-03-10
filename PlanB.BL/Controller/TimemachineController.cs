@@ -4,17 +4,17 @@ using System;
 namespace PlanB.BL.Controller
 {
     /// <summary>
-    /// Create new timer and convert minutes and seconds to hundredths.
+    /// Создаёт новый счётчик времени для заезда и переводит значения минут, секунд и сотых в сотые.
     /// </summary>
     class TimemachineController
     {
         /// <summary>
-        /// Create a new timer.
+        /// Создаёт новый счётчик времени.
         /// </summary>
         private Timemachine Timer { get; }
 
         /// <summary>
-        /// Convert minutes and seconds to hundredths
+        /// Вызов метода Value переводит значения минут, секунд и сотых в сотые.
         /// </summary>
         public int Value
         {
@@ -25,11 +25,11 @@ namespace PlanB.BL.Controller
         }
 
         /// <summary>
-        /// Create a new TimemachineController
+        /// Создаёт контроллер таймера.
         /// </summary>
-        /// <param name="minutes"> minutes </param>
-        /// <param name="seconds"> seconds </param>
-        /// <param name="hundredths"> hundredths </param>
+        /// <param name="minutes"> Минуты. </param>
+        /// <param name="seconds"> Секунды. </param>
+        /// <param name="hundredths"> Сотые. </param>
         public TimemachineController(int minutes, int seconds, int hundredths)
         {
             Timer = new Timemachine(minutes, seconds, hundredths);
