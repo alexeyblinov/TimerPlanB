@@ -13,14 +13,6 @@ namespace PlanB.BL.Model
         /// </summary>
         public string ClassId { get; }
         /// <summary>
-        /// Время в сотых долях сукунды первого заезда.
-        /// </summary>
-        public int TryFirst { get; set; }
-        /// <summary>
-        /// Время в сотых долях секунды второго заезда.
-        /// </summary>
-        public int TrySecond { get; set; }
-        /// <summary>
         /// Место в классе по итогам заездов.
         /// </summary>        
         public int Rank { get; set; }
@@ -64,6 +56,7 @@ namespace PlanB.BL.Model
 
             TryFirst = 0;
             TrySecond = 0;
+            BestResult = 0;
             Rank = 0;
         }
 

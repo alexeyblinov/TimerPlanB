@@ -26,9 +26,9 @@ namespace PlanB.BL.Model
         /// <param name="hundredths"> hundredths </param>
         public Timemachine(int minutes, int seconds, int hundredths)
         {
-            if (minutes < 0 || minutes > 99)
+            if (minutes < 0 || minutes > 59)
             {
-                throw new ArgumentOutOfRangeException("Minutes must be from 0 to 99.", nameof(minutes));
+                throw new ArgumentOutOfRangeException("Minutes must be from 0 to 59.", nameof(minutes));
             }
             if (seconds < 0 || seconds > 59)
             {

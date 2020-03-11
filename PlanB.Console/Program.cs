@@ -1,4 +1,5 @@
 ﻿using PlanB.BL.Controller;
+using PlanB.BL.Model;
 using System; //wtf??
 
 namespace PlanB.Console

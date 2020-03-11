@@ -29,6 +29,18 @@ namespace PlanB.BL.Model
         /// Команда, за которую выступает участник.
         /// </summary>
         public string Team { get; set; }
+        /// <summary>
+        /// Результат первого заезда.
+        /// </summary>
+        public int TryFirst { get; set; }
+        /// <summary>
+        /// Результат второго заезда.
+        /// </summary>
+        public int TrySecond { get; set; }
+        /// <summary>
+        /// Лучшее время из двух попыток.
+        /// </summary>
+        public int BestResult { get; set; }
 
         /// <summary>
         /// Конструктор для создания нового участника.
