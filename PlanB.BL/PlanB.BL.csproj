@@ -41,12 +41,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controller\RaceController.cs" />
     <Compile Include="Controller\RiderController.cs" />
     <Compile Include="Controller\TimemachineController.cs" />
     <Compile Include="Model\Gender.cs" />
-    <Compile Include="Model\Race.cs" />
     <Compile Include="Model\Rider.cs" />
-    <Compile Include="Model\RiderNovice.cs" />
     <Compile Include="Model\Timemachine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

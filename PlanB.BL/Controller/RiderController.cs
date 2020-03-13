@@ -15,6 +15,11 @@ namespace PlanB.BL.Controller
         
     {
         /// <summary>
+        /// Максимально возможное время заезда.
+        /// </summary>
+        const int MAXTIME = 359999;
+
+        /// <summary>
         /// Список участников.
         /// </summary>
         public List<Rider> Riders { get; }
@@ -49,14 +54,8 @@ namespace PlanB.BL.Controller
 
             if(CurrentRider == null)
             {
-                if(classId.Contains('N'))
-                {
-                    CurrentRider = new RiderNovice(startNumber, classId);
-                }
-                else
-                {
-                    CurrentRider = new Rider(startNumber);
-                }
+
+                CurrentRider = new Rider(startNumber);
                 Riders.Add(CurrentRider);
                 Save();
             }
@@ -66,7 +65,7 @@ namespace PlanB.BL.Controller
         /// <summary>
         /// Загрузка списка участников из файла, если файл пустой или отсутствует, создание нового списка.
         /// </summary>
-        /// <returns></returns>
+        /// <returns> Список всех участников. </returns>
         internal List<Rider> GetRiders()
         {
             var formatter = new BinaryFormatter();
@@ -128,6 +127,10 @@ namespace PlanB.BL.Controller
             CurrentRider.Gender = new Gender(gender);
             CurrentRider.Location = location;
             CurrentRider.Team = team;
+            CurrentRider.TryFirst = MAXTIME;
+            CurrentRider.TrySecond = MAXTIME;
+            CurrentRider.BestResult = 0;
+            CurrentRider.Rank = 0;
             Save();
         }
 

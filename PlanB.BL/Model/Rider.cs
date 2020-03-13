@@ -3,7 +3,7 @@
 namespace PlanB.BL.Model
 {
     [Serializable]
-    public class Rider
+    public class Rider : IComparable
     {
         /// <summary>
         /// Стартовый номер участника.
@@ -41,6 +41,10 @@ namespace PlanB.BL.Model
         /// Лучшее время из двух попыток.
         /// </summary>
         public int BestResult { get; set; }
+        /// <summary>
+        /// Место участника в классе.
+        /// </summary>
+        public int Rank { get; set; }
 
         /// <summary>
         /// Конструктор для создания нового участника.
@@ -111,10 +115,14 @@ namespace PlanB.BL.Model
 
         public override string ToString()
         {
-            string result = string.Concat(RiderId.ToString(), " ", Name);  
+            string result = string.Concat(Rank, ": ", RiderId.ToString(), " ", Name);  
             return result;
         }
 
+        public int CompareTo(object obj)
+        {
+            return BestResult.CompareTo(obj);
+        }
     }
 
 }
