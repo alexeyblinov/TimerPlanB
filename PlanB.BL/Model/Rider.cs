@@ -115,13 +115,23 @@ namespace PlanB.BL.Model
 
         public override string ToString()
         {
-            string result = string.Concat(Rank, ": ", RiderId.ToString(), " ", Name);  
+            string result = string.Concat(Rank, ": #", RiderId.ToString(), " ", Surname);  
             return result;
         }
 
         public int CompareTo(object obj)
         {
-            return BestResult.CompareTo(obj);
+            if (obj is null)
+            {
+                return 1;
+            }
+
+            Rider rider = obj as Rider;
+            if(rider == null)
+            {
+                throw new ArgumentException("The comparable object is not a Rider.", nameof(rider));
+            }
+            return this.BestResult.CompareTo(rider.BestResult);
         }
     }
 

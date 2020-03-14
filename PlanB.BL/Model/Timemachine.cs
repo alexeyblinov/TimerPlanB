@@ -12,14 +12,14 @@ namespace PlanB.BL.Model
         public int Hundredths { get; }
 
         /// <summary>
-        /// Create a new timer.
+        /// Создать пустой временной результат (время попытки).
         /// </summary>
         public Timemachine() : this (0, 0, 0) 
         {
         }
 
         /// <summary>
-        /// Create a new timer.
+        /// Создать новый временной результат (время попытки).
         /// </summary>
         /// <param name="minutes"> minutes </param>
         /// <param name="seconds"> seconds </param>
