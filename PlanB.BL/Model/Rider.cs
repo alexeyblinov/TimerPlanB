@@ -30,6 +30,10 @@ namespace PlanB.BL.Model
         /// </summary>
         public string Team { get; set; }
         /// <summary>
+        /// Является ли транспортное средство круизёром.
+        /// </summary>
+        public bool IsCruiser { get; set; }
+        /// <summary>
         /// Результат первого заезда.
         /// </summary>
         public int TryFirst { get; set; }
@@ -45,6 +49,10 @@ namespace PlanB.BL.Model
         /// Место участника в классе.
         /// </summary>
         public int Rank { get; set; }
+        /// <summary>
+        /// Класс участника по итогам соревнования.
+        /// </summary>
+        public RiderClass ResultClassId { get; set; }
 
         /// <summary>
         /// Конструктор для создания нового участника.
@@ -113,12 +121,6 @@ namespace PlanB.BL.Model
             RiderId = riderId;
         }
 
-        public override string ToString()
-        {
-            string result = string.Concat(Rank, ": #", RiderId.ToString(), " ", Surname);  
-            return result;
-        }
-
         public int CompareTo(object obj)
         {
             if (obj is null)
@@ -133,6 +135,13 @@ namespace PlanB.BL.Model
             }
             return this.BestResult.CompareTo(rider.BestResult);
         }
+
+        public override string ToString()
+        {
+            string result = string.Concat(Rank, ": #", RiderId.ToString(), " ", Surname, " ", ResultClassId);
+            return result;
+        }
+
     }
 
 }

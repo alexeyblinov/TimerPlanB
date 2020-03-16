@@ -33,19 +33,13 @@ namespace PlanB.BL.Controller
         /// Создать нового участника, если его нет в списке, иначе вернуть данные из списка.
         /// </summary>
         /// <param name="startNumber"> Стартовый номер участника (Rider.riderId) </param>
-        public RiderController(int startNumber, string classId)
+        public RiderController(int startNumber, RiderClass classId)
         {
             // Строка списка возможных классов участников.
-            var classes = "BCDN";
             
             if (startNumber <= 0)
             {
                 throw new ArgumentOutOfRangeException("Start number must be from 1 to 99.", nameof(startNumber));
-            }
-
-            if (classId.Length != 1 || !classes.Contains(classId))
-            {
-                throw new ArgumentOutOfRangeException("Should be 'B' or 'C' or 'D' or 'N'.", nameof(classId));
             }
 
             Riders = GetRiders();
@@ -54,8 +48,8 @@ namespace PlanB.BL.Controller
 
             if(CurrentRider == null)
             {
-
                 CurrentRider = new Rider(startNumber);
+                CurrentRider.ResultClassId = classId;
                 Riders.Add(CurrentRider);
                 Save();
             }
@@ -91,11 +85,13 @@ namespace PlanB.BL.Controller
         /// <param name="gender"> Пол. </param>
         /// <param name="location"> Город, который представляет участник. </param>
         /// <param name="team"> Название команды. </param>
+        /// /// <param name="isCruiser"> Является ли ТС круизёром. </param>
         public void SetNewRiderData(string name, 
                                     string surname, 
                                     string gender, 
                                     string location, 
-                                    string team)
+                                    string team,
+                                    bool isCruiser = false)
         {
             if (string.IsNullOrWhiteSpace(name))
             {
@@ -131,6 +127,7 @@ namespace PlanB.BL.Controller
             CurrentRider.TrySecond = MAXTIME;
             CurrentRider.BestResult = 0;
             CurrentRider.Rank = 0;
+            CurrentRider.IsCruiser = isCruiser;
             Save();
         }
 

@@ -53,7 +53,7 @@ namespace PlanB.BL.Controller
             var total = lapTime + penalty;
             if (total > MAXTIME)
             {
-                throw new Exception("Lap Time + Penalty mast not exceed 59:59:99.");
+                throw new ArgumentOutOfRangeException("Lap Time + Penalty mast not exceed 59:59:99.", nameof(total));
             }
 
 
@@ -152,6 +152,21 @@ namespace PlanB.BL.Controller
             {
                 rider.TrySecond = total;
             }
+        }
+
+        /// <summary>
+        /// Установка классов участников, полученных по результатам соревнований.
+        /// </summary>
+        /// <param name="riderController"></param>
+        public void SetResultClassId(RiderController riderController)
+        {
+            if (riderController is null)
+            {
+                throw new ArgumentNullException("Rider Controller cannot be null.", nameof(riderController));
+            }
+
+
+
         }
     }
 }
