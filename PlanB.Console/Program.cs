@@ -9,51 +9,32 @@ namespace PlanB.Console
         static void Main(string[] args)
         {
             int startNunber;
-            RiderClass classId;
+            RiderClass classId = RiderClass.N;
 
 
             System.Console.WriteLine("Enter rider's Start number:");
             int.TryParse(System.Console.ReadLine(), out startNunber);
             System.Console.WriteLine("Enter rider's Class (A,B,C1,C2,C3,D1,D2,D3,D4,N):");
-            switch (System.Console.ReadLine())
+
+            var stringClass = System.Console.ReadLine();
+            if (string.IsNullOrWhiteSpace(stringClass))
             {
-                case "A":
-                    classId = RiderClass.A;
+                throw new ArgumentNullException("Class cannot be null.", nameof(stringClass));
+            }
+            foreach(RiderClass item in Enum.GetValues(typeof(RiderClass)).Cast<RiderClass>() )
+            {
+                Enum.TryParse<RiderClass>(stringClass, out var rClass);
+                if(item == rClass)
+                {
+                    classId = item;
+                    stringClass = null;
                     break;
-                case "B":
-                    classId = RiderClass.B;
-                    break;
-                case "C1":
-                    classId = RiderClass.C1;
-                    break;
-                case "C2":
-                    classId = RiderClass.C2;
-                    break;
-                case "C3":
-                    classId = RiderClass.C3;
-                    break;
-                case "D1":
-                    classId = RiderClass.D1;
-                    break;
-                case "D2":
-                    classId = RiderClass.D2;
-                    break;
-                case "D3":
-                    classId = RiderClass.D3;
-                    break;
-                case "D4":
-                    classId = RiderClass.D4;
-                    break;
-                case "N":
-                    classId = RiderClass.N;
-                    break;
-                default:
-                    throw new ArgumentException("Class ID uot of range.", nameof(classId));
+                } else if(stringClass != null)
+                {
+                    throw new ArgumentException("Wrong Class name.", nameof(stringClass));
+                }
             }
 
-
-
-   
 
             RiderController riderController = new RiderController(startNunber, classId);
             if (string.IsNullOrEmpty(riderController.CurrentRider.Name))
