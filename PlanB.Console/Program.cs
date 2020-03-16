@@ -1,6 +1,7 @@
 ﻿using PlanB.BL.Controller;
 using PlanB.BL.Model;
 using System; //wtf??
+using System.Linq;
 
 namespace PlanB.Console
 {
