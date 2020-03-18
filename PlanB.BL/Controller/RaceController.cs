@@ -1,5 +1,6 @@
 ﻿using PlanB.BL.Model;
 using System;
+using System.Linq;
 
 namespace PlanB.BL.Controller
 {
@@ -157,14 +158,16 @@ namespace PlanB.BL.Controller
         /// <summary>
         /// Установка классов участников, полученных по результатам соревнований.
         /// </summary>
-        /// <param name="riderController"></param>
-        public void SetResultClassId(RiderController riderController)
+        /// <param name="riderController"> Контроллер участника текущего класса. </param>
+        /// <param name="competitionClass"> Класс соревнования. Должен задаваться после регистрации всех участников. </param>
+        public void SetResultClassId(RiderController riderController, string competitionClass)
         {
             if (riderController is null)
             {
                 throw new ArgumentNullException("Rider Controller cannot be null.", nameof(riderController));
             }
-
+            var bestTime = riderController.Riders.First().BestResult;
+            var bestClass = riderController.Riders.First().ResultClassId;
 
 
         }

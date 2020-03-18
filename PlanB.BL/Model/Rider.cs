@@ -52,7 +52,7 @@ namespace PlanB.BL.Model
         /// <summary>
         /// Класс участника по итогам соревнования.
         /// </summary>
-        public RiderClass ResultClassId { get; set; }
+        public string ResultClassId { get; set; }
 
         /// <summary>
         /// Конструктор для создания нового участника.

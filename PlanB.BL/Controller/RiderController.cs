@@ -33,7 +33,7 @@ namespace PlanB.BL.Controller
         /// Создать нового участника, если его нет в списке, иначе вернуть данные из списка.
         /// </summary>
         /// <param name="startNumber"> Стартовый номер участника (Rider.riderId) </param>
-        public RiderController(int startNumber, RiderClass classId)
+        public RiderController(int startNumber, string classId)
         {
             // Строка списка возможных классов участников.
             

@@ -1,6 +1,6 @@
 ﻿using PlanB.BL.Controller;
 using PlanB.BL.Model;
-using System; //wtf??
+using System; 
 using System.Linq;
 
 namespace PlanB.Console
@@ -10,11 +10,14 @@ namespace PlanB.Console
         static void Main(string[] args)
         {
             int startNunber;
-            RiderClass classId = RiderClass.N;
-
+            string[] classId = { "A", "B", "C1", "C2", "C3", "D1", "D2", "D3", "D4", "N" };
 
             System.Console.WriteLine("Enter rider's Start number:");
             int.TryParse(System.Console.ReadLine(), out startNunber);
+            if(startNunber <= 0)
+            {
+                throw new ArgumentException("1 to 99.", nameof(startNunber));
+            }
             System.Console.WriteLine("Enter rider's Class (A,B,C1,C2,C3,D1,D2,D3,D4,N):");
 
             var stringClass = System.Console.ReadLine();
@@ -22,22 +25,13 @@ namespace PlanB.Console
             {
                 throw new ArgumentNullException("Class cannot be null.", nameof(stringClass));
             }
-            foreach(RiderClass item in Enum.GetValues(typeof(RiderClass)).Cast<RiderClass>() )
+            if (!classId.Contains(stringClass))
             {
-                Enum.TryParse<RiderClass>(stringClass, out var rClass);
-                if(item == rClass)
-                {
-                    classId = item;
-                    stringClass = null;
-                    break;
-                } else if(stringClass != null)
-                {
-                    throw new ArgumentException("Wrong Class name.", nameof(stringClass));
-                }
+                throw new ArgumentException("Wrong Class name.", nameof(stringClass));
             }
 
 
-            RiderController riderController = new RiderController(startNunber, classId);
+            RiderController riderController = new RiderController(startNunber, stringClass);
             if (string.IsNullOrEmpty(riderController.CurrentRider.Name))
             {
                 System.Console.WriteLine("Enter rider data.");
