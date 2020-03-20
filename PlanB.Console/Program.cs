@@ -56,13 +56,12 @@ namespace PlanB.Console
 
             // ex
             var rnd = new Random();
-            var Race = new RaceController();
             for(var i = 0; i < riderController.Riders.Count; i++)
             {
                 
-                Race.ChangeRank(riderController, riderController.Riders[i], rnd.Next(1000, 300000), 0, false);
+                RaceController.ChangeRank(riderController, riderController.Riders[i], rnd.Next(1000, 300000), 0, false);
             }
-            Race.ChangeRank(riderController, riderController.CurrentRider, rnd.Next(1000, 300000), 0, false);
+            RaceController.ChangeRank(riderController, riderController.CurrentRider, rnd.Next(1000, 300000), 0, false);
 
             System.Console.WriteLine();
             foreach (var r in riderController.Riders)

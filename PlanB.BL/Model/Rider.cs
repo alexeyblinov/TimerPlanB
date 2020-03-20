@@ -6,6 +6,10 @@ namespace PlanB.BL.Model
     public class Rider : IComparable
     {
         /// <summary>
+        /// Максимально возможное время заезда.
+        /// </summary>
+        public const int MAXTIME = 359999;
+        /// <summary>
         /// Стартовый номер участника.
         /// </summary>
         public int RiderId { get; }
@@ -53,6 +57,7 @@ namespace PlanB.BL.Model
         /// Класс участника по итогам соревнования.
         /// </summary>
         public string ResultClassId { get; set; }
+
 
         /// <summary>
         /// Конструктор для создания нового участника.

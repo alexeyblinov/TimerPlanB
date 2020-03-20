@@ -1,16 +1,12 @@
 ﻿using PlanB.BL.Model;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace PlanB.BL.Controller
 {
-    public class RaceController
+    public static class RaceController
     {
-        /// <summary>
-        /// Максимально возможное время заезда.
-        /// </summary>
-        const int MAXTIME = 359999;
-
         /// <summary>
         /// Устанавливает результат заезда и корректирует позицию участника в классе.
         /// </summary>
@@ -20,7 +16,7 @@ namespace PlanB.BL.Controller
         /// <param name="newTryFirst"> При значении 1 перезаписывает результат первой попытки. </param>
         /// <param name="newTrySecond"> При значении 1 перезаписывает результат второй попытки. </param>
         /// <param name="infinity"> Если значение 1 перезаписывать новый результат вместо худшего, иначе после заполнения двух попыток не записывать больше. </param>
-        public void ChangeRank(RiderController riderController,
+        public static void ChangeRank(RiderController riderController,
                                Rider rider,
                                int lapTime,
                                int penalty,
@@ -52,7 +48,7 @@ namespace PlanB.BL.Controller
             }
 
             var total = lapTime + penalty;
-            if (total > MAXTIME)
+            if (total > Rider.MAXTIME)
             {
                 throw new ArgumentOutOfRangeException("Lap Time + Penalty mast not exceed 59:59:99.", nameof(total));
             }
@@ -90,7 +86,7 @@ namespace PlanB.BL.Controller
         /// Установить (записать в свойство текущего экземпляра Raider) лучшее время сравнением результатов двух попыток.
         /// </summary>
         /// <param name="rider"> Текущий участник. </param>
-        private void SetBestResult(Rider rider)
+        private static void SetBestResult(Rider rider)
         {
             if (rider.TryFirst <= rider.TrySecond
                 && rider.TryFirst > 0)
@@ -109,7 +105,7 @@ namespace PlanB.BL.Controller
         /// <param name="rider"> Текущий участник. </param>
         /// <param name="total"> Итоговое время заезда. </param>
         /// <param name="newTryFirst"> Если истинно, переписать первую попытку, иначе вторую. </param>
-        private void ReTry(Rider rider, int total, bool newTryFirst)
+        private static void ReTry(Rider rider, int total, bool newTryFirst)
         {
             if(newTryFirst == true)
             {
@@ -126,13 +122,13 @@ namespace PlanB.BL.Controller
         /// </summary>
         /// <param name="rider"> Текущий участник. </param>
         /// <param name="total"> Итоговое время заезда. </param>
-        private void SetResults(Rider rider, int total)
+        private static void SetResults(Rider rider, int total)
         {
-            if (rider.TryFirst == MAXTIME)
+            if (rider.TryFirst == Rider.MAXTIME)
             {
                 rider.TryFirst = total;
             }
-            else if (rider.TrySecond == MAXTIME)
+            else if (rider.TrySecond == Rider.MAXTIME)
             {
                 rider.TrySecond = total;
             }
@@ -143,7 +139,7 @@ namespace PlanB.BL.Controller
         /// </summary>
         /// <param name="rider"> Текущий участник. </param>
         /// <param name="total"> Итоговое время заезда. </param>
-        private void IfInfinity(Rider rider, int total)
+        private static void IfInfinity(Rider rider, int total)
         {
             if (rider.TryFirst <= rider.TrySecond && rider.TryFirst > total && total > 0)
             {
@@ -157,19 +153,41 @@ namespace PlanB.BL.Controller
 
         /// <summary>
         /// Установка классов участников, полученных по результатам соревнований.
+        /// Если класс соревнования совпадает с классом лучшего участника, рассчитать новые классы. 
+        /// Если класс соревнования ниже, найти лучшего участника в класе соревнования и использовать 
+        /// его время для рассчёта новых классов.
         /// </summary>
         /// <param name="riderController"> Контроллер участника текущего класса. </param>
         /// <param name="competitionClass"> Класс соревнования. Должен задаваться после регистрации всех участников. </param>
-        public void SetResultClassId(RiderController riderController, string competitionClass)
+        public static void SetResultClassId(RiderController riderController, string competitionClass)
         {
             if (riderController is null)
             {
                 throw new ArgumentNullException("Rider Controller cannot be null.", nameof(riderController));
             }
+
+            if (string.IsNullOrWhiteSpace(competitionClass))
+            {
+                throw new ArgumentNullException("Competition class cannot be null or whitespace.", nameof(competitionClass));
+            }
+
             var bestTime = riderController.Riders.First().BestResult;
             var bestClass = riderController.Riders.First().ResultClassId;
+            Dictionary<string, decimal> coefficient = new Dictionary<string, decimal>(9);
+            coefficient.Add("B", 1m);
+            coefficient.Add("C1", 1.05m);
+            coefficient.Add("C2", 1.1m);
+            coefficient.Add("C3", 1.15m);
+            coefficient.Add("D1", 1.2m);
+            coefficient.Add("D2", 1.3m);
+            coefficient.Add("D3", 1.4m);
+            coefficient.Add("D4", 1.5m);
+            coefficient.Add("N", 1.6m);
 
+            if(bestClass == competitionClass)
+            {
 
+            }
         }
     }
 }

@@ -15,11 +15,6 @@ namespace PlanB.BL.Controller
         
     {
         /// <summary>
-        /// Максимально возможное время заезда.
-        /// </summary>
-        const int MAXTIME = 359999;
-
-        /// <summary>
         /// Список участников.
         /// </summary>
         public List<Rider> Riders { get; }
@@ -123,8 +118,8 @@ namespace PlanB.BL.Controller
             CurrentRider.Gender = new Gender(gender);
             CurrentRider.Location = location;
             CurrentRider.Team = team;
-            CurrentRider.TryFirst = MAXTIME;
-            CurrentRider.TrySecond = MAXTIME;
+            CurrentRider.TryFirst = Rider.MAXTIME;
+            CurrentRider.TrySecond = Rider.MAXTIME;
             CurrentRider.BestResult = 0;
             CurrentRider.Rank = 0;
             CurrentRider.IsCruiser = isCruiser;
