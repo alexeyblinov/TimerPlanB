@@ -153,6 +153,8 @@ namespace PlanB.BL.Controller
 
         /// <summary>
         /// Установка классов участников, полученных по результатам соревнований.
+        /// Определяет лучшее время среди участников класса соревнования.
+        /// Класс соревнования - максимальный класс, в котором есть три участника.
         /// Если класс соревнования совпадает с классом лучшего участника, рассчитать новые классы. 
         /// Если класс соревнования ниже, найти лучшего участника в класе соревнования и использовать 
         /// его время для рассчёта новых классов.
@@ -172,7 +174,12 @@ namespace PlanB.BL.Controller
             }
 
             var bestTime = riderController.Riders.First().BestResult;
-            var bestClass = riderController.Riders.First().ResultClassId;
+            string bestClass = string.Empty;
+
+            bestClass = FindBestClass(riderController, bestClass);
+
+            // TODO проверь не пустой ли лучший класс.
+
             Dictionary<string, decimal> coefficient = new Dictionary<string, decimal>(9);
             coefficient.Add("B", 1m);
             coefficient.Add("C1", 1.05m);
@@ -184,10 +191,38 @@ namespace PlanB.BL.Controller
             coefficient.Add("D4", 1.5m);
             coefficient.Add("N", 1.6m);
 
-            if(bestClass == competitionClass)
+            if (bestClass == competitionClass)
             {
 
             }
+        }
+
+        /// <summary>
+        /// Находит самый высокий класс, в котором есть три участника.
+        /// </summary>
+        /// <param name="riderController"></param>
+        /// <param name="bestClass"></param>
+        /// <returns></returns>
+        private static string FindBestClass(RiderController riderController, string bestClass)
+        {
+            var count = 0;
+            for (int i = 1; i < riderController.Riders.Count; i++)
+            {
+                if (riderController.Riders[i].ResultClassId == riderController.Riders[i - 1].ResultClassId)
+                {
+                    count++;
+                    if (count.Equals(2))
+                    {
+                        bestClass = riderController.Riders[i].ResultClassId;
+                    }
+                }
+                else
+                {
+                    count = 0;
+                }
+            }
+
+            return bestClass;
         }
     }
 }
