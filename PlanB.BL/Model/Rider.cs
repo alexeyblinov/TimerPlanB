@@ -54,6 +54,10 @@ namespace PlanB.BL.Model
         /// </summary>
         public int Rank { get; set; }
         /// <summary>
+        /// Класс участника перед соревнованиями.
+        /// </summary>
+        public string PreviousClassId { get; set; }
+        /// <summary>
         /// Класс участника по итогам соревнования.
         /// </summary>
         public string ResultClassId { get; set; }
@@ -143,7 +147,7 @@ namespace PlanB.BL.Model
 
         public override string ToString()
         {
-            string result = string.Concat(Rank, ": #", RiderId.ToString(), " ", Surname, " ", ResultClassId);
+            string result = string.Concat(Rank, ": #", RiderId.ToString(), " ", Surname, " Class before: ", PreviousClassId, " Class after: ", ResultClassId);
             return result;
         }
 

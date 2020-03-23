@@ -161,59 +161,79 @@ namespace PlanB.BL.Controller
         /// </summary>
         /// <param name="riderController"> Контроллер участника текущего класса. </param>
         /// <param name="competitionClass"> Класс соревнования. Должен задаваться после регистрации всех участников. </param>
-        public static void SetResultClassId(RiderController riderController, string competitionClass)
+        public static void SetResultClassId(RiderController riderController)
         {
             if (riderController is null)
             {
                 throw new ArgumentNullException("Rider Controller cannot be null.", nameof(riderController));
             }
 
-            if (string.IsNullOrWhiteSpace(competitionClass))
+            // bestClass - класс соревнования.
+            var bestClass = string.Empty;
+            int bestTime = 0;
+            bestClass = SetCompetitionClass(riderController, bestClass);
+            if (string.IsNullOrEmpty(bestClass))
             {
-                throw new ArgumentNullException("Competition class cannot be null or whitespace.", nameof(competitionClass));
+                return;
             }
 
-            var bestTime = riderController.Riders.First().BestResult;
-            string bestClass = string.Empty;
-
-            bestClass = FindBestClass(riderController, bestClass);
-
-            // TODO проверь не пустой ли лучший класс.
-
-            Dictionary<string, decimal> coefficient = new Dictionary<string, decimal>(9);
-            coefficient.Add("B", 1m);
-            coefficient.Add("C1", 1.05m);
-            coefficient.Add("C2", 1.1m);
-            coefficient.Add("C3", 1.15m);
-            coefficient.Add("D1", 1.2m);
-            coefficient.Add("D2", 1.3m);
-            coefficient.Add("D3", 1.4m);
-            coefficient.Add("D4", 1.5m);
-            coefficient.Add("N", 1.6m);
-
-            if (bestClass == competitionClass)
+            // Находит лучшее время участника в классе соревнования.
+            foreach(var rider in riderController.Riders)
             {
-
+                if(rider.PreviousClassId == bestClass)
+                {
+                    bestTime = rider.BestResult;
+                }
             }
+
+            var coefficients = new Dictionary<string, decimal>(9)
+            {
+                { "B", 1m },
+                { "C1", 1.05m },
+                { "C2", 1.1m },
+                { "C3", 1.15m },
+                { "D1", 1.2m },
+                { "D2", 1.3m },
+                { "D3", 1.4m },
+                { "D4", 1.5m },
+                { "N", 1.6m }
+            };
+            // Находит коэффициент для вычисления эталонного времени трассы, 
+            // соответствующий найденному ранее классу соревнования и лучшему времени в этом классе.
+            // и умножает лучшее время на коэффициент для получения эталонного времени.
+            foreach(var coe in coefficients)
+            {
+                if(coe.Key == bestClass)
+                {
+                    decimal bestTimeDecimal = bestTime;
+                    var coeMax = coe.Value;
+                    bestTimeDecimal /= coeMax;
+                    bestTime = Decimal.ToInt32(Math.Round(bestTimeDecimal, MidpointRounding.AwayFromZero));
+                }
+            }
+
+            // Передаю участника, эталонное время, эталонный коэффициент для сравнения с -> и пару: класс участника и коэффициент
+            private static void SetResults(rider , int bestTime, decimal coeBest, KeyValuePair<string, decimal>);
         }
 
         /// <summary>
         /// Находит самый высокий класс, в котором есть три участника.
         /// </summary>
-        /// <param name="riderController"></param>
-        /// <param name="bestClass"></param>
-        /// <returns></returns>
-        private static string FindBestClass(RiderController riderController, string bestClass)
+        /// <param name="riderController"> Контроллер участника. </param>
+        /// <param name="bestClass"> Изначально пустое значение максимального класса, в котором есть трое участников. </param>
+        /// <returns> Название максимального класса, в котором есть трое участников. </returns>
+        private static string SetCompetitionClass(RiderController riderController, string bestClass)
         {
             var count = 0;
             for (int i = 1; i < riderController.Riders.Count; i++)
             {
-                if (riderController.Riders[i].ResultClassId == riderController.Riders[i - 1].ResultClassId)
+                if (riderController.Riders[i].PreviousClassId == riderController.Riders[i - 1].PreviousClassId)
                 {
                     count++;
                     if (count.Equals(2))
                     {
-                        bestClass = riderController.Riders[i].ResultClassId;
+                        bestClass = riderController.Riders[i].PreviousClassId;
+                        return bestClass;
                     }
                 }
                 else
@@ -221,8 +241,21 @@ namespace PlanB.BL.Controller
                     count = 0;
                 }
             }
-
             return bestClass;
+        }
+
+        /// <summary>
+        /// Метод непосредственного рассчёта и записи классов участников по результатам соревнований.
+        /// </summary>
+        /// <param name="rider"> Участник. </param>
+        /// <param name="bestTime"> Эталонное время. </param>
+        /// <param name="coefficient"> Коэффициент рассчёта эталонного времени текущего класса. </param>
+        private static void SetResults(Rider rider, int bestTime, decimal coeBest, KeyValuePair<string, decimal> coefficient)
+        {
+            if(string.Compare(rider.PreviousClassId, coefficient.Key) < 0)
+            {
+                if(rider.BestResult <= )
+            }
         }
     }
 }

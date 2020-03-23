@@ -43,8 +43,11 @@ namespace PlanB.BL.Controller
 
             if(CurrentRider == null)
             {
-                CurrentRider = new Rider(startNumber);
-                CurrentRider.ResultClassId = classId;
+                CurrentRider = new Rider(startNumber)
+                {
+                    PreviousClassId = classId,
+                    ResultClassId = null
+                };
                 Riders.Add(CurrentRider);
                 Save();
             }
