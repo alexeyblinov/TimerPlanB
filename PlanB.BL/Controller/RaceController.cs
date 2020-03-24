@@ -177,13 +177,11 @@ namespace PlanB.BL.Controller
                 return;
             }
 
-            // Находит лучшее время участника в классе соревнования.
-            foreach(var rider in riderController.Riders)
+            // Находит лучшее время среди участников в классе соревнования.
+            bestTime = riderController.Riders.FirstOrDefault(r => r.PreviousClassId == bestClass).BestResult;
+            if(bestTime == 0)
             {
-                if(rider.PreviousClassId == bestClass)
-                {
-                    bestTime = rider.BestResult;
-                }
+                throw new ArgumentException("Best time cannot be 0.", nameof(bestTime));
             }
 
             var coefficients = new Dictionary<string, decimal>(9)
@@ -198,23 +196,45 @@ namespace PlanB.BL.Controller
                 { "D4", 1.5m },
                 { "N", 1.6m }
             };
+
             // Находит коэффициент для вычисления эталонного времени трассы, 
             // соответствующий найденному ранее классу соревнования и лучшему времени в этом классе.
             // и умножает лучшее время на коэффициент для получения эталонного времени.
-            foreach(var coe in coefficients)
+            decimal coeMax = default;
+            foreach (var coe in coefficients)
             {
                 if(coe.Key == bestClass)
                 {
-                    decimal bestTimeDecimal = bestTime;
-                    var coeMax = coe.Value;
-                    bestTimeDecimal /= coeMax;
-                    bestTime = Decimal.ToInt32(Math.Round(bestTimeDecimal, MidpointRounding.AwayFromZero));
+                    coeMax = coe.Value;
+                    bestTime = SetClassTime(bestTime, coeMax);
                 }
             }
 
-            // Передаю участника, эталонное время, эталонный коэффициент для сравнения с -> и пару: класс участника и коэффициент
-            private static void SetResults(rider , int bestTime, decimal coeBest, KeyValuePair<string, decimal>);
+            while(true)
+            {
+                var coeNew = coefficients.FirstOrDefault(c => c.Value > coeMax).Value;
+                var classNew = coefficients.FirstOrDefault(c => c.Value == coeNew).Key;
+                if (coeNew != default)
+                {
+                    foreach (var rider in riderController.Riders)
+                    {
+                        if (string.Compare(rider.ResultClassId, classNew) > 0 && rider.BestResult < IncreaseClassTime(bestTime, coeNew))
+                        {
+                            rider.ResultClassId = classNew;
+                        }
+                    }
+                }
+                else
+                {
+                    break;
+                }
+                coeMax = coeNew;
+            }
+
         }
+
+
+
 
         /// <summary>
         /// Находит самый высокий класс, в котором есть три участника.
@@ -245,17 +265,32 @@ namespace PlanB.BL.Controller
         }
 
         /// <summary>
-        /// Метод непосредственного рассчёта и записи классов участников по результатам соревнований.
+        /// Рассчёт лучшего времени для класса и округление в int. Принимает лучшеее время участника 
+        /// в классе соревнования, делит его на коэффициент класса участника, возвращает
+        /// эталонное время трассы.
         /// </summary>
-        /// <param name="rider"> Участник. </param>
-        /// <param name="bestTime"> Эталонное время. </param>
-        /// <param name="coefficient"> Коэффициент рассчёта эталонного времени текущего класса. </param>
-        private static void SetResults(Rider rider, int bestTime, decimal coeBest, KeyValuePair<string, decimal> coefficient)
+        /// <param name="time"> Лучшее время участника в классе соревнования. </param>
+        /// <param name="coe"> Коэффициент для рассчёта эталонного времени для класса соревнования. </param>
+        /// <returns> Эталонное время трассы. </returns>
+        private static int SetClassTime(int time, decimal coe)
         {
-            if(string.Compare(rider.PreviousClassId, coefficient.Key) < 0)
-            {
-                if(rider.BestResult <= )
-            }
+            decimal timeDecimal = time;
+            timeDecimal /= coe;
+            return Decimal.ToInt32(Math.Round(timeDecimal, MidpointRounding.AwayFromZero));
+        }
+
+        /// <summary>
+        /// Рассчет эталонного времени для текущего класса, умножением эталонного времени трассы 
+        /// на коэффициент текущего класса.
+        /// </summary>
+        /// <param name="time"> Эталонное время трассы. </param>
+        /// <param name="coe"> Коэффициент для вычисления эталонного времени текущего класса. </param>
+        /// <returns> Эталонное время для текущего класса. </returns>
+        private static int IncreaseClassTime(int time, decimal coe)
+        {
+            decimal timeDecimal = time;
+            timeDecimal *= coe;
+            return Decimal.ToInt32(Math.Round(timeDecimal, MidpointRounding.AwayFromZero));
         }
     }
 }
