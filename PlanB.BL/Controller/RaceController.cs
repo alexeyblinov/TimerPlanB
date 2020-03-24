@@ -152,16 +152,13 @@ namespace PlanB.BL.Controller
         }
 
         /// <summary>
-        /// Установка классов участников, полученных по результатам соревнований.
-        /// Определяет лучшее время среди участников класса соревнования.
-        /// Класс соревнования - максимальный класс, в котором есть три участника.
-        /// Если класс соревнования совпадает с классом лучшего участника, рассчитать новые классы. 
-        /// Если класс соревнования ниже, найти лучшего участника в класе соревнования и использовать 
-        /// его время для рассчёта новых классов.
+        /// ????????????????????????????????????? TODO ????????????????????????????
         /// </summary>
         /// <param name="riderController"> Контроллер участника текущего класса. </param>
         /// <param name="competitionClass"> Класс соревнования. Должен задаваться после регистрации всех участников. </param>
-        public static void SetResultClassId(RiderController riderController)
+        
+        
+        public static string FindCompetitionClassId(RiderController riderController, ref int bestTime)
         {
             if (riderController is null)
             {
@@ -170,11 +167,11 @@ namespace PlanB.BL.Controller
 
             // bestClass - класс соревнования.
             var bestClass = string.Empty;
-            int bestTime = 0;
+            bestTime = 0;
             bestClass = SetCompetitionClass(riderController, bestClass);
             if (string.IsNullOrEmpty(bestClass))
             {
-                return;
+                throw new ArgumentException("Best class cannot be null.", nameof(bestClass));
             }
 
             // Находит лучшее время среди участников в классе соревнования.
@@ -183,7 +180,11 @@ namespace PlanB.BL.Controller
             {
                 throw new ArgumentException("Best time cannot be 0.", nameof(bestTime));
             }
+            return bestClass;
+        }
 
+        public static void SetNewClasses(RiderController riderController, string bestClass, int bestTime)
+        {
             var coefficients = new Dictionary<string, decimal>(9)
             {
                 { "B", 1m },
@@ -203,14 +204,14 @@ namespace PlanB.BL.Controller
             decimal coeMax = default;
             foreach (var coe in coefficients)
             {
-                if(coe.Key == bestClass)
+                if (coe.Key == bestClass)
                 {
                     coeMax = coe.Value;
                     bestTime = SetClassTime(bestTime, coeMax);
                 }
             }
 
-            while(true)
+            while (true)
             {
                 var coeNew = coefficients.FirstOrDefault(c => c.Value > coeMax).Value;
                 var classNew = coefficients.FirstOrDefault(c => c.Value == coeNew).Key;
@@ -230,10 +231,8 @@ namespace PlanB.BL.Controller
                 }
                 coeMax = coeNew;
             }
-
+            riderController.Save();
         }
-
-
 
 
         /// <summary>

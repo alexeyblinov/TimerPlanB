@@ -25,6 +25,11 @@ namespace PlanB.BL.Controller
         public Rider CurrentRider { get; }
 
         /// <summary>
+        /// Конструктор без параметров для контроллера участника (c).
+        /// </summary>
+        public RiderController() { }
+
+        /// <summary>
         /// Создать нового участника, если его нет в списке, иначе вернуть данные из списка.
         /// </summary>
         /// <param name="startNumber"> Стартовый номер участника (Rider.riderId) </param>

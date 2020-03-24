@@ -147,7 +147,7 @@ namespace PlanB.BL.Model
 
         public override string ToString()
         {
-            string result = string.Concat(Rank, ": #", RiderId.ToString(), " ", Surname, " Class before: ", PreviousClassId, " Class after: ", ResultClassId);
+            string result = string.Concat(Rank, ":  #", RiderId.ToString(), " ", Surname, " Try 1: ", TryFirst, " Try 2: ", TrySecond, " Result: ", BestResult," Class before: ", PreviousClassId, " New class: ", ResultClassId);
             return result;
         }
 
