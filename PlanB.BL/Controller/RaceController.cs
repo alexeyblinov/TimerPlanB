@@ -152,12 +152,14 @@ namespace PlanB.BL.Controller
         }
 
         /// <summary>
-        /// ????????????????????????????????????? TODO ????????????????????????????
+        /// Определяет класс соревнования, если в текущем классе 3 участника и более, иначе
+        /// возвращает null, если класс находится, то изменяет bestTime на время лучшего участника 
+        /// в классе соревнования.
         /// </summary>
         /// <param name="riderController"> Контроллер участника текущего класса. </param>
         /// <param name="competitionClass"> Класс соревнования. Должен задаваться после регистрации всех участников. </param>
-        
-        
+
+
         public static string FindCompetitionClassId(RiderController riderController, ref int bestTime)
         {
             if (riderController is null)
@@ -168,10 +170,10 @@ namespace PlanB.BL.Controller
             // bestClass - класс соревнования.
             var bestClass = string.Empty;
             bestTime = 0;
-            bestClass = SetCompetitionClass(riderController, bestClass);
+            bestClass = SetCompetitionClass(riderController);
             if (string.IsNullOrEmpty(bestClass))
             {
-                throw new ArgumentException("Best class cannot be null.", nameof(bestClass));
+                return null;
             }
 
             // Находит лучшее время среди участников в классе соревнования.
@@ -183,8 +185,25 @@ namespace PlanB.BL.Controller
             return bestClass;
         }
 
+        /// <summary>
+        /// Установка новых классов участников по результатам соревнования.
+        /// Сравнивает лучшее время участника с эталонным для класса и присваевает новый класс, если время участника лучше.
+        /// </summary>
+        /// <param name="riderController"> Контроллек участника. </param>
+        /// <param name="bestClass"> Класс соревнования. </param>
+        /// <param name="bestTime"> Эталонное время. </param>
         public static void SetNewClasses(RiderController riderController, string bestClass, int bestTime)
         {
+            if (riderController is null)
+            {
+                throw new ArgumentNullException("Rider Controller cannot be null.", nameof(riderController));
+            }
+
+            if (bestClass is null)
+            {
+                throw new ArgumentNullException("Best class cannot be null.", nameof(bestClass));
+            }
+
             var coefficients = new Dictionary<string, decimal>(9)
             {
                 { "B", 1m },
@@ -236,14 +255,14 @@ namespace PlanB.BL.Controller
 
 
         /// <summary>
-        /// Находит самый высокий класс, в котором есть три участника.
+        /// Находит самый высокий класс, в котором есть три участника. Если не находит, возвращает null.
         /// </summary>
         /// <param name="riderController"> Контроллер участника. </param>
-        /// <param name="bestClass"> Изначально пустое значение максимального класса, в котором есть трое участников. </param>
         /// <returns> Название максимального класса, в котором есть трое участников. </returns>
-        private static string SetCompetitionClass(RiderController riderController, string bestClass)
+        private static string SetCompetitionClass(RiderController riderController)
         {
             var count = 0;
+            string bestClass;
             for (int i = 1; i < riderController.Riders.Count; i++)
             {
                 if (riderController.Riders[i].PreviousClassId == riderController.Riders[i - 1].PreviousClassId)
@@ -260,7 +279,7 @@ namespace PlanB.BL.Controller
                     count = 0;
                 }
             }
-            return bestClass;
+            return null;
         }
 
         /// <summary>

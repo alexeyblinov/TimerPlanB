@@ -1,11 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using PlanB.BL.Controller;
-using PlanB.BL.Model;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace PlanB.BL.Controller.Tests
 {
@@ -24,10 +19,12 @@ namespace PlanB.BL.Controller.Tests
             var location = Guid.NewGuid().ToString();
             var team = Guid.NewGuid().ToString();
             var classId = "D2";
-            var controller = new RiderController(startNumber, classId);
+            var controller = new RiderController();
+            controller.AddRider(startNumber, classId);
 
             // Act
-            var reController = new RiderController(startNumber, classId);
+            var reController = new RiderController();
+            reController.AddRider(startNumber, classId);
             reController.SetNewRiderData(name, surname, gender, location, team);
 
             // Assert
@@ -49,7 +46,8 @@ namespace PlanB.BL.Controller.Tests
             var classId = "C1";
 
             // Act
-            var controller = new RiderController(startNumber, classId);
+            var controller = new RiderController();
+            controller.AddRider(startNumber, classId);
 
             // Assert
             Assert.AreEqual(startNumber, controller.CurrentRider.RiderId);
