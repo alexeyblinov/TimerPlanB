@@ -10,10 +10,7 @@ namespace PlanB.Console
     {
         static void Main(string[] args)
         {
-            var riderPro = new List<RiderController>();
-            var riderSportsmens = new List<RiderController>();
-            var riderAmateurs = new List<RiderController>();
-            var riderNovices = new List<RiderController>();
+            RiderController riderCo = new RiderController();
             while (true)
             {
                 System.Console.Clear();
@@ -30,7 +27,7 @@ namespace PlanB.Console
                     {
                         throw new ArgumentException("1 to 99.", nameof(startNunber));
                     }
-                    System.Console.Write("Enter rider's Class (A,B,C1,C2,C3,D1,D2,D3,D4,N):");
+                    System.Console.Write("Enter rider's Class (A,B,C1,C2,C3,D1,D2,D3,D4,N): ");
 
                     var stringClass = System.Console.ReadLine();
                     if (string.IsNullOrWhiteSpace(stringClass))
@@ -42,141 +39,51 @@ namespace PlanB.Console
                         throw new ArgumentException("Wrong Class name.", nameof(stringClass));
                     }
 
-                    var currentRider = new RiderController(startNunber, stringClass);
-                    FullRiderData(currentRider);
-                    switch (stringClass)
-                    {
-                        case  "A":
-                        case  "B":
-                        case "C1":
-                        case "C2":
-                            riderPro.Add(currentRider);
-                            break;
-                        case "C3":
-                        case "D1":
-                            riderSportsmens.Add(currentRider);
-                            break;
-                        case "D2":
-                        case "D3":
-                            riderAmateurs.Add(currentRider);
-                            break;
-                        case "D4":
-                        case  "N":
-                            riderNovices.Add(currentRider);
-                            break;
-                    }
+                    riderCo = new RiderController(startNunber, stringClass);
+                    FullRiderData(riderCo);
 
-
-                    //System.Console.WriteLine(riderController.CurrentRider);
-                    //System.Console.WriteLine();
-
-
-                    /* ex
-                    var rnd = new Random();
-                    for (var i = 0; i < riderController.Riders.Count; i++)
-                    {
-
-                        RaceController.ChangeRank(riderController, riderController.Riders[i], rnd.Next(1000, 300000), 0, false);
-                    }
-                    RaceController.ChangeRank(riderController, riderController.CurrentRider, rnd.Next(1000, 300000), 0, false);
-
-                    System.Console.WriteLine();
-                    foreach (var r in riderController.Riders)
-                    {
-                        System.Console.WriteLine(r);
-                    }
-                    */
                 }
                 else if (raceStart.Contains("S"))
                 {
-                    // TODO присвоить всем значения попыток.
+                    
+                    // присвоить всем значения попыток.
+
                     System.Console.Clear();
-                    if(riderPro != null)
+                    if(riderCo != null)
                     {
-                        foreach (var r in riderPro)
+                        foreach (var r in riderCo.Riders)
                         {
                             System.Console.Write("Enter lap 1 time for ", r.ToString(), ": ");
                             int.TryParse(System.Console.ReadLine(), out int lap);
-                            RaceController.ChangeRank(r, r.CurrentRider, lap, 0);
+                            RaceController.ChangeRank(riderCo, r, lap, 0);
                             System.Console.Write("Enter lap 2 time for ", r.ToString(), ": ");
                             int.TryParse(System.Console.ReadLine(), out lap);
-                            RaceController.ChangeRank(r, r.CurrentRider, lap, 0);
+                            RaceController.ChangeRank(riderCo, r, lap, 0);
                             System.Console.WriteLine();
                         }
-                    }
-                    
-                    System.Console.WriteLine();
-                    if(riderSportsmens != null)
-                    {
-                        foreach (var r in riderSportsmens)
-                        {
-                            System.Console.Write("Enter lap 1 time for ", r.ToString(), ": ");
-                            int.TryParse(System.Console.ReadLine(), out int lap);
-                            RaceController.ChangeRank(r, r.CurrentRider, lap, 0);
-                            System.Console.Write("Enter lap 2 time for ", r.ToString(), ": ");
-                            int.TryParse(System.Console.ReadLine(), out lap);
-                            RaceController.ChangeRank(r, r.CurrentRider, lap, 0);
-                            System.Console.WriteLine();
-                        }
-                    }
-                    
-                    System.Console.WriteLine();
-                    if(riderAmateurs != null)
-                    {
-                        foreach (var r in riderAmateurs)
-                        {
-                            System.Console.Write("Enter lap 1 time for ", r.ToString(), ": ");
-                            int.TryParse(System.Console.ReadLine(), out int lap);
-                            RaceController.ChangeRank(r, r.CurrentRider, lap, 0);
-                            System.Console.Write("Enter lap 2 time for ", r.ToString(), ": ");
-                            int.TryParse(System.Console.ReadLine(), out lap);
-                            RaceController.ChangeRank(r, r.CurrentRider, lap, 0);
-                            System.Console.WriteLine();
-                        }
-                    }
-                    
-                    System.Console.WriteLine();
-                    if(riderNovices != null)
-                    {
-                        foreach (var r in riderNovices)
-                        {
-                            System.Console.Write("Enter lap 1 time for ", r.ToString(), ": ");
-                            int.TryParse(System.Console.ReadLine(), out int lap);
-                            RaceController.ChangeRank(r, r.CurrentRider, lap, 0);
-                            System.Console.Write("Enter lap 2 time for ", r.ToString(), ": ");
-                            int.TryParse(System.Console.ReadLine(), out lap);
-                            RaceController.ChangeRank(r, r.CurrentRider, lap, 0);
-                            System.Console.WriteLine();
-                        }
-                    }
-                    
+                    }          
 
                     // ищем класс соревнования и эталонное время.
                     var bestTime = 0;
                     string bestClass = null;
 
-                    if(riderPro.Count > 2)
+                    if(riderCo != null)
                     {
-
-                    }
-
-
-                    for (var i = 0; i < Racers.Count; i++)
-                    {
-                        if(Racers[i].Riders != null)
+                        // если не найдёт эталонный класс, вернёт bestClass = null.
+                        bestClass = RaceController.FindCompetitionClassId(riderCo, ref bestTime);
+                        if (bestClass.Equals(null))
                         {
-                            if (Racers[i].Riders.Count > 2)
-                            {
-                                bestClass = RaceController.FindCompetitionClassId(Racers[i], ref bestTime);
-                                break;
-                            }
+                            throw new ArgumentNullException("Best class cannot be set.", nameof(bestClass));
                         }
-                        
                     }
-                    foreach(var r in Racers)
+                    
+
+                    // Установка новых классов по результатам соревнования.
+                    foreach (var r in riderCo.Riders)
                     {
                         RaceController.SetNewClasses(r, bestClass, bestTime);
                     }
+                    
                     
                 }
                 else
@@ -185,38 +92,38 @@ namespace PlanB.Console
                 }
                 
             }
-
+            
             // Вывод результатов.
             System.Console.Clear();
 
-            foreach(var r in riderPro.Riders)
+            foreach(var r in riderPro)
             {
-                r.ToString();
+                r.CurrentRider.ToString();
                 System.Console.WriteLine();
             }
             System.Console.WriteLine();
-            foreach (var r in riderSportsmens.Riders)
+            foreach (var r in riderSportsmens)
             {
-                r.ToString();
+                r.CurrentRider.ToString();
                 System.Console.WriteLine();
             }
             System.Console.WriteLine();
-            foreach (var r in riderAmateurs.Riders)
+            foreach (var r in riderAmateurs)
             {
-                r.ToString();
+                r.CurrentRider.ToString();
                 System.Console.WriteLine();
             }
             System.Console.WriteLine();
-            foreach (var r in riderNovices.Riders)
+            foreach (var r in riderNovices)
             {
-                r.ToString();
+                r.CurrentRider.ToString();
                 System.Console.WriteLine();
             }
-
+            
             System.Console.ReadLine();
 
             
-            
+
             void FullRiderData(RiderController riderController)
             {
                 if (string.IsNullOrEmpty(riderController.CurrentRider.Name))

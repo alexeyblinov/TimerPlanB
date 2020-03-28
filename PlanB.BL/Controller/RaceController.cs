@@ -33,6 +33,7 @@ namespace PlanB.BL.Controller
             {
                 throw new ArgumentNullException("Rider cannot be null.", nameof(rider));
             }
+
             if (lapTime < 0)
             {
                 throw new ArgumentOutOfRangeException("Lap Time must be positive.", nameof(lapTime));
@@ -53,17 +54,20 @@ namespace PlanB.BL.Controller
                 throw new ArgumentOutOfRangeException("Lap Time + Penalty mast not exceed 59:59:99.", nameof(total));
             }
 
-
-            if(newTryFirst == true || newTrySecond == true)
+            // если перезаезд одной из попыток.
+            if (newTryFirst == true || newTrySecond == true)
             {
                 ReTry(rider, total, newTryFirst);
             }
+            // если нет перезаезда. Просто две попытки.
             else
             {
+                // если установлена бесконечная перезапись лучшей попытки.
                 if (infinity == true)
                 {
                     IfInfinity(rider, total);
                 }
+                // если установлено строго две попытки, то при третьей и более попыток результат будет игнорироваться. 
                 else
                 {
                     SetResults(rider, total);
@@ -180,7 +184,7 @@ namespace PlanB.BL.Controller
             bestTime = riderController.Riders.FirstOrDefault(r => r.PreviousClassId == bestClass).BestResult;
             if(bestTime == 0)
             {
-                throw new ArgumentException("Best time cannot be 0.", nameof(bestTime));
+                throw new ArgumentException("Best time cannot be set.", nameof(bestTime));
             }
             return bestClass;
         }
@@ -202,6 +206,11 @@ namespace PlanB.BL.Controller
             if (bestClass is null)
             {
                 throw new ArgumentNullException("Best class cannot be null.", nameof(bestClass));
+            }
+
+            if (bestTime <= 0)
+            {
+                throw new ArgumentNullException("Best time have to be positive.", nameof(bestTime));
             }
 
             var coefficients = new Dictionary<string, decimal>(9)
@@ -226,7 +235,9 @@ namespace PlanB.BL.Controller
                 if (coe.Key == bestClass)
                 {
                     coeMax = coe.Value;
+                    // определяет эталонное время для класса, умножая на коэффициент из таблицы.
                     bestTime = SetClassTime(bestTime, coeMax);
+                    break;
                 }
             }
 
@@ -263,9 +274,17 @@ namespace PlanB.BL.Controller
         {
             var count = 0;
             string bestClass;
-            for (int i = 1; i < riderController.Riders.Count; i++)
+            var Classes = new List<String>();
+            foreach(var r in riderController.Riders)
             {
-                if (riderController.Riders[i].PreviousClassId == riderController.Riders[i - 1].PreviousClassId)
+                Classes[count] = r.PreviousClassId;
+                count++;
+            }
+            Classes.Sort();
+            count = 0;
+            for(int i = 1; i < Classes.Count; i++)
+            {
+                if(Classes[i] == Classes[i - 1])
                 {
                     count++;
                     if (count.Equals(2))
