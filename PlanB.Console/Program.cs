@@ -51,19 +51,19 @@ namespace PlanB.Console
                     System.Console.Clear();
                     if(riderCo != null)
                     {
-                        foreach (var r in riderCo.Riders)
+                        for(var i = 0; i < riderCo.Riders.Count; i++)
                         {
-                            System.Console.Write("Enter lap 1 time for ", r.ToString(), ": ");
+                            System.Console.Write("Enter lap 1 time for ", riderCo.Riders[i].ToString(), ": ");
                             int.TryParse(System.Console.ReadLine(), out int lap);
-                            RaceController.ChangeRank(riderCo, r, lap, 0);
-                            System.Console.Write("Enter lap 2 time for ", r.ToString(), ": ");
+                            RaceController.ChangeRank(riderCo, riderCo.Riders[i], lap, 0);
+                            System.Console.Write("Enter lap 2 time for ", riderCo.Riders[i].ToString(), ": ");
                             int.TryParse(System.Console.ReadLine(), out lap);
-                            RaceController.ChangeRank(riderCo, r, lap, 0);
+                            RaceController.ChangeRank(riderCo, riderCo.Riders[i], lap, 0);
                             System.Console.WriteLine();
                         }
                     }          
 
-                    // ищем класс соревнования и эталонное время.
+                    // ищем класс соревнования и время лучшего участника в этом классе.
                     var bestTime = 0;
                     string bestClass = null;
 
@@ -78,11 +78,9 @@ namespace PlanB.Console
                     }
                     
 
-                    // Установка новых классов по результатам соревнования.
-                    foreach (var r in riderCo.Riders)
-                    {
-                        RaceController.SetNewClasses(r, bestClass, bestTime);
-                    }
+                    // Рассчёт эталонного времени трассы и установка новых классов по результатам соревнования.
+                    RaceController.SetNewClasses(riderCo, bestClass, bestTime);
+                    
                     
                     
                 }
@@ -96,29 +94,12 @@ namespace PlanB.Console
             // Вывод результатов.
             System.Console.Clear();
 
-            foreach(var r in riderPro)
+            foreach(var r in riderCo.Riders)
             {
-                r.CurrentRider.ToString();
+                r.ToString();
                 System.Console.WriteLine();
             }
-            System.Console.WriteLine();
-            foreach (var r in riderSportsmens)
-            {
-                r.CurrentRider.ToString();
-                System.Console.WriteLine();
-            }
-            System.Console.WriteLine();
-            foreach (var r in riderAmateurs)
-            {
-                r.CurrentRider.ToString();
-                System.Console.WriteLine();
-            }
-            System.Console.WriteLine();
-            foreach (var r in riderNovices)
-            {
-                r.CurrentRider.ToString();
-                System.Console.WriteLine();
-            }
+                     
             
             System.Console.ReadLine();
 

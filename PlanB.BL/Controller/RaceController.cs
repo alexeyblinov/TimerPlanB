@@ -193,7 +193,7 @@ namespace PlanB.BL.Controller
         /// Установка новых классов участников по результатам соревнования.
         /// Сравнивает лучшее время участника с эталонным для класса и присваевает новый класс, если время участника лучше.
         /// </summary>
-        /// <param name="riderController"> Контроллек участника. </param>
+        /// <param name="riderController"> Контроллеp участника. </param>
         /// <param name="bestClass"> Класс соревнования. </param>
         /// <param name="bestTime"> Эталонное время. </param>
         public static void SetNewClasses(RiderController riderController, string bestClass, int bestTime)
@@ -277,8 +277,7 @@ namespace PlanB.BL.Controller
             var Classes = new List<String>();
             foreach(var r in riderController.Riders)
             {
-                Classes[count] = r.PreviousClassId;
-                count++;
+                Classes.Add(r.PreviousClassId);
             }
             Classes.Sort();
             count = 0;
