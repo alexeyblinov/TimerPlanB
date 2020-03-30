@@ -49,20 +49,24 @@ namespace PlanB.Console
                     // присвоить всем значения попыток.
 
                     System.Console.Clear();
+                    
                     if(riderCo != null)
                     {
                         for(var i = 0; i < riderCo.Riders.Count; i++)
                         {
-                            System.Console.Write("Enter lap 1 time for ", riderCo.Riders[i].ToString(), ": ");
+                            System.Console.Write("Enter lap 1 time for " + riderCo.Riders[i].ToString() + ": ");
                             int.TryParse(System.Console.ReadLine(), out int lap);
                             RaceController.ChangeRank(riderCo, riderCo.Riders[i], lap, 0);
-                            System.Console.Write("Enter lap 2 time for ", riderCo.Riders[i].ToString(), ": ");
+                            System.Console.Write("Enter lap 2 time for " + riderCo.Riders[i].ToString() + ": ");
                             int.TryParse(System.Console.ReadLine(), out lap);
                             RaceController.ChangeRank(riderCo, riderCo.Riders[i], lap, 0);
                             System.Console.WriteLine();
                         }
-                    }          
+                    }
+                    
+                    RaceController.SetNewPlaces(riderCo);
 
+                    
                     // ищем класс соревнования и время лучшего участника в этом классе.
                     var bestTime = 0;
                     string bestClass = null;
@@ -80,8 +84,7 @@ namespace PlanB.Console
 
                     // Рассчёт эталонного времени трассы и установка новых классов по результатам соревнования.
                     RaceController.SetNewClasses(riderCo, bestClass, bestTime);
-                    
-                    
+
                     
                 }
                 else
@@ -93,11 +96,10 @@ namespace PlanB.Console
             
             // Вывод результатов.
             System.Console.Clear();
-
-            foreach(var r in riderCo.Riders)
+            
+            foreach (var r in riderCo.Riders)
             {
-                r.ToString();
-                System.Console.WriteLine();
+                System.Console.WriteLine(r.ToString());
             }
                      
             

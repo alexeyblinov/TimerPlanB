@@ -8,7 +8,7 @@ namespace PlanB.BL.Controller
     public static class RaceController
     {
         /// <summary>
-        /// Устанавливает результат заезда и корректирует позицию участника в классе.
+        /// Устанавливает результат заезда.
         /// </summary>
         /// <param name="riderController"> Контроллер участника. </param>
         /// <param name="lapTime"> Время круга в сотых. </param>
@@ -75,7 +75,14 @@ namespace PlanB.BL.Controller
             }
 
             SetBestResult(rider);
+        }
 
+        /// <summary>
+        /// Коректирует позицию участника исходя из его лучшего результата.
+        /// </summary>
+        /// <param name="riderController"> Контроллер участника. </param>
+        public static void SetNewPlaces(RiderController riderController)
+        {
             riderController.Riders.Sort();
             var i = 1;
             foreach (var r in riderController.Riders)
@@ -97,9 +104,13 @@ namespace PlanB.BL.Controller
             {
                 rider.BestResult = rider.TryFirst;
             }
-            else
+            else if (rider.TrySecond != 0)
             {
                 rider.BestResult = rider.TrySecond;
+            }
+            else
+            {
+                rider.BestResult = Rider.MAXTIME;
             }
         }
 
@@ -241,10 +252,10 @@ namespace PlanB.BL.Controller
                 }
             }
 
+            var coeNew = coeMax;
+            var classNew = coefficients.FirstOrDefault(c => c.Value == coeNew).Key;
             while (true)
             {
-                var coeNew = coefficients.FirstOrDefault(c => c.Value > coeMax).Value;
-                var classNew = coefficients.FirstOrDefault(c => c.Value == coeNew).Key;
                 if (coeNew != default)
                 {
                     foreach (var rider in riderController.Riders)
@@ -260,6 +271,8 @@ namespace PlanB.BL.Controller
                     break;
                 }
                 coeMax = coeNew;
+                coeNew = coefficients.FirstOrDefault(c => c.Value > coeMax).Value;
+                classNew = coefficients.FirstOrDefault(c => c.Value == coeNew).Key;
             }
             riderController.Save();
         }

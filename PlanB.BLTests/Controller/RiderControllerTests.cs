@@ -19,12 +19,10 @@ namespace PlanB.BL.Controller.Tests
             var location = Guid.NewGuid().ToString();
             var team = Guid.NewGuid().ToString();
             var classId = "D2";
-            var controller = new RiderController();
-            controller.AddRider(startNumber, classId);
+            var controller = new RiderController(startNumber, classId);
 
             // Act
-            var reController = new RiderController();
-            reController.AddRider(startNumber, classId);
+            var reController = new RiderController(startNumber, classId);
             reController.SetNewRiderData(name, surname, gender, location, team);
 
             // Assert
@@ -46,8 +44,7 @@ namespace PlanB.BL.Controller.Tests
             var classId = "C1";
 
             // Act
-            var controller = new RiderController();
-            controller.AddRider(startNumber, classId);
+            var controller = new RiderController(startNumber, classId);
 
             // Assert
             Assert.AreEqual(startNumber, controller.CurrentRider.RiderId);
