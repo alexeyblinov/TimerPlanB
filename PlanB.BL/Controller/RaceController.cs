@@ -99,8 +99,8 @@ namespace PlanB.BL.Controller
         /// <param name="rider"> Текущий участник. </param>
         private static void SetBestResult(Rider rider)
         {
-            if (rider.TryFirst <= rider.TrySecond
-                && rider.TryFirst > 0)
+            if ((rider.TryFirst <= rider.TrySecond
+                && rider.TryFirst > 0) || (rider.TrySecond.Equals(0) && rider.TryFirst > 0))
             {
                 rider.BestResult = rider.TryFirst;
             }
