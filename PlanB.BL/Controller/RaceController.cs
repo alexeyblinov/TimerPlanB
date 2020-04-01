@@ -252,27 +252,44 @@ namespace PlanB.BL.Controller
                 }
             }
 
-            var coeNew = coeMax;
-            var classNew = coefficients.FirstOrDefault(c => c.Value == coeNew).Key;
             while (true)
             {
+                decimal coeNew = default;
+                string classNew = default;
+
+                var classResult = coefficients.FirstOrDefault(c => c.Value == coeMax).Key;
+                if (!classResult.Contains("N"))
+                {
+                    coeNew = coefficients.FirstOrDefault(c => c.Value > coeMax).Value;
+                    classNew = coefficients.FirstOrDefault(c => c.Value == coeNew).Key;
+                }
+                else 
+                {
+                    break;                
+                }
+                
+                
                 if (coeNew != default)
                 {
                     foreach (var rider in riderController.Riders)
                     {
-                        if (string.Compare(rider.ResultClassId, classNew) > 0 && rider.BestResult < IncreaseClassTime(bestTime, coeNew))
+                        if (string.Compare(rider.ResultClassId, classNew) >= 0 && rider.BestResult < IncreaseClassTime(bestTime, coeNew))
                         {
-                            rider.ResultClassId = classNew;
+                            // так как перебор со старшего класса вниз, чтобы не присвоить младший класс, 
+                            // которому результат так же будет соответствовать, проверка был ли ранее присвоен класс.
+                            if(rider.PreviousClassId == rider.ResultClassId)
+                            {
+                                rider.ResultClassId = classResult;
+                            }
                         }
                     }
                 }
                 else
                 {
+                    Console.WriteLine("Break");
                     break;
                 }
                 coeMax = coeNew;
-                coeNew = coefficients.FirstOrDefault(c => c.Value > coeMax).Value;
-                classNew = coefficients.FirstOrDefault(c => c.Value == coeNew).Key;
             }
             riderController.Save();
         }
