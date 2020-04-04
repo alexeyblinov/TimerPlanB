@@ -16,15 +16,35 @@ namespace PlanB.BL.Model
         /// <summary>
         /// Имя участника.
         /// </summary>
-        public string Name { get; set; }
+        public string Name {
+            get => Name;
+            set 
+            {
+                if (string.IsNullOrWhiteSpace(value)) {
+                    throw new ArgumentException("Name cannot be null or whitespace.", nameof(Name));
+                }
+                Name = value;
+            }
+        }
         /// <summary>
         /// Фамилия участника.
         /// </summary>
-        public string Surname { get; set; }
+        public string Surname {
+            get => Surname;
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                {
+                    throw new ArgumentException("Surname cannot be null or whitespace.", nameof(Surname));
+                }
+                Surname = value;
+            }
+        }
         /// <summary>
         /// Половая принадлежность. Пока реализована толька традиционная.
         /// </summary>
         public Gender Gender { get; set; }
+
         /// <summary>
         /// Город, который представляет участник.
         /// </summary>

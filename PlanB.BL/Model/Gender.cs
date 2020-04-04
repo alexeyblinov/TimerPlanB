@@ -8,7 +8,7 @@ namespace PlanB.BL.Model
         /// <summary>
         /// Gender name.
         /// </summary>
-        public string Name;
+        public string Name { get; }
         /// <summary>
         /// Create a new gender.
         /// </summary>

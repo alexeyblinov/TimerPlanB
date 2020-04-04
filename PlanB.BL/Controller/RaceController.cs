@@ -15,7 +15,7 @@ namespace PlanB.BL.Controller
         /// <param name="penalty"> Штрафные баллы в сотых долях секунды. </param>
         /// <param name="newTryFirst"> При значении 1 перезаписывает результат первой попытки. </param>
         /// <param name="newTrySecond"> При значении 1 перезаписывает результат второй попытки. </param>
-        /// <param name="infinity"> Если значение 1 перезаписывать новый результат вместо худшего, иначе после заполнения двух попыток не записывать больше. </param>
+        /// <param name="infinity"> Если значение 1 перезаписывать новый результат вместо худшего, 0 - после заполнения двух попыток не записывать больше. </param>
         public static void ChangeRank(RiderController riderController,
                                Rider rider,
                                int lapTime,
@@ -51,29 +51,29 @@ namespace PlanB.BL.Controller
             var total = lapTime + penalty;
             if (total > Rider.MAXTIME)
             {
-                throw new ArgumentOutOfRangeException("Lap Time + Penalty mast not exceed 59:59:99.", nameof(total));
+                total = Rider.MAXTIME;
             }
 
-            // если перезаезд одной из попыток.
-            if (newTryFirst == true || newTrySecond == true)
+            // Если нет дополнительных требований к перезаписи результатов, просто две попытки.
+            // Eсли установлено строго две попытки, то при третьей и более попыток результат будет игнорироваться.
+            if (infinity == false && newTryFirst == false && newTrySecond == false)
             {
-                ReTry(rider, total, newTryFirst);
+                SetResults(rider, total);
             }
-            // если нет перезаезда. Просто две попытки.
             else
             {
-                // если установлена бесконечная перезапись лучшей попытки.
-                if (infinity == true)
+                // если требуется перезаписать результат одной из попыток.
+                if (newTryFirst == true || newTrySecond == true)
+                {
+                    ReTry(rider, total, newTryFirst);
+                }
+
+                // если установлена бесконечная перезапись худшей попытки на лучшую.
+                if (infinity == true && newTryFirst == false && newTrySecond == false)
                 {
                     IfInfinity(rider, total);
                 }
-                // если установлено строго две попытки, то при третьей и более попыток результат будет игнорироваться. 
-                else
-                {
-                    SetResults(rider, total);
-                }
             }
-
             SetBestResult(rider);
         }
 
@@ -94,7 +94,7 @@ namespace PlanB.BL.Controller
         }
 
         /// <summary>
-        /// Установить (записать в свойство текущего экземпляра Raider) лучшее время сравнением результатов двух попыток.
+        /// Установить лучшее время сравнением результатов двух попыток.
         /// </summary>
         /// <param name="rider"> Текущий участник. </param>
         private static void SetBestResult(Rider rider)
@@ -116,6 +116,8 @@ namespace PlanB.BL.Controller
 
         /// <summary>
         /// Перезаезд. Перезапись первого или второго результата в зависимотти от значений newTryFirst и newTrySecond.
+        /// Ну или почти. Т.к. этот метод будет вызван если хотя бы одно из указанных значений установлено в 1, то
+        /// newTrySecond проверять не имеет особого смысла.
         /// </summary>
         /// <param name="rider"> Текущий участник. </param>
         /// <param name="total"> Итоговое время заезда. </param>
@@ -133,7 +135,7 @@ namespace PlanB.BL.Controller
         }
 
         /// <summary>
-        /// Запись временного результата заезда в свободный слот. Если оба заняты, то никуда.
+        /// Запись результата заезда в свободный слот. Если оба заняты, то никуда.
         /// </summary>
         /// <param name="rider"> Текущий участник. </param>
         /// <param name="total"> Итоговое время заезда. </param>
@@ -150,7 +152,7 @@ namespace PlanB.BL.Controller
         }
 
         /// <summary>
-        /// Если установлен флаг бесконечной перезаписи лучшего нового результата, перезаписывает его.
+        /// Если установлен флаг бесконечной перезаписи лучшего нового результата, перезаписывает его, если он лучший.
         /// </summary>
         /// <param name="rider"> Текущий участник. </param>
         /// <param name="total"> Итоговое время заезда. </param>
@@ -168,13 +170,12 @@ namespace PlanB.BL.Controller
 
         /// <summary>
         /// Определяет класс соревнования, если в текущем классе 3 участника и более, иначе
-        /// возвращает null, если класс находится, то изменяет bestTime на время лучшего участника 
-        /// в классе соревнования.
+        /// возвращает null. Если класс находится, то изменяет bestTime на время лучшего участника 
+        /// в классе соревнования. 
         /// </summary>
-        /// <param name="riderController"> Контроллер участника текущего класса. </param>
-        /// <param name="competitionClass"> Класс соревнования. Должен задаваться после регистрации всех участников. </param>
-
-
+        /// <param name="riderController"> Контроллер участника. </param>
+        /// <param name="bestTime"> Время лучшего участника в классе соревнования. </param>
+        /// <returns></returns>
         public static string FindCompetitionClassId(RiderController riderController, ref int bestTime)
         {
             if (riderController is null)
@@ -202,11 +203,12 @@ namespace PlanB.BL.Controller
 
         /// <summary>
         /// Установка новых классов участников по результатам соревнования.
-        /// Сравнивает лучшее время участника с эталонным для класса и присваевает новый класс, если время участника лучше.
+        /// Сравнивает лучшее время участника с эталонным для класса и присваевает новый класс, 
+        /// если время участника лучше.
         /// </summary>
         /// <param name="riderController"> Контроллеp участника. </param>
         /// <param name="bestClass"> Класс соревнования. </param>
-        /// <param name="bestTime"> Эталонное время. </param>
+        /// <param name="bestTime"> Время лучшего участника в классе соревнования. </param>
         public static void SetNewClasses(RiderController riderController, string bestClass, int bestTime)
         {
             if (riderController is null)
@@ -239,14 +241,14 @@ namespace PlanB.BL.Controller
 
             // Находит коэффициент для вычисления эталонного времени трассы, 
             // соответствующий найденному ранее классу соревнования и лучшему времени в этом классе.
-            // и умножает лучшее время на коэффициент для получения эталонного времени.
+            // и делит лучшее время на коэффициент для получения эталонного времени.
             decimal coeMax = default;
             foreach (var coe in coefficients)
             {
                 if (coe.Key == bestClass)
                 {
                     coeMax = coe.Value;
-                    // определяет эталонное время для класса, умножая на коэффициент из таблицы.
+                    // определяет эталонное время для класса, делением на коэффициент из таблицы.
                     bestTime = SetClassTime(bestTime, coeMax);
                     break;
                 }
@@ -302,7 +304,12 @@ namespace PlanB.BL.Controller
         /// <returns> Название максимального класса, в котором есть трое участников. </returns>
         private static string SetCompetitionClass(RiderController riderController)
         {
-            var count = 0;
+            if (riderController is null)
+            {
+                throw new ArgumentNullException("Rider controller cannot be null.",  nameof(riderController));
+            }
+
+            int count;
             string bestClass;
             var Classes = new List<String>();
             foreach(var r in riderController.Riders)
@@ -336,10 +343,19 @@ namespace PlanB.BL.Controller
         /// эталонное время трассы.
         /// </summary>
         /// <param name="time"> Лучшее время участника в классе соревнования. </param>
-        /// <param name="coe"> Коэффициент для рассчёта эталонного времени для класса соревнования. </param>
+        /// <param name="coe"> Коэффициент рассчёта эталонного времени для класса соревнования. </param>
         /// <returns> Эталонное время трассы. </returns>
         private static int SetClassTime(int time, decimal coe)
         {
+            if (time <= 0)
+            {
+                throw new ArgumentException("Time have to be positive.", nameof(time));
+            }
+            if (coe <= 0)
+            {
+                throw new ArgumentException("Coefficient have to be positive.", nameof(coe));
+            }
+
             decimal timeDecimal = time;
             timeDecimal /= coe;
             return Decimal.ToInt32(Math.Round(timeDecimal, MidpointRounding.AwayFromZero));
@@ -354,6 +370,15 @@ namespace PlanB.BL.Controller
         /// <returns> Эталонное время для текущего класса. </returns>
         private static int IncreaseClassTime(int time, decimal coe)
         {
+            if (time <= 0)
+            {
+                throw new ArgumentException("Time have to be positive.", nameof(time));
+            }
+            if (coe <= 0)
+            {
+                throw new ArgumentException("Coefficient have to be positive.", nameof(coe));
+            }
+
             decimal timeDecimal = time;
             timeDecimal *= coe;
             return Decimal.ToInt32(Math.Round(timeDecimal, MidpointRounding.AwayFromZero));
