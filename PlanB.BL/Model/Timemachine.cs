@@ -14,9 +14,7 @@ namespace PlanB.BL.Model
         /// <summary>
         /// Создать пустой временной результат (время попытки).
         /// </summary>
-        public Timemachine() : this (0, 0, 0) 
-        {
-        }
+        public Timemachine() : this (0, 0, 0) { }
 
         /// <summary>
         /// Создать новый временной результат (время попытки).

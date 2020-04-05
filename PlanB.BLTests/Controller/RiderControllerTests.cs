@@ -12,16 +12,18 @@ namespace PlanB.BL.Controller.Tests
         {
             // Arrange
             var random = new Random();
-            int startNumber = random.Next(1, 99);
+            int startNumber;
             var name = Guid.NewGuid().ToString();
             var surname = Guid.NewGuid().ToString();
             var gender = "M";
             var location = Guid.NewGuid().ToString();
             var team = Guid.NewGuid().ToString();
             var classId = "D2";
+            startNumber = random.Next(1, 99);
             var controller = new RiderController(startNumber, classId);
 
             // Act
+            startNumber = random.Next(1, 99);
             var reController = new RiderController(startNumber, classId);
             reController.SetNewRiderData(name, surname, gender, location, team);
 

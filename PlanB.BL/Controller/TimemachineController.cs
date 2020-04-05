@@ -6,7 +6,7 @@ namespace PlanB.BL.Controller
     /// <summary>
     /// Создаёт новый счётчик времени для заезда и переводит значения минут, секунд и сотых в сотые.
     /// </summary>
-    class TimemachineController
+    public class TimemachineController
     {
         /// <summary>
         /// Создаёт новый счётчик времени.

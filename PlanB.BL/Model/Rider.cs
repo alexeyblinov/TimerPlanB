@@ -12,47 +12,98 @@ namespace PlanB.BL.Model
         /// <summary>
         /// Стартовый номер участника.
         /// </summary>
-        public int RiderId { get; }
+        public int RiderId 
+        { get; set;
+            //get 
+            //{ 
+            //    if(RiderId <= 0)
+            //    {
+            //        throw new ArgumentOutOfRangeException("Something wrong with Rider ID.", nameof(RiderId));
+            //    }
+            //    else
+            //    {
+            //        return RiderId;
+            //    }
+            //}
+            //private set
+            //{
+            //    if (value < 0)
+            //    {
+            //        throw new ArgumentOutOfRangeException("Rider ID cannot be negative.", nameof(RiderId));
+            //    }
+            //    else
+            //    {
+            //        RiderId = value;
+            //    }
+            //}
+        }
         /// <summary>
         /// Имя участника.
         /// </summary>
-        public string Name {
-            get => Name;
-            set 
-            {
-                if (string.IsNullOrWhiteSpace(value)) {
-                    throw new ArgumentException("Name cannot be null or whitespace.", nameof(Name));
-                }
-                Name = value;
-            }
+        public string Name 
+        {
+            get; set;
+            //get => Name;
+            //set 
+            //{
+            //    if (string.IsNullOrWhiteSpace(value)) {
+            //        throw new ArgumentException("Name cannot be null or whitespace.", nameof(Name));
+            //    }
+            //    Name = value;
+            //}
         }
         /// <summary>
         /// Фамилия участника.
         /// </summary>
-        public string Surname {
-            get => Surname;
-            set
-            {
-                if (string.IsNullOrWhiteSpace(value))
-                {
-                    throw new ArgumentException("Surname cannot be null or whitespace.", nameof(Surname));
-                }
-                Surname = value;
-            }
+        public string Surname 
+        {
+            get; set;
+            //get => Surname;
+            //set
+            //{
+            //    if (string.IsNullOrWhiteSpace(value))
+            //    {
+            //        throw new ArgumentException("Surname cannot be null or whitespace.", nameof(Surname));
+            //    }
+            //    Surname = value;
+            //}
         }
         /// <summary>
         /// Половая принадлежность. Пока реализована толька традиционная.
         /// </summary>
         public Gender Gender { get; set; }
-
         /// <summary>
         /// Город, который представляет участник.
         /// </summary>
-        public string Location { get; set; }
+        public string Location 
+        {
+            get; set;
+            //get => Location;
+            //set 
+            //{
+            //    if (string.IsNullOrWhiteSpace(value))
+            //    {
+            //        throw new ArgumentException("Location cannot be null or whitespace.", nameof(Location));
+            //    }
+            //    Location = value;
+            //} 
+        }
         /// <summary>
         /// Команда, за которую выступает участник.
         /// </summary>
-        public string Team { get; set; }
+        public string Team
+        {
+            get; set;
+            //get => Team;
+            //set
+            //{
+            //    if (string.IsNullOrWhiteSpace(value))
+            //    {
+            //        throw new ArgumentException("Team cannot be null or whitespace.", nameof(Team));
+            //    }
+            //    Team = value;
+            //}
+        }
         /// <summary>
         /// Является ли транспортное средство круизёром.
         /// </summary>
@@ -60,28 +111,99 @@ namespace PlanB.BL.Model
         /// <summary>
         /// Результат первого заезда.
         /// </summary>
-        public int TryFirst { get; set; }
+        public int TryFirst 
+        {
+            get; set;
+            //get => TryFirst;
+            //set 
+            //{
+            //    if (value < 0) 
+            //    {
+            //        throw new ArgumentOutOfRangeException("First try cannot be negative.", nameof(TryFirst));
+            //    }
+            //    TryFirst = value;
+            //} 
+        }
         /// <summary>
         /// Результат второго заезда.
         /// </summary>
-        public int TrySecond { get; set; }
+        public int TrySecond
+        {
+            get; set;
+            //get => TrySecond;
+            //set
+            //{
+            //    if (value < 0)
+            //    {
+            //        throw new ArgumentOutOfRangeException("Second try cannot be negative.", nameof(TrySecond));
+            //    }
+            //    TrySecond = value;
+            //}
+        }
         /// <summary>
         /// Лучшее время из двух попыток.
         /// </summary>
-        public int BestResult { get; set; }
+        public int BestResult
+        {
+            get; set;
+            //get => BestResult;
+            //set
+            //{
+            //    if (value < 0)
+            //    {
+            //        throw new ArgumentOutOfRangeException("Best result cannot be negative.", nameof(BestResult));
+            //    }
+            //    BestResult = value;
+            //}
+        }
         /// <summary>
         /// Место участника в классе.
         /// </summary>
-        public int Rank { get; set; }
+        public int Rank
+        {
+            get; set;
+            //get => Rank;
+            //set
+            //{
+            //    if (value < 0)
+            //    {
+            //        throw new ArgumentOutOfRangeException("Rank cannot be negative.", nameof(Rank));
+            //    }
+            //    Rank = value;
+            //}
+        }
         /// <summary>
         /// Класс участника перед соревнованиями.
         /// </summary>
-        public string PreviousClassId { get; set; }
+        public string PreviousClassId
+        {
+            get; set;
+            //get => PreviousClassId;
+            //set
+            //{
+            //    if (string.IsNullOrWhiteSpace(value))
+            //    {
+            //        throw new ArgumentException("Previous class ID cannot be null or whitespace.", nameof(PreviousClassId));
+            //    }
+            //    PreviousClassId = value;
+            //}
+        }
         /// <summary>
         /// Класс участника по итогам соревнования.
         /// </summary>
-        public string ResultClassId { get; set; }
-
+        public string ResultClassId
+        {
+            get; set;
+            //get => ResultClassId;
+            //set
+            //{
+            //    if (string.IsNullOrWhiteSpace(value))
+            //    {
+            //        throw new ArgumentException("Result class ID cannot be null or whitespace.", nameof(ResultClassId));
+            //    }
+            //    ResultClassId = value;
+            //}
+        }
 
         /// <summary>
         /// Конструктор для создания нового участника.
@@ -145,11 +267,12 @@ namespace PlanB.BL.Model
         {
             if (riderId <= 0)
             {
-                throw new ArgumentOutOfRangeException("ID must be from 1 to 99.", nameof(riderId));
+                throw new ArgumentOutOfRangeException("ID cannot be negative or 0 (Recommended option 1-99).", nameof(riderId));
             }
             RiderId = riderId;
         }
 
+        // Сравнение участников по лучшему результату.
         public int CompareTo(object obj)
         {
             if (obj is null)
