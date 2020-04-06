@@ -87,71 +87,33 @@ namespace PlanB.BL.Controller.Tests
         public void FindCompetitionClassIdTest()
         {
             //Arrange
-            RiderController controller1 = new RiderController();
-            RiderController controller2 = new RiderController();
-            var bestTime1 = 0;
-            var bestTime2 = 0;
-            int bestResult = Rider.MAXTIME;
-            string compClass2;
+            RiderController controller = new RiderController();
+            RiderController controllerNull = new RiderController();
+            var bestTime = 0;
+            var bestTimeNull = 0;
+            int bestResult = 2020;
+            string compClass;
 
             //Act
-            for (var i = 0; i < 2; i++)
-            {
-                startNumber = rnd.Next(1, 99);
-                controller1 = new RiderController(startNumber, "C2");
-
-                name = Guid.NewGuid().ToString();
-                surname = Guid.NewGuid().ToString();
-                location = Guid.NewGuid().ToString();
-                team = Guid.NewGuid().ToString();
-                controller1.SetNewRiderData(name, surname, gender, location, team);
-
-                lapTime = rnd.Next(0, Rider.MAXTIME - 4);
-                penalty = rnd.Next(0, 3);
-                RaceController.ChangeRank(controller1, controller1.CurrentRider, lapTime, penalty);
-                lapTime = rnd.Next(0, Rider.MAXTIME - 4);
-                penalty = rnd.Next(0, 3);
-                RaceController.ChangeRank(controller1, controller1.CurrentRider, lapTime, penalty);
-            }
-
+            
             for (var i = 0; i < 3; i++)
             {
                 startNumber = rnd.Next(1, 99);
-                controller2 = new RiderController(startNumber, "D4");
-
-                name = Guid.NewGuid().ToString();
-                surname = Guid.NewGuid().ToString();
-                location = Guid.NewGuid().ToString();
-                team = Guid.NewGuid().ToString();
-                controller2.SetNewRiderData(name, surname, gender, location, team);
-
-                lapTime = rnd.Next(0, Rider.MAXTIME - 4);
-                penalty = rnd.Next(0, 3);
-                RaceController.ChangeRank(controller2, controller2.CurrentRider, lapTime, penalty);
-                lapTime = rnd.Next(0, Rider.MAXTIME - 4);
-                penalty = rnd.Next(0, 3);
-                RaceController.ChangeRank(controller2, controller2.CurrentRider, lapTime, penalty);
+                controller = new RiderController(startNumber, "C2");
+                controller.CurrentRider.BestResult = 2020;
             }
-
-            RaceController.SetNewPlaces(controller1);
-            RaceController.SetNewPlaces(controller2);
-
-            compClass2 = RaceController.FindCompetitionClassId(controller2, ref bestTime2);
-
-            foreach (var r in controller2.Riders)
-            {
-                if (r.BestResult < bestResult)
-                {
-                    bestResult = r.BestResult;
-                }
-            }
+            startNumber = rnd.Next(1, 99);
+            controller = new RiderController(startNumber, "C1");
+            controller.CurrentRider.BestResult = 2000;
+            startNumber = rnd.Next(1, 99);
+            controller = new RiderController(startNumber, "N");
+            controller.CurrentRider.BestResult = 2040;
+            
+            compClass = RaceController.FindCompetitionClassId(controller, ref bestTime);
 
             //Assert
-            Assert.IsNull(RaceController.FindCompetitionClassId(controller1, ref bestTime1));
-            Assert.AreEqual(bestTime1, 0);
-
-            Assert.AreEqual(compClass2, "D4");
-            Assert.AreEqual(bestTime2, bestResult);
+            Assert.AreEqual("C2", compClass);
+            Assert.AreEqual(bestTime, bestResult);
         }
 
         [TestMethod()]
@@ -159,32 +121,16 @@ namespace PlanB.BL.Controller.Tests
         {
             //Arrange
             var controller = new RiderController(1, "N");
-            string bestClass;
-            var bestTime = 0;
+            var bestTime = 4348;
 
             //Act
             controller.SetNewRiderData(name, surname, gender, location, team);
+            controller.CurrentRider.BestResult = 6147;
 
-            for(int i = 0; i < 3; i++)
-            {
-                controller = new RiderController(i+2, "C3");
-                name = Guid.NewGuid().ToString();
-                surname = Guid.NewGuid().ToString();
-                location = Guid.NewGuid().ToString();
-                team = Guid.NewGuid().ToString();
-                controller.SetNewRiderData(name, surname, gender, location, team);
-            }
-            RaceController.ChangeRank(controller, controller.Riders[0], 6147, 0);
-            RaceController.ChangeRank(controller, controller.Riders[1], 5792, 0);
-            RaceController.ChangeRank(controller, controller.Riders[2], 5830, 0);
-            RaceController.ChangeRank(controller, controller.Riders[3], 5000, 0);
-            RaceController.SetNewPlaces(controller);
-            
-            bestClass = RaceController.FindCompetitionClassId(controller, ref bestTime);
-            RaceController.SetNewClasses(controller, bestClass, bestTime);
+            RaceController.SetNewClasses(controller, "C3", bestTime);
 
             //Assert
-            Assert.AreEqual(controller, controller.Riders[3].ResultClassId, "D3");
+            Assert.AreEqual("D3", controller.CurrentRider.ResultClassId);
         }
     }
 }

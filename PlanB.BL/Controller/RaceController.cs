@@ -304,7 +304,7 @@ namespace PlanB.BL.Controller
         /// <returns> Название максимального класса, в котором есть трое участников. </returns>
         private static string SetCompetitionClass(RiderController riderController)
         {
-            if (riderController is null)
+            if (riderController is null || riderController.Riders == null)
             {
                 throw new ArgumentNullException("Rider controller cannot be null.",  nameof(riderController));
             }
