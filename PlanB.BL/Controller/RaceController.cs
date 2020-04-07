@@ -311,7 +311,7 @@ namespace PlanB.BL.Controller
 
             int count;
             string bestClass;
-            var Classes = new List<String>();
+            var Classes = new List<string>();
             foreach(var r in riderController.Riders)
             {
                 Classes.Add(r.PreviousClassId);

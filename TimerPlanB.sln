@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlanB.Console", "PlanB.Cons
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlanB.BLTests", "PlanB.BLTests\PlanB.BLTests.csproj", "{9B99E2EC-048F-4A55-BA62-145A992CAA19}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlanB.Wpf", "PlanB.Wpf\PlanB.Wpf.csproj", "{B28451E3-DB4C-4B70-8A48-99EC132C9571}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{9B99E2EC-048F-4A55-BA62-145A992CAA19}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9B99E2EC-048F-4A55-BA62-145A992CAA19}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9B99E2EC-048F-4A55-BA62-145A992CAA19}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B28451E3-DB4C-4B70-8A48-99EC132C9571}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B28451E3-DB4C-4B70-8A48-99EC132C9571}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B28451E3-DB4C-4B70-8A48-99EC132C9571}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B28451E3-DB4C-4B70-8A48-99EC132C9571}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

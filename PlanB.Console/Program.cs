@@ -49,7 +49,7 @@ namespace PlanB.Console
                     // присвоить всем значения попыток.
                     
                     System.Console.Clear();
-                    /*
+                    
                     if(riderCo != null)
                     {
                         for(var i = 0; i < riderCo.Riders.Count; i++)
@@ -63,7 +63,7 @@ namespace PlanB.Console
                             System.Console.WriteLine();
                         }
                     }
-                    */
+                    
                     foreach(var r in riderCo.Riders)
                     {
                         r.ResultClassId = r.PreviousClassId;
