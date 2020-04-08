@@ -20,7 +20,7 @@
             <MenuItem x:Name="Result" Header="Результаты" Click="MenuItemResult_Click"> </MenuItem>
         </Menu>
 
-        <Frame x:Name="Main" />
+        <Frame x:Name="Main" Margin="0, 2, 0, 0" NavigationUIVisibility="Hidden"/>
         
     </Grid>
 </Window>

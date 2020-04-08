@@ -27,22 +27,22 @@ namespace PlanB.Wpf
 
         private void MenuItemStart_Click(object sender, RoutedEventArgs e)
         {
-
+            Main.Content = new Start();
         }
 
         private void MenuItemReg_Click(object sender, RoutedEventArgs e)
         {
-
+            Main.Content = new Registration();
         }
 
         private void MenuItemSettings_Click(object sender, RoutedEventArgs e)
         {
-
+            Main.Content = new Settings();
         }
 
         private void MenuItemResult_Click(object sender, RoutedEventArgs e)
         {
-
+            Main.Content = new Result();
         }
     }
 }
