@@ -88,7 +88,8 @@ namespace PlanB.Wpf
 
         private void TeamTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (!string.IsNullOrWhiteSpace(NameTextBox.Text) &&
+            if (!string.IsNullOrWhiteSpace(StartNumberTextBox.Text) &&
+                !string.IsNullOrWhiteSpace(NameTextBox.Text) &&
                 !string.IsNullOrWhiteSpace(SurnameTextBox.Text) &&
                 !string.IsNullOrWhiteSpace(LocationTextBox.Text) &&
                 !string.IsNullOrWhiteSpace(TeamTextBox.Text))

@@ -35,7 +35,7 @@
         
         <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Vertical" Margin="30,30,20,0"  Width="350" HorizontalAlignment="Left" VerticalAlignment="Top">
 
-            <TextBox x:Name="StartNumberTextBox" MaxLength="3" Height="30" TextChanged="StartNumberTextBox_TextChanged" />
+            <TextBox x:Name="StartNumberTextBox" MaxLength="3" Height="30" TextChanged="StartNumberTextBox_TextChanged" Background="LightBlue"/>
 
             <ComboBox Name="ClassList" Height="30" VerticalAlignment="Top" Margin="0, 17, 0, 0" SelectionChanged="ClassList_SelectionChanged">
                 <ComboBoxItem Content="A" />
@@ -49,20 +49,20 @@
                 <ComboBoxItem Content="D4" />
                 <ComboBoxItem Content="N" />
             </ComboBox>
-            
-            <TextBox x:Name="NameTextBox" Height="30" Margin="0, 17, 0, 0" />
-            <TextBox x:Name="SurnameTextBox" Height="30" Margin="0, 17, 0, 0"/>
+
+            <TextBox x:Name="NameTextBox" Height="30" Margin="0, 17, 0, 0" Background="LightBlue"/>
+            <TextBox x:Name="SurnameTextBox" Height="30" Margin="0, 17, 0, 0" Background="LightBlue"/>
             <ComboBox Name="GenderList" Height="30" VerticalAlignment="Top" Margin="0,17,0,0" SelectionChanged="GenderList_SelectionChanged">
                 <ComboBoxItem Content="М" Tag="M"/>
                 <ComboBoxItem Content="Ж" Tag="F"/>
             </ComboBox>
-            <TextBox x:Name="LocationTextBox" Height="30" Margin="0, 17, 0, 0" />
-            <TextBox x:Name="TeamTextBox" Height="30" Margin="0, 17, 0, 0" TextChanged="TeamTextBox_TextChanged" />
+            <TextBox x:Name="LocationTextBox" Height="30" Margin="0, 17, 0, 0" Background="LightBlue"/>
+            <TextBox x:Name="TeamTextBox" Height="30" Margin="0, 17, 0, 0" Background="LightBlue" TextChanged="TeamTextBox_TextChanged"/>
             
         </StackPanel>
         <StackPanel Grid.Row="2" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center">
             <CheckBox x:Name="IsCruiserCheckBox" Margin="0, 10, 0, 10" IsChecked="False" Height="30" Content="Круизёр" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" />
-            <Button x:Name="RegButton" Width="400" Height="40" Content="Регистрация" FontSize="30" FontWeight="Bold" Background="LightBlue" IsEnabled="False" Click="RegButton_Click"/>
+            <Button x:Name="RegButton" Width="400" Height="50" Content="Регистрация" FontSize="30" FontWeight="Bold" Background="LightBlue" IsEnabled="False" Click="RegButton_Click"/>
             <TextBlock x:Name="StatusTextBlock" Text="" Width="600" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,20,0,0" Background="White" TextAlignment="Center"/>
         </StackPanel>
     </Grid>
