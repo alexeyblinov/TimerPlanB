@@ -25,11 +25,16 @@
             <TextBlock Text="СТАРТ" VerticalAlignment="Top" FontSize="20" HorizontalAlignment="Right" FontWeight="Bold"/>
         </StackPanel>
 
-        <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" Margin="0,20,0,0"  Width="440" HorizontalAlignment="Center" VerticalAlignment="Top">
+        <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" Margin="0,20,0,0"  Width="490" HorizontalAlignment="Center" VerticalAlignment="Top">
             <TextBlock Text="Стартовый номер:  " VerticalAlignment="Top" FontSize="20" HorizontalAlignment="Center" Margin="0,20,0,10" FontWeight="Bold"/>
             <TextBox x:Name="StartNumberTextBox" MaxLength="3" Height="50" Width="70" FontSize="36" FontWeight="Bold" TextAlignment="Center" HorizontalAlignment="Center" Background="LightBlue"/>
+            <Button x:Name="CheckButton" Width="50" Height="50" Content="V" FontSize="30" FontWeight="Bold" Background="#FFE3E9EF" HorizontalAlignment="Center" VerticalAlignment="Center" Click="CheckButton_Click" />
             <TextBlock Text="Заезд:  " VerticalAlignment="Top" FontSize="20" HorizontalAlignment="Center" Margin="50,20,0,10" FontWeight="Bold"/>
             <TextBox x:Name="TryTextBox" IsEnabled="False" MaxLength="1" Height="50" Width="50" FontSize="36" FontWeight="Bold" TextAlignment="Center" Background="LightBlue" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        </StackPanel>
+        <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="0, 70, 0, 0">
+            <TextBlock x:Name="StatusBarTextBlock" Text="" VerticalAlignment="Top" FontSize="12" HorizontalAlignment="Center" Margin="50,20,0,10" />
+
         </StackPanel>
 
         <StackPanel Grid.Row="2" Grid.ColumnSpan="2"  Orientation="Horizontal" Margin="0,10,0,0"  HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -39,13 +44,17 @@
             <TextBox x:Name="SecondsTextBox" MaxLength="2" Height="50" Width="50" Margin="5, 0, 5, 0" FontSize="36" FontWeight="Bold" TextAlignment="Center" HorizontalAlignment="Right" Background="LightBlue"/>
             <TextBlock Text=":" VerticalAlignment="Center" FontSize="50" Margin="0,0,0,20" FontWeight="Bold"/>
             <TextBox x:Name="HundredthsTextBox" MaxLength="2" Height="50" Width="50" Margin="5, 0, 0, 0" FontSize="36" FontWeight="Bold" TextAlignment="Center" HorizontalAlignment="Right" Background="LightBlue"/>
+            <TextBlock Text="Штраф:" VerticalAlignment="Center" FontSize="20" Margin="20,10,0,0" FontWeight="Bold"/>
+            <TextBox x:Name="PenaltyTextBox" MaxLength="2" Height="50" Width="50" Margin="5, 0, 0, 0" FontSize="36" FontWeight="Bold" TextAlignment="Center" HorizontalAlignment="Right" Background="LightBlue"/>
+            <CheckBox x:Name="OutOfRaceCheckBox" Margin="20, 20, 0, 10" IsChecked="False" Height="30" Content="Дисквалификация" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" />
+
         </StackPanel>
         
         <StackPanel Grid.Row="3" Grid.ColumnSpan="2" Margin="20,20,0,0"  HorizontalAlignment="Center" VerticalAlignment="Top">
-            <Button x:Name="StartButton" Width="400" Height="50" Content="Внести результат" FontSize="30" FontWeight="Bold" Background="LightBlue" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <Button x:Name="StartButton" Width="400" Height="50" Content="Внести результат" FontSize="30" FontWeight="Bold" Background="LightBlue" HorizontalAlignment="Center" VerticalAlignment="Center" Click="StartButton_Click" />
         </StackPanel>
 
-        <StackPanel Grid.Row="4" Grid.Column="0" Margin="0,100,0,0"  Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Top">
+        <StackPanel Grid.Row="4" Grid.Column="0" Margin="0,80,0,0"  Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Top">
             <TextBlock Text="Повторный заезд" VerticalAlignment="Center" FontSize="16" HorizontalAlignment="Center" />
         
         <StackPanel Grid.Row="4" Grid.Column="0" Margin="0,20,0,0"  Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -58,7 +67,7 @@
             </StackPanel>
         </StackPanel>
 
-        <StackPanel Grid.Row="4" Grid.Column="1" Width="300" Margin="2,100,0,0"  Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Top">
+        <StackPanel Grid.Row="4" Grid.Column="1" Width="300" Margin="2,80,0,0"  Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Top">
             <TextBlock Text="Результаты" VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="16" />
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock Text="Первый заезд:" Margin="0,20" VerticalAlignment="Top" HorizontalAlignment="Left" FontSize="12" />

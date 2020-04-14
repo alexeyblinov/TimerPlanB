@@ -17,7 +17,7 @@ namespace PlanB.BL.Controller
         /// <summary>
         /// Список участников.
         /// </summary>
-        public List<Rider> Riders { get; }
+        public List<Rider> Riders { get; private set; }
 
         /// <summary>
         /// Текущий участник.
@@ -146,6 +146,25 @@ namespace PlanB.BL.Controller
             {
                 formatter.Serialize(fileStream, Riders);
             } 
+        }
+
+        public void Load()
+        {
+            var formatter = new BinaryFormatter();
+
+            using (var fileStream = new FileStream("riders.dat", FileMode.OpenOrCreate))
+            {
+                if (fileStream.Length != 0 && formatter.Deserialize(fileStream) is List<Rider> riders)
+                {
+                    Riders = riders;
+                    //return this;
+                }
+                else
+                {
+                    Riders = new List<Rider>();
+                    //return this;
+                }
+            }
         }
 
         public override string ToString()

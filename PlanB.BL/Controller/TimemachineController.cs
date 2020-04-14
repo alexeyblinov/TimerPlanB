@@ -35,6 +35,19 @@ namespace PlanB.BL.Controller
             }
         }
 
+        /// <summary>
+        /// Переводит время в сотых долях секунды в удобочитаемый человеком формат мм:сс:00.
+        /// </summary>
+        /// <param name="intTime"> Время в сотых долях секунды. </param>
+        /// <returns> Время в формате мм:сс:00. </returns>
+        public static string ToPrint(int intTime)
+        {
+            var min = intTime / 6000;
+            var sec = (intTime - min * 6000) / 100;
+            var hun = intTime - (min * 6000 + sec * 100);
+            return string.Concat(min, " : ", sec, " : ", hun);
+        }
+
         public override string ToString()
         {
             return Timer.ToString();

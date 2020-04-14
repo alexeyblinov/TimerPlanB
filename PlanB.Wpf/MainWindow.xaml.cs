@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PlanB.BL.Controller;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,7 @@ namespace PlanB.Wpf
         public MainWindow()
         {
             InitializeComponent();
+            Main.Content = new Start();
         }
 
         private void MenuItemStart_Click(object sender, RoutedEventArgs e)

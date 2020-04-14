@@ -43,8 +43,7 @@ namespace PlanB.BL.Model
 
         public override string ToString()
         {
-            var result = string.Concat(Minutes.ToString(), ":", Seconds.ToString(), ":", Hundredths.ToString());
-            return result;
+            return string.Concat(Minutes.ToString(), " : ", Seconds.ToString(), " : ", Hundredths.ToString());
         }
     }
 }
