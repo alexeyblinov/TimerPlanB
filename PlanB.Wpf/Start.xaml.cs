@@ -28,6 +28,7 @@ namespace PlanB.Wpf
         {
             InitializeComponent();
             riderController.Load();
+            TryAgainList.Tag = "0";
         }
 
         private void CheckButton_Click(object sender, RoutedEventArgs e)
@@ -70,36 +71,75 @@ namespace PlanB.Wpf
 
         private void StartButton_Click(object sender, RoutedEventArgs e)
         {
-            switch (TryAgainList.Tag.ToString())
+            
+            int.TryParse(MinutesTextBox.Text, out int minutes);
+            int.TryParse(SecondsTextBox.Text, out int seconds);
+            int.TryParse(HundredthsTextBox.Text, out int hundredths);
+            int.TryParse(PenaltyTextBox.Text, out int penalty);
+
+            if (minutes < 0 || seconds < 0 || hundredths < 0)
             {
-                case "1":
+                MessageBox.Show("Неверное значение одного из полей");
+                return;
+            }
+            else
+            {
+                var timeResult = new TimemachineController(minutes, seconds, hundredths);
+                var penaltyResult = penalty * 100;
+                int.TryParse(StartNumberTextBox.Text, out int number);
 
-                    break;
-                case "2":
+                switch (TryAgainList.Tag.ToString())
+                {
+                    case "1":
+                        if (OutOfRaceCheckBox.IsChecked == false)
+                        {
+                            TryTextBox.Text = "1";
+                            RaceController.ChangeRank(riderController, riderController.Riders.FirstOrDefault(r => r.RiderId.Equals(number)), timeResult.HundredthsValue, penaltyResult, true);
+                        }
+                        break;
+                    case "2":
+                        if (OutOfRaceCheckBox.IsChecked == false)
+                        {
+                            TryTextBox.Text = "2";
+                            RaceController.ChangeRank(riderController, riderController.Riders.FirstOrDefault(r => r.RiderId.Equals(number)), timeResult.HundredthsValue, penaltyResult, false, true);
+                        }
+                        break;
+                    case "8":
+                        if (OutOfRaceCheckBox.IsChecked == false)
+                        {
+                            TryTextBox.Text = "-";
+                            RaceController.ChangeRank(riderController, riderController.Riders.FirstOrDefault(r => r.RiderId.Equals(number)), timeResult.HundredthsValue, penaltyResult, false, false, true);
+                        }
+                        break;
+                    default:
+                        if (OutOfRaceCheckBox.IsChecked == false)
+                        {
+                            RaceController.ChangeRank(riderController, riderController.Riders.FirstOrDefault(r => r.RiderId.Equals(number)), timeResult.HundredthsValue, penaltyResult);
+                        }
+                        break;
+                }
 
-                    break;
-                case "8":
-
-                    break;
-                default:
-                    if(OutOfRaceCheckBox.IsChecked == false)
+                if (OutOfRaceCheckBox.IsChecked == true)
+                {
+                    if (TryTextBox.Text.Contains("1"))
                     {
-                        int.TryParse(MinutesTextBox.Text, out int minutes);
-                        int.TryParse(SecondsTextBox.Text, out int seconds);
-                        int.TryParse(HundredthsTextBox.Text, out int hundredths);
-                        int.TryParse(PenaltyTextBox.Text, out int penalty);
-                        var timeRusult = new TimemachineController(minutes, seconds, hundredths);
-                    
-                    
+                        riderController.Riders.FirstOrDefault(r => r.RiderId.Equals(number)).TryFirst = 0;
                     }
                     else
                     {
-                        riderController.Riders.FirstOrDefault(r => r.RiderId == )
+                        riderController.Riders.FirstOrDefault(r => r.RiderId.Equals(number)).TrySecond = 0;
                     }
+                }
                     
-
-                    break;
             }
+            StartNumberTextBox.Text = string.Empty;
+            MinutesTextBox.Text = string.Empty;
+            SecondsTextBox.Text = string.Empty;
+            HundredthsTextBox.Text = string.Empty;
+            PenaltyTextBox.Text = string.Empty;
+            TryTextBox.Text = string.Empty;
+            TryAgainList.Tag = "0";
+            //TryAgainList.SelectedIndex = -1;
         }
     }
 }
