@@ -60,6 +60,7 @@
         <StackPanel Grid.Row="4" Grid.Column="0" Margin="0,20,0,0"  Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
             <TextBlock Text="Параметры повторного заезда" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="12" />
             <ComboBox Name="TryAgainList" Height="30" Margin="0, 10, 0, 0" Width="250" HorizontalAlignment="Center" VerticalAlignment="Center" >
+                <ComboBoxItem Content="Не выбрано" Tag="0" />
                 <ComboBoxItem Content="Перезаписать результат 1 заезда" Tag="1" />
                 <ComboBoxItem Content="Перезаписать результат 2 заезда" Tag="2"/>
                 <ComboBoxItem Content="Перезаписать худший результат" Tag="8"/>

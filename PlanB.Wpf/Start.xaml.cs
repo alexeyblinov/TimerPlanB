@@ -28,7 +28,7 @@ namespace PlanB.Wpf
         {
             InitializeComponent();
             riderController.Load();
-            TryAgainList.Tag = "0";
+            TryAgainList.SelectedIndex = 0;
         }
 
         private void CheckButton_Click(object sender, RoutedEventArgs e)
@@ -88,57 +88,71 @@ namespace PlanB.Wpf
                 var penaltyResult = penalty * 100;
                 int.TryParse(StartNumberTextBox.Text, out int number);
 
-                switch (TryAgainList.Tag.ToString())
-                {
-                    case "1":
-                        if (OutOfRaceCheckBox.IsChecked == false)
-                        {
-                            TryTextBox.Text = "1";
-                            RaceController.ChangeRank(riderController, riderController.Riders.FirstOrDefault(r => r.RiderId.Equals(number)), timeResult.HundredthsValue, penaltyResult, true);
-                        }
-                        break;
-                    case "2":
-                        if (OutOfRaceCheckBox.IsChecked == false)
-                        {
-                            TryTextBox.Text = "2";
-                            RaceController.ChangeRank(riderController, riderController.Riders.FirstOrDefault(r => r.RiderId.Equals(number)), timeResult.HundredthsValue, penaltyResult, false, true);
-                        }
-                        break;
-                    case "8":
-                        if (OutOfRaceCheckBox.IsChecked == false)
-                        {
-                            TryTextBox.Text = "-";
-                            RaceController.ChangeRank(riderController, riderController.Riders.FirstOrDefault(r => r.RiderId.Equals(number)), timeResult.HundredthsValue, penaltyResult, false, false, true);
-                        }
-                        break;
-                    default:
-                        if (OutOfRaceCheckBox.IsChecked == false)
-                        {
-                            RaceController.ChangeRank(riderController, riderController.Riders.FirstOrDefault(r => r.RiderId.Equals(number)), timeResult.HundredthsValue, penaltyResult);
-                        }
-                        break;
-                }
 
-                if (OutOfRaceCheckBox.IsChecked == true)
-                {
-                    if (TryTextBox.Text.Contains("1"))
+                    switch (TryAgainList.SelectedIndex)
                     {
-                        riderController.Riders.FirstOrDefault(r => r.RiderId.Equals(number)).TryFirst = 0;
+                        case 1:
+                            if (OutOfRaceCheckBox.IsChecked == false)
+                            {
+                                TryTextBox.Text = "1";
+                                RaceController.ChangeRank(riderController, riderController.Riders.FirstOrDefault(r => r.RiderId.Equals(number)), timeResult.HundredthsValue, penaltyResult, true);
+                            }
+                            break;
+                        case 2:
+                            if (OutOfRaceCheckBox.IsChecked == false)
+                            {
+                                TryTextBox.Text = "2";
+                                RaceController.ChangeRank(riderController, riderController.Riders.FirstOrDefault(r => r.RiderId.Equals(number)), timeResult.HundredthsValue, penaltyResult, false, true);
+                            }
+                            break;
+                        case 3:
+                            if (OutOfRaceCheckBox.IsChecked == false)
+                            {
+                                TryTextBox.Text = "-";
+                                RaceController.ChangeRank(riderController, riderController.Riders.FirstOrDefault(r => r.RiderId.Equals(number)), timeResult.HundredthsValue, penaltyResult, false, false, true);
+                            }
+                            break;
+                        default:
+                            if (OutOfRaceCheckBox.IsChecked == false)
+                            {
+                                RaceController.ChangeRank(riderController, riderController.Riders.FirstOrDefault(r => r.RiderId.Equals(number)), timeResult.HundredthsValue, penaltyResult);
+                                if (TryTextBox.Text.Contains("1"))
+                                {
+                                    var printResult = riderController.Riders.FirstOrDefault(r => r.RiderId.Equals(number)).TryFirst;
+                                    Try1ResultTextBox.Text = TimemachineController.ToPrint(printResult);
+                                }
+                                else
+                                {
+                                    var printResult = riderController.Riders.FirstOrDefault(r => r.RiderId.Equals(number)).TrySecond;
+                                    Try2ResultTextBox.Text = TimemachineController.ToPrint(printResult);
+                                }
+                            }
+                            break;
                     }
-                    else
+
+                    if (OutOfRaceCheckBox.IsChecked == true)
                     {
-                        riderController.Riders.FirstOrDefault(r => r.RiderId.Equals(number)).TrySecond = 0;
+                        if (TryTextBox.Text.Contains("1"))
+                        {
+                            riderController.Riders.FirstOrDefault(r => r.RiderId.Equals(number)).TryFirst = 0;
+                        }
+                        else
+                        {
+                            riderController.Riders.FirstOrDefault(r => r.RiderId.Equals(number)).TrySecond = 0;
+                        }
                     }
-                }
+                
+                
                     
             }
+
+
             StartNumberTextBox.Text = string.Empty;
             MinutesTextBox.Text = string.Empty;
             SecondsTextBox.Text = string.Empty;
             HundredthsTextBox.Text = string.Empty;
             PenaltyTextBox.Text = string.Empty;
             TryTextBox.Text = string.Empty;
-            TryAgainList.Tag = "0";
             //TryAgainList.SelectedIndex = -1;
         }
     }
