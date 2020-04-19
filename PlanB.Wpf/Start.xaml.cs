@@ -34,16 +34,12 @@ namespace PlanB.Wpf
         private void CheckButton_Click(object sender, RoutedEventArgs e)
         {
             int.TryParse(StartNumberTextBox.Text, out int number);
-            if(number > 0)
+            if (number > 0)
             {
-                Rider rider = riderController.Riders.FirstOrDefault(r => r.RiderId.Equals(number));
-                if (rider == null)
+                Rider rider = ThisRider();
+                if (rider != null)
                 {
-                    MessageBox.Show("Участник с таким стартовым номером не зарегистрирован.");
-                }
-                else
-                {
-                    StatusBarTextBlock.Text = rider.Surname;
+                    StatusBarTextBlock.Text = string.Concat(rider.RiderId, ": ", rider.Surname);
                     Try1ResultTextBox.Text = TimemachineController.ToPrint(rider.TryFirst);
                     Try2ResultTextBox.Text = TimemachineController.ToPrint(rider.TrySecond);
                     if (rider.TryFirst.Equals(Rider.MAXTIME))
@@ -64,7 +60,7 @@ namespace PlanB.Wpf
             else
             {
                 MessageBox.Show("Стартовый номер должен быть положительным числом от 1 до 99.");
-                StartNumberTextBox.Text = null;
+                StartNumberTextBox.Text = string.Empty;
             }
             
         }
@@ -86,66 +82,56 @@ namespace PlanB.Wpf
             {
                 var timeResult = new TimemachineController(minutes, seconds, hundredths);
                 var penaltyResult = penalty * 100;
-                int.TryParse(StartNumberTextBox.Text, out int number);
-
-
-                    switch (TryAgainList.SelectedIndex)
-                    {
-                        case 1:
-                            if (OutOfRaceCheckBox.IsChecked == false)
-                            {
-                                TryTextBox.Text = "1";
-                                RaceController.ChangeRank(riderController, riderController.Riders.FirstOrDefault(r => r.RiderId.Equals(number)), timeResult.HundredthsValue, penaltyResult, true);
-                            }
-                            break;
-                        case 2:
-                            if (OutOfRaceCheckBox.IsChecked == false)
-                            {
-                                TryTextBox.Text = "2";
-                                RaceController.ChangeRank(riderController, riderController.Riders.FirstOrDefault(r => r.RiderId.Equals(number)), timeResult.HundredthsValue, penaltyResult, false, true);
-                            }
-                            break;
-                        case 3:
-                            if (OutOfRaceCheckBox.IsChecked == false)
-                            {
-                                TryTextBox.Text = "-";
-                                RaceController.ChangeRank(riderController, riderController.Riders.FirstOrDefault(r => r.RiderId.Equals(number)), timeResult.HundredthsValue, penaltyResult, false, false, true);
-                            }
-                            break;
-                        default:
-                            if (OutOfRaceCheckBox.IsChecked == false)
-                            {
-                                RaceController.ChangeRank(riderController, riderController.Riders.FirstOrDefault(r => r.RiderId.Equals(number)), timeResult.HundredthsValue, penaltyResult);
-                                if (TryTextBox.Text.Contains("1"))
-                                {
-                                    var printResult = riderController.Riders.FirstOrDefault(r => r.RiderId.Equals(number)).TryFirst;
-                                    Try1ResultTextBox.Text = TimemachineController.ToPrint(printResult);
-                                }
-                                else
-                                {
-                                    var printResult = riderController.Riders.FirstOrDefault(r => r.RiderId.Equals(number)).TrySecond;
-                                    Try2ResultTextBox.Text = TimemachineController.ToPrint(printResult);
-                                }
-                            }
-                            break;
-                    }
-
-                    if (OutOfRaceCheckBox.IsChecked == true)
-                    {
-                        if (TryTextBox.Text.Contains("1"))
-                        {
-                            riderController.Riders.FirstOrDefault(r => r.RiderId.Equals(number)).TryFirst = 0;
-                        }
-                        else
-                        {
-                            riderController.Riders.FirstOrDefault(r => r.RiderId.Equals(number)).TrySecond = 0;
-                        }
-                    }
                 
-                
-                    
+                switch (TryAgainList.SelectedIndex)
+                {
+                case 1:
+                    if (OutOfRaceCheckBox.IsChecked == false)
+                    {
+                        TryTextBox.Text = "1";
+                        RaceController.ChangeRank(riderController, ThisRider(), timeResult.HundredthsValue, penaltyResult, true);
+                        StatusPrint();
+                        }
+                    break;
+                case 2:
+                    if (OutOfRaceCheckBox.IsChecked == false)
+                    {
+                        TryTextBox.Text = "2";
+                        RaceController.ChangeRank(riderController, ThisRider(), timeResult.HundredthsValue, penaltyResult, false, true);
+                        StatusPrint();
+                        }
+                    break;
+                case 3:
+                    if (OutOfRaceCheckBox.IsChecked == false)
+                    {
+                        TryTextBox.Text = "-";
+                        RaceController.ChangeRank(riderController, ThisRider(), timeResult.HundredthsValue, penaltyResult, false, false, true);
+                        StatusPrint();
+                        }
+                    break;
+                default:
+                    if (OutOfRaceCheckBox.IsChecked == false)
+                    {
+                        RaceController.ChangeRank(riderController, ThisRider(), timeResult.HundredthsValue, penaltyResult);
+                        StatusPrint();
+                    }
+                    break;
+                }
+
+                if (OutOfRaceCheckBox.IsChecked == true)
+                {
+                    if (TryTextBox.Text.Contains("1"))
+                    {
+                        ThisRider().TryFirst = 0;
+                        StatusPrint();
+                    }
+                    else
+                    {
+                        ThisRider().TrySecond = 0;
+                        StatusPrint();
+                    }
+                }      
             }
-
 
             StartNumberTextBox.Text = string.Empty;
             MinutesTextBox.Text = string.Empty;
@@ -153,7 +139,58 @@ namespace PlanB.Wpf
             HundredthsTextBox.Text = string.Empty;
             PenaltyTextBox.Text = string.Empty;
             TryTextBox.Text = string.Empty;
-            //TryAgainList.SelectedIndex = -1;
+            OutOfRaceCheckBox.IsChecked = false;
+            TryAgainList.SelectedIndex = 0;
+            riderController.Save();
+        }
+
+        /// <summary>
+        /// Вывод результата заезда в статусбары первой и второй попытки. 
+        /// На основании номера попытки выбирает значение какой из строк в статусбаре изменить.
+        /// </summary>
+        private void StatusPrint()
+        {
+            int.TryParse(StartNumberTextBox.Text, out int number);
+            if (number <= 0)
+            {
+                throw new ArgumentOutOfRangeException("Rider number have to be positive.", nameof(number));
+            }
+            if (TryTextBox.Text.Contains("1"))
+            {
+                var printResult = ThisRider().TryFirst;
+                Try1ResultTextBox.Text = TimemachineController.ToPrint(printResult);
+            }
+            else if (TryTextBox.Text.Contains("2"))
+            {
+                var printResult = ThisRider().TrySecond;
+                Try2ResultTextBox.Text = TimemachineController.ToPrint(printResult);
+            }
+            else
+            {
+                var printResult1 = ThisRider().TryFirst;
+                Try1ResultTextBox.Text = TimemachineController.ToPrint(printResult1);
+                var printResult2 = ThisRider().TrySecond;
+                Try2ResultTextBox.Text = TimemachineController.ToPrint(printResult2);
+            }
+        }
+
+        /// <summary>
+        /// Возвращает текущего участника.
+        /// </summary>
+        /// <returns> Текущий участник </returns>
+        private Rider ThisRider()
+        {
+            int.TryParse(StartNumberTextBox.Text, out int number);
+            if(number <= 0)
+            {
+                throw new ArgumentOutOfRangeException("Rider's number have to be positive.", nameof(number));
+            }
+            var result = riderController.Riders.FirstOrDefault(r => r.RiderId.Equals(number));
+            if (result == null)
+            {
+                MessageBox.Show("Участник с таким номером не найден.");
+            }
+            return result;
         }
     }
 }

@@ -134,6 +134,7 @@ namespace PlanB.BL.Controller
             }
         }
 
+       
         /// <summary>
         /// Запись результата заезда в свободный слот. Если оба заняты, то никуда.
         /// </summary>
@@ -158,13 +159,16 @@ namespace PlanB.BL.Controller
         /// <param name="total"> Итоговое время заезда. </param>
         private static void IfInfinity(Rider rider, int total)
         {
-            if (rider.TryFirst <= rider.TrySecond && rider.TryFirst > total && total > 0)
+            if(total > 0)
             {
-                rider.TryFirst = total;
-            }
-            else if(rider.TrySecond > total && total > 0)
-            {
-                rider.TrySecond = total;
+                if ((rider.TryFirst >= rider.TrySecond && rider.TrySecond != 0 && rider.TryFirst > total && total > 0) || rider.TryFirst == 0)
+                {
+                    rider.TryFirst = total;
+                }
+                else if ((rider.TrySecond > total && total > 0) || rider.TrySecond == 0)
+                {
+                    rider.TrySecond = total;
+                }
             }
         }
 
