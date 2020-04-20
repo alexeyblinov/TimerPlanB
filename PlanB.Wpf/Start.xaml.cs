@@ -1,19 +1,10 @@
 ﻿using PlanB.BL.Controller;
 using PlanB.BL.Model;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+
 
 namespace PlanB.Wpf
 {
@@ -82,55 +73,34 @@ namespace PlanB.Wpf
             {
                 var timeResult = new TimemachineController(minutes, seconds, hundredths);
                 var penaltyResult = penalty * 100;
+                if (OutOfRaceCheckBox.IsChecked == true)
+                {
+                    timeResult = new TimemachineController(0, 0, 0);
+                    penaltyResult = 0;
+                }
                 
                 switch (TryAgainList.SelectedIndex)
                 {
                 case 1:
-                    if (OutOfRaceCheckBox.IsChecked == false)
-                    {
-                        TryTextBox.Text = "1";
-                        RaceController.ChangeRank(riderController, ThisRider(), timeResult.HundredthsValue, penaltyResult, true);
-                        StatusPrint();
-                        }
+                    TryTextBox.Text = "1";
+                    RaceController.ChangeRank(riderController, ThisRider(), timeResult.HundredthsValue, penaltyResult, true);
+                    StatusPrint();
                     break;
                 case 2:
-                    if (OutOfRaceCheckBox.IsChecked == false)
-                    {
-                        TryTextBox.Text = "2";
-                        RaceController.ChangeRank(riderController, ThisRider(), timeResult.HundredthsValue, penaltyResult, false, true);
-                        StatusPrint();
-                        }
+                    TryTextBox.Text = "2";
+                    RaceController.ChangeRank(riderController, ThisRider(), timeResult.HundredthsValue, penaltyResult, false, true);
+                    StatusPrint();
                     break;
                 case 3:
-                    if (OutOfRaceCheckBox.IsChecked == false)
-                    {
-                        TryTextBox.Text = "-";
-                        RaceController.ChangeRank(riderController, ThisRider(), timeResult.HundredthsValue, penaltyResult, false, false, true);
-                        StatusPrint();
-                        }
+                    TryTextBox.Text = "-";
+                    RaceController.ChangeRank(riderController, ThisRider(), timeResult.HundredthsValue, penaltyResult, false, false, true);
+                    StatusPrint();
                     break;
                 default:
-                    if (OutOfRaceCheckBox.IsChecked == false)
-                    {
-                        RaceController.ChangeRank(riderController, ThisRider(), timeResult.HundredthsValue, penaltyResult);
-                        StatusPrint();
-                    }
+                    RaceController.ChangeRank(riderController, ThisRider(), timeResult.HundredthsValue, penaltyResult);
+                    StatusPrint();
                     break;
                 }
-
-                if (OutOfRaceCheckBox.IsChecked == true)
-                {
-                    if (TryTextBox.Text.Contains("1"))
-                    {
-                        ThisRider().TryFirst = 0;
-                        StatusPrint();
-                    }
-                    else
-                    {
-                        ThisRider().TrySecond = 0;
-                        StatusPrint();
-                    }
-                }      
             }
 
             StartNumberTextBox.Text = string.Empty;
