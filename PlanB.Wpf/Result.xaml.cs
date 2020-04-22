@@ -67,32 +67,113 @@ namespace PlanB.Wpf
                         if(rider.PreviousClassId == "A" || rider.PreviousClassId == "B" || 
                            rider.PreviousClassId == "C1" || rider.PreviousClassId == "C2")
                         {
-
+                            PrintRider(i, rider);
+                            i++;
                         }
-                        PrintRider(i, rider);
-                        i++;
+                    }
+                    if (i == 1)
+                    {
+                        ResultTextBox.Text = "Участники в данном классе отсутствуют.";
                     }
                     break;
                 case 2:
-
+                    foreach (var rider in riderController.Riders)
+                    {
+                        if (rider.PreviousClassId == "C3" || rider.PreviousClassId == "D1")
+                        {
+                            PrintRider(i, rider);
+                            i++;
+                        }
+                    }
+                    if (i == 1)
+                    {
+                        ResultTextBox.Text = "Участники в данном классе отсутствуют.";
+                    }
                     break;
                 case 3:
-
+                    foreach (var rider in riderController.Riders)
+                    {
+                        if (rider.PreviousClassId == "D2" || rider.PreviousClassId == "D3")
+                        {
+                            PrintRider(i, rider);
+                            i++;
+                        }
+                    }
+                    if (i == 1)
+                    {
+                        ResultTextBox.Text = "Участники в данном классе отсутствуют.";
+                    }
                     break;
                 case 4:
-
+                    foreach (var rider in riderController.Riders)
+                    {
+                        if (rider.PreviousClassId == "D4" || rider.PreviousClassId == "N")
+                        {
+                            PrintRider(i, rider);
+                            i++;
+                        }
+                    }
+                    if (i == 1)
+                    {
+                        ResultTextBox.Text = "Участники в данном классе отсутствуют.";
+                    }
                     break;
                 case 5:
-
+                    foreach (var rider in riderController.Riders)
+                    {
+                        if (rider.IsCruiser)
+                        {
+                            PrintRider(i, rider);
+                            i++;
+                        }
+                    }
+                    if (i == 1)
+                    {
+                        ResultTextBox.Text = "Участники в данном классе отсутствуют.";
+                    }
                     break;
                 case 6:
-
+                    foreach (var rider in riderController.Riders)
+                    {
+                        if (rider.Gender.Name == "F")
+                        {
+                            PrintRider(i, rider);
+                            i++;
+                        }
+                    }
+                    if (i == 1)
+                    {
+                        ResultTextBox.Text = "Участники в данном классе отсутствуют.";
+                    }
                     break;
                 case 7:
-
+                    foreach (var rider in riderController.Riders)
+                    {
+                        if (rider.PreviousClassId == "A" || rider.PreviousClassId == "B" ||
+                           rider.PreviousClassId == "C1" || rider.PreviousClassId == "C2" || rider.PreviousClassId == "C3")
+                        {
+                            PrintRider(i, rider);
+                            i++;
+                        }
+                    }
+                    if (i == 1)
+                    {
+                        ResultTextBox.Text = "Участники в данном классе отсутствуют.";
+                    }
                     break;
                 case 8:
-
+                    foreach (var rider in riderController.Riders)
+                    {
+                        if (rider.PreviousClassId == "D1")
+                        {
+                            PrintRider(i, rider);
+                            i++;
+                        }
+                    }
+                    if (i == 1)
+                    {
+                        ResultTextBox.Text = "Участники в данном классе отсутствуют.";
+                    }
                     break;
             }
         }
@@ -105,8 +186,8 @@ namespace PlanB.Wpf
         private void PrintRider(int number, Rider rider)
         {
             var bestResult = TimemachineController.ToPrint(rider.BestResult);
-            var resultLine = string.Concat("Позиция: ", number, " Результат: ", bestResult, " #", rider.RiderId, " ", rider.Surname,
-                " Класс: ", rider.PreviousClassId, " Итоговый класс: ", rider.ResultClassId, Environment.NewLine);
+            var resultLine = string.Concat("Позиция: ", number, "  Результат: ", bestResult, "  #", rider.RiderId, "  ", rider.Surname,
+                "  Класс: ", rider.PreviousClassId, "  Итоговый класс: ", rider.ResultClassId, Environment.NewLine);
             ResultTextBox.Text += resultLine;
         }
     }
