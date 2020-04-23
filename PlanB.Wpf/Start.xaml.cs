@@ -58,15 +58,22 @@ namespace PlanB.Wpf
 
         private void StartButton_Click(object sender, RoutedEventArgs e)
         {
-            
+
             int.TryParse(MinutesTextBox.Text, out int minutes);
             int.TryParse(SecondsTextBox.Text, out int seconds);
             int.TryParse(HundredthsTextBox.Text, out int hundredths);
             int.TryParse(PenaltyTextBox.Text, out int penalty);
+            if (minutes > 59 || seconds > 59)
+            {
+                MessageBox.Show("Значение минут и секунд не могут превышать 59.");
+                ClearFields();
+                return;
+            }
 
             if (minutes < 0 || seconds < 0 || hundredths < 0)
             {
                 MessageBox.Show("Неверное значение одного из полей");
+                ClearFields();
                 return;
             }
             else
@@ -78,31 +85,39 @@ namespace PlanB.Wpf
                     timeResult = new TimemachineController(0, 0, 0);
                     penaltyResult = 0;
                 }
-                
+
                 switch (TryAgainList.SelectedIndex)
                 {
-                case 1:
-                    TryTextBox.Text = "1";
-                    RaceController.ChangeRank(riderController, ThisRider(), timeResult.HundredthsValue, penaltyResult, true);
-                    StatusPrint();
-                    break;
-                case 2:
-                    TryTextBox.Text = "2";
-                    RaceController.ChangeRank(riderController, ThisRider(), timeResult.HundredthsValue, penaltyResult, false, true);
-                    StatusPrint();
-                    break;
-                case 3:
-                    TryTextBox.Text = "-";
-                    RaceController.ChangeRank(riderController, ThisRider(), timeResult.HundredthsValue, penaltyResult, false, false, true);
-                    StatusPrint();
-                    break;
-                default:
-                    RaceController.ChangeRank(riderController, ThisRider(), timeResult.HundredthsValue, penaltyResult);
-                    StatusPrint();
-                    break;
+                    case 1:
+                        TryTextBox.Text = "1";
+                        RaceController.ChangeRank(riderController, ThisRider(), timeResult.HundredthsValue, penaltyResult, true);
+                        StatusPrint();
+                        break;
+                    case 2:
+                        TryTextBox.Text = "2";
+                        RaceController.ChangeRank(riderController, ThisRider(), timeResult.HundredthsValue, penaltyResult, false, true);
+                        StatusPrint();
+                        break;
+                    case 3:
+                        TryTextBox.Text = "-";
+                        RaceController.ChangeRank(riderController, ThisRider(), timeResult.HundredthsValue, penaltyResult, false, false, true);
+                        StatusPrint();
+                        break;
+                    default:
+                        RaceController.ChangeRank(riderController, ThisRider(), timeResult.HundredthsValue, penaltyResult);
+                        StatusPrint();
+                        break;
                 }
             }
 
+            ClearFields();
+        }
+
+        /// <summary>
+        /// Топорно очищает поля страницы. Подругому не умею, так как не знаю WPF, впервые вижу его.
+        /// </summary>
+        private void ClearFields()
+        {
             StartNumberTextBox.Text = string.Empty;
             MinutesTextBox.Text = string.Empty;
             SecondsTextBox.Text = string.Empty;
