@@ -387,5 +387,60 @@ namespace PlanB.BL.Controller
             timeDecimal *= coe;
             return Decimal.ToInt32(Math.Round(timeDecimal, MidpointRounding.AwayFromZero));
         }
+
+
+        private static RiderController SetRankByClass(RiderController riderController)
+        {
+            // перераспределение мест в классе согласно классам награждения, вместо класса соревнования.
+            foreach (var rider in riderController.Riders)
+            {
+                int i = 1, j = 1, k = 1;
+                switch (rider.PreviousClassId)
+                {
+                    case "C3":
+                    case "D1":
+                        rider.Rank = i;
+                        i++;
+                        break;
+
+                    case "D2":
+                    case "D3":
+                        rider.Rank = j;
+                        j++;
+                        break;
+
+                    case "D4":
+                    case "N":
+                        rider.Rank = k;
+                        k++;
+                        break;
+                }
+            }
+
+            // создали список команд. Перебор всeх участников. Если список команд пустой, записать первую команду в список, 
+            // иначе проверить есть ли текущая команда в списке, если нет, дописать.
+            var teams = new List<string>();
+            foreach (var rider in riderController.Riders)
+            {
+                if (teams == null)
+                {
+                    teams.Add(rider.Team);
+                }
+                else
+                {
+                    var newTeam = teams.FirstOrDefault(t => t == rider.Team);
+                    if (newTeam == null)
+                    {
+                        teams.Add(rider.Team);
+                    }
+                }
+            }
+
+
+
+
+
+            return riderController;
+        }
     }
 }

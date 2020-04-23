@@ -175,6 +175,14 @@ namespace PlanB.Wpf
                         ResultTextBox.Text = "Нет данных об участниках в текущем классе.";
                     }
                     break;
+                case 9:
+                    foreach (var rider in riderController.Riders)
+
+                    if (i == 1)
+                    {
+                        ResultTextBox.Text = "Нет данных об участниках в текущем классе.";
+                    }
+                    break;
             }
         }
 

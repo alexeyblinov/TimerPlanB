@@ -30,6 +30,7 @@
                 <ComboBoxItem Content="Девушки"/>
                 <ComboBoxItem Content="Альтернативный Pro (A, B, C)" FontWeight="Normal"/>
                 <ComboBoxItem Content="Альтернативный Спортсмены (D1)" FontWeight="Normal"/>
+                <ComboBoxItem Content="Командный зачёт"/>
             </ComboBox>
             <Button x:Name="ResultButton" Width="350" Height="50" Margin="50,0,0,0" Content="Отобразить" FontSize="30" FontWeight="Bold" Background="LightBlue" HorizontalAlignment="Center" VerticalAlignment="Center" Click="ResultButton_Click" />
         </StackPanel>
