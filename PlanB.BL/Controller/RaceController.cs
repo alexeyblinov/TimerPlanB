@@ -388,59 +388,152 @@ namespace PlanB.BL.Controller
             return Decimal.ToInt32(Math.Round(timeDecimal, MidpointRounding.AwayFromZero));
         }
 
-
-        private static RiderController SetRankByClass(RiderController riderController)
+        /// <summary>
+        /// Установка очков команд в соответствии с занятыми участниками местами в классах награждения, кроме номинаций.
+        /// </summary>
+        /// <param name="riderController"> Контроллер участника. </param>
+        /// <returns> Словарь, где ключ - название команды, значение - количество очков команды. </returns>
+        public static Dictionary<string, int> SetTeamsRank(RiderController riderController, bool alternative = false)
         {
             // перераспределение мест в классе согласно классам награждения, вместо класса соревнования.
-            foreach (var rider in riderController.Riders)
+            int a= 1, i = 1, j = 1, k = 1;
+            var ranks = new int[] { 10, 9, 8, 7, 6, 5, 4, 3, 2, 1 };
+            ClearRanks(riderController);
+            // если нужно считать очки в традиционной системе классов. Да, так коряво. Переделаю потом, как будет время.
+            if(alternative == false)
             {
-                int i = 1, j = 1, k = 1;
-                switch (rider.PreviousClassId)
+                foreach (var rider in riderController.Riders)
                 {
-                    case "C3":
-                    case "D1":
-                        rider.Rank = i;
-                        i++;
-                        break;
+                    switch (rider.PreviousClassId)
+                    {
+                        case "A":
+                        case "B":
+                        case "C1":
+                        case "C2":
+                            rider.Rank = a;
+                            a++;
+                            break;
 
-                    case "D2":
-                    case "D3":
-                        rider.Rank = j;
-                        j++;
-                        break;
+                        case "C3":
+                        case "D1":
+                            rider.Rank = i;
+                            i++;
+                            break;
 
-                    case "D4":
-                    case "N":
-                        rider.Rank = k;
-                        k++;
-                        break;
+                        case "D2":
+                        case "D3":
+                            rider.Rank = j;
+                            j++;
+                            break;
+
+                        case "D4":
+                        case "N":
+                            rider.Rank = k;
+                            k++;
+                            break;
+                    }
+                    if (rider.Rank < 11)
+                    {
+                        rider.Rank = ranks[rider.Rank - 1];
+                    }
+                    else
+                    {
+                        rider.Rank = 0;
+                    }
                 }
             }
-
-            // создали список команд. Перебор всeх участников. Если список команд пустой, записать первую команду в список, 
-            // иначе проверить есть ли текущая команда в списке, если нет, дописать.
-            var teams = new List<string>();
-            foreach (var rider in riderController.Riders)
+            else
             {
-                if (teams == null)
+                foreach (var rider in riderController.Riders)
                 {
-                    teams.Add(rider.Team);
-                }
-                else
-                {
-                    var newTeam = teams.FirstOrDefault(t => t == rider.Team);
-                    if (newTeam == null)
+                    switch (rider.PreviousClassId)
                     {
-                        teams.Add(rider.Team);
+                        case "A":
+                        case "B":
+                        case "C1":
+                        case "C2":
+                        case "C3":
+                            rider.Rank = a;
+                            a++;
+                            break;
+
+                        case "D1":
+                            rider.Rank = i;
+                            i++;
+                            break;
+
+                        case "D2":
+                        case "D3":
+                            rider.Rank = j;
+                            j++;
+                            break;
+
+                        case "D4":
+                        case "N":
+                            rider.Rank = k;
+                            k++;
+                            break;
+                    }
+                    if (rider.Rank < 11)
+                    {
+                        rider.Rank = ranks[rider.Rank - 1];
+                    }
+                    else
+                    {
+                        rider.Rank = 0;
                     }
                 }
             }
 
+            // заполнениее словаря. Ключь - название команды, значение - суммерует места участников в классе награждения.
+            var teams = new Dictionary<string, int>();
+            foreach(var rider in riderController.Riders)
+            {
+                if (!teams.ContainsKey(rider.Team))
+                {
+                    teams.Add(rider.Team, rider.Rank);
+                }
+                else
+                {
+                    teams[rider.Team] += rider.Rank;
+                }
+            }
+            teams = teams.OrderByDescending(t => t.Value).ToDictionary(t => t.Key, t => t.Value);
 
+            return teams;
+        }
 
+        /// <summary>
+        /// Возвращает список зарегистрированных команд.
+        /// </summary>
+        /// <param name="riderController"> Контроллер участника. </param>
+        /// <returns> Список зарегистрированных команд. </returns>
+        public static List<string> GetTeams(RiderController riderController)
+        {
+            var teams = new List<string>();
+            foreach (var rider in riderController.Riders)
+            {
+                if (!teams.Contains(rider.Team))
+                {
+                    teams.Add(rider.Team);
+                }
+            }
+            return teams;
+        }
 
-
-            return riderController;
+        /// <summary>
+        /// Перезапись поля Rank для всех участников перед рассчётом очков для конкретной системы классов 
+        /// (классической или альтернативной).
+        /// </summary>
+        /// <param name="riderController"> Контроллер участника. </param>
+        private static void ClearRanks(RiderController riderController)
+        {
+            var i = 1;
+            foreach(var rider in riderController.Riders)
+            {
+                rider.Rank = i;
+                i++;
+            }
         }
     }
 }

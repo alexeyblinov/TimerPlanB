@@ -147,6 +147,19 @@ namespace PlanB.Wpf
                     }
                     break;
                 case 7:
+                    var teamsResult = RaceController.SetTeamsRank(riderController);
+                    foreach (var team in teamsResult)
+                    {
+                        var resultLine = string.Concat("Позиция: ", i, "  Команда: ", team.Key, ", количество очков: ", team.Value, Environment.NewLine);
+                        ResultTextBox.Text += resultLine;
+                        i++;
+                    }
+                    if (i == 1)
+                    {
+                        ResultTextBox.Text = "Нет данных об участниках в текущем классе.";
+                    }
+                    break;
+                case 8:
                     foreach (var rider in riderController.Riders)
                     {
                         if (rider.PreviousClassId == "A" || rider.PreviousClassId == "B" ||
@@ -161,7 +174,7 @@ namespace PlanB.Wpf
                         ResultTextBox.Text = "Нет данных об участниках в текущем классе.";
                     }
                     break;
-                case 8:
+                case 9:
                     foreach (var rider in riderController.Riders)
                     {
                         if (rider.PreviousClassId == "D1")
@@ -175,9 +188,14 @@ namespace PlanB.Wpf
                         ResultTextBox.Text = "Нет данных об участниках в текущем классе.";
                     }
                     break;
-                case 9:
-                    foreach (var rider in riderController.Riders)
-
+                case 10:
+                    teamsResult = RaceController.SetTeamsRank(riderController, true);
+                    foreach (var team in teamsResult)
+                    {
+                        var resultLine = string.Concat("Позиция: ", i, "  Команда: ", team.Key, ", количество очков: ", team.Value, Environment.NewLine);
+                        ResultTextBox.Text += resultLine;
+                        i++;
+                    }
                     if (i == 1)
                     {
                         ResultTextBox.Text = "Нет данных об участниках в текущем классе.";
@@ -194,8 +212,8 @@ namespace PlanB.Wpf
         private void PrintRider(int number, Rider rider)
         {
             var bestResult = TimemachineController.ToPrint(rider.BestResult);
-            var resultLine = string.Concat("Позиция: ", number, " Результат: ", bestResult, " #", rider.RiderId, " ", rider.Surname,
-                " Класс: ", rider.PreviousClassId, " Итоговый класс: ", rider.ResultClassId, Environment.NewLine);
+            var resultLine = string.Concat("Позиция: ", number, "  Результат: ", bestResult, "  #", rider.RiderId, "  ", rider.Surname,
+                "  Класс: ", rider.PreviousClassId, "  Итоговый класс: ", rider.ResultClassId, Environment.NewLine);
             ResultTextBox.Text += resultLine;
         }
     }

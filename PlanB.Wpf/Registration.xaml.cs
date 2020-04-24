@@ -88,6 +88,14 @@ namespace PlanB.Wpf
 
         private void TeamTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
+            if (string.IsNullOrEmpty(TeamStatusTextBlock.Text))
+            {
+                foreach (var team in RaceController.GetTeams(riderController))
+                {
+                    TeamStatusTextBlock.Text += team + " ";
+                }
+            }
+
             if (!string.IsNullOrWhiteSpace(StartNumberTextBox.Text) &&
                 !string.IsNullOrWhiteSpace(NameTextBox.Text) &&
                 !string.IsNullOrWhiteSpace(SurnameTextBox.Text) &&
@@ -117,6 +125,7 @@ namespace PlanB.Wpf
             SurnameTextBox.Text = null;
             LocationTextBox.Text = null;
             TeamTextBox.Text = null;
+            TeamStatusTextBlock.Text = string.Empty;
         }
 
         private void StatusBarText(RiderController riderController)

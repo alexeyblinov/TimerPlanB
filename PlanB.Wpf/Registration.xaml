@@ -15,14 +15,14 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="300" />
+            <ColumnDefinition Width="300"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <StackPanel Grid.Row="0" Grid.ColumnSpan="2"  Orientation="Vertical" Margin="0,50,0,0"  HorizontalAlignment="Center" VerticalAlignment="Center">
+        <StackPanel Grid.Row="0" Grid.ColumnSpan="2"  Orientation="Vertical" Margin="0,40,0,0"  HorizontalAlignment="Center" VerticalAlignment="Center">
             <TextBlock Text="РЕГИСТРАЦИЯ УЧАСТНИКОВ" VerticalAlignment="Top" FontSize="20" HorizontalAlignment="Right" FontWeight="Bold"/>
         </StackPanel>
         
-        <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Vertical" Margin="30,20,0,0"  Width="270" HorizontalAlignment="Left" VerticalAlignment="Top">
+        <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Vertical" Margin="30,20,0,0"  Width="270" HorizontalAlignment="Center" VerticalAlignment="Top">
             <TextBlock Text="Стартовый номер" VerticalAlignment="Top" FontSize="20" HorizontalAlignment="Right" Margin="0,10,0,10" FontWeight="Bold"/>
             <TextBlock Text="Класс" VerticalAlignment="Top" FontSize="20" HorizontalAlignment="Right" Margin="0,10,0,10" FontWeight="Bold"/>
             <TextBlock Text="Имя" VerticalAlignment="Top" FontSize="20" HorizontalAlignment="Right" Margin="0,10,0,10" FontWeight="Bold"/>
@@ -58,12 +58,13 @@
             </ComboBox>
             <TextBox x:Name="LocationTextBox" Height="30" Margin="0, 17, 0, 0" Background="LightBlue"/>
             <TextBox x:Name="TeamTextBox" Height="30" Margin="0, 17, 0, 0" Background="LightBlue" TextChanged="TeamTextBox_TextChanged"/>
-            
+            <TextBlock x:Name="TeamStatusTextBlock" Text="" Width="350" VerticalAlignment="Center" HorizontalAlignment="Center" Background="White" TextAlignment="Center"/>
+
         </StackPanel>
-        <StackPanel Grid.Row="2" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <StackPanel Grid.Row="2" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,10,0,0">
             <CheckBox x:Name="IsCruiserCheckBox" Margin="0, 10, 0, 10" IsChecked="False" Height="30" Content="Круизёр" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" />
             <Button x:Name="RegButton" Width="400" Height="50" Content="Регистрация" FontSize="30" FontWeight="Bold" Background="LightBlue" IsEnabled="False" Click="RegButton_Click"/>
-            <TextBlock x:Name="StatusTextBlock" Text="" Width="600" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,20,0,0" Background="White" TextAlignment="Center"/>
+            <TextBlock x:Name="StatusTextBlock" IsEnabled="False" Text="" Width="600" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,20,0,0" Background="White" TextAlignment="Center"/>
         </StackPanel>
     </Grid>
 </Page>
