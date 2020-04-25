@@ -16,7 +16,7 @@
                 </MenuItem.Header>
             </MenuItem>
             <MenuItem x:Name="Registration" Header="Регистрация" Click="MenuItemReg_Click"> </MenuItem>
-            <MenuItem x:Name="Settings" Header="Настройки" Click="MenuItemSettings_Click"> </MenuItem>
+            <!--<MenuItem x:Name="Settings" Header="Настройки" Click="MenuItemSettings_Click"> </MenuItem>-->
             <MenuItem x:Name="Result" Header="Результаты" Click="MenuItemResult_Click"> </MenuItem>
         </Menu>
 

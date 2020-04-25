@@ -5,10 +5,10 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:PlanB.Wpf"
       mc:Ignorable="d" 
-      d:DesignHeight="574" d:DesignWidth="800"
+      d:DesignHeight="600" d:DesignWidth="800"
       Title="Registration">
 
-    <Grid RenderTransformOrigin="0.5,0.5">
+    <Grid RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Center">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -37,7 +37,7 @@
 
             <TextBox x:Name="StartNumberTextBox" MaxLength="3" Height="30" TextChanged="StartNumberTextBox_TextChanged" Background="LightBlue"/>
 
-            <ComboBox Name="ClassList" Height="30" VerticalAlignment="Top" Margin="0, 17, 0, 0" SelectionChanged="ClassList_SelectionChanged">
+            <ComboBox Name="ClassList" Height="30" VerticalAlignment="Top" Margin="0, 17, 0, 0" Background="LightBlue" SelectionChanged="ClassList_SelectionChanged">
                 <ComboBoxItem Content="A" />
                 <ComboBoxItem Content="B" />
                 <ComboBoxItem Content="C1" />
@@ -52,7 +52,7 @@
 
             <TextBox x:Name="NameTextBox" Height="30" Margin="0, 17, 0, 0" Background="LightBlue"/>
             <TextBox x:Name="SurnameTextBox" Height="30" Margin="0, 17, 0, 0" Background="LightBlue"/>
-            <ComboBox Name="GenderList" Height="30" VerticalAlignment="Top" Margin="0,17,0,0" SelectionChanged="GenderList_SelectionChanged">
+            <ComboBox Name="GenderList" Height="30" VerticalAlignment="Top" Margin="0,17,0,0" Background="LightBlue" SelectionChanged="GenderList_SelectionChanged">
                 <ComboBoxItem Content="М" Tag="M"/>
                 <ComboBoxItem Content="Ж" Tag="F"/>
             </ComboBox>

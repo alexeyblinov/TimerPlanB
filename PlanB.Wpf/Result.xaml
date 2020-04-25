@@ -5,7 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:PlanB.Wpf"
       mc:Ignorable="d" 
-      d:DesignHeight="574" d:DesignWidth="800"
+      d:DesignHeight="600" d:DesignWidth="800"
       Title="Result">
 
     <Grid>
@@ -20,7 +20,7 @@
         </StackPanel>
 
         <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,20,0,0"  Width="750" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <ComboBox Name="ClassesList" Height="50" Width="350" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" FontWeight="Bold">
+            <ComboBox Name="ClassesList" Height="50" Width="350" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" FontWeight="Bold" Background="LightBlue">
                 <ComboBoxItem Content="Выберите класс или номинацию"/>
                 <ComboBoxItem Content="Pro (A, B, C1, C2)"/>
                 <ComboBoxItem Content="Cпортсмены (С3, D1)"/>
@@ -39,6 +39,7 @@
         
         <StackPanel Grid.Row="2" Orientation="Vertical" Margin="0,20,0,0"  HorizontalAlignment="Center" VerticalAlignment="Center">
             <TextBox x:Name="ResultTextBox" IsEnabled="False" TextWrapping="Wrap" VerticalScrollBarVisibility="Visible" AcceptsReturn="True" Width="750" Height="380" VerticalAlignment="Top" FontSize="14" HorizontalAlignment="Center"/>
+            <Button x:Name="PrintButton" Width="20" Height="20" Content="P" FontSize="10"  HorizontalAlignment="Right" VerticalAlignment="Center" Background="White"/>
 
         </StackPanel>
     </Grid>

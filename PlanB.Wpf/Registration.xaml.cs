@@ -20,6 +20,7 @@ namespace PlanB.Wpf
         public Registration()
         {
             InitializeComponent();
+            riderController.Load();
         }
                 
         private void ClassList_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -114,6 +115,9 @@ namespace PlanB.Wpf
             }
         }
 
+        /// <summary>
+        /// Очистка полей. Ничего лучше не придумал. Найду время, почитаю, переделаю.
+        /// </summary>
         private void ClearRegistrationPage()
         {
             InitializeComponent();
@@ -126,6 +130,7 @@ namespace PlanB.Wpf
             LocationTextBox.Text = null;
             TeamTextBox.Text = null;
             TeamStatusTextBlock.Text = string.Empty;
+            IsCruiserCheckBox.IsChecked = false;
         }
 
         private void StatusBarText(RiderController riderController)

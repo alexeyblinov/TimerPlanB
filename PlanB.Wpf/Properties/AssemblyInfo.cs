@@ -10,7 +10,7 @@ using System.Windows;
 [assembly: AssemblyTitle("PlanB.Wpf")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Moto Gymkhana Samara")]
 [assembly: AssemblyProduct("PlanB.Wpf")]
 [assembly: AssemblyCopyright("Copyright ©  2020")]
 [assembly: AssemblyTrademark("")]

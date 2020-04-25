@@ -37,10 +37,12 @@ namespace PlanB.Wpf
             Main.Content = new Registration();
         }
 
+        /*
         private void MenuItemSettings_Click(object sender, RoutedEventArgs e)
         {
             Main.Content = new Settings();
         }
+        */
 
         private void MenuItemResult_Click(object sender, RoutedEventArgs e)
         {

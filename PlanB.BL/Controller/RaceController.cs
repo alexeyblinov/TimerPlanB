@@ -213,7 +213,7 @@ namespace PlanB.BL.Controller
         /// <param name="riderController"> Контроллеp участника. </param>
         /// <param name="bestClass"> Класс соревнования. </param>
         /// <param name="bestTime"> Время лучшего участника в классе соревнования. </param>
-        public static void SetNewClasses(RiderController riderController, string bestClass, int bestTime)
+        public static RiderController SetNewClasses(RiderController riderController, string bestClass, int bestTime)
         {
             if (riderController is null)
             {
@@ -228,6 +228,15 @@ namespace PlanB.BL.Controller
             if (bestTime <= 0)
             {
                 throw new ArgumentNullException("Best time have to be positive.", nameof(bestTime));
+            }
+
+            // Если кто-то из зарегистрированных участников не проехал ни одной попытки, удалить их из списка.
+            for(var i = 0; i < riderController.Riders.Count; i++)
+            {
+                if(riderController.Riders[i].TryFirst == Rider.MAXTIME && riderController.Riders[i].TrySecond == Rider.MAXTIME)
+                {
+                    riderController.Riders.RemoveAt(i);
+                }
             }
 
             var coefficients = new Dictionary<string, decimal>(9)
@@ -298,6 +307,7 @@ namespace PlanB.BL.Controller
                 coeMax = coeNew;
             }
             riderController.Save();
+            return riderController;
         }
 
 
@@ -489,13 +499,23 @@ namespace PlanB.BL.Controller
             var teams = new Dictionary<string, int>();
             foreach(var rider in riderController.Riders)
             {
-                if (!teams.ContainsKey(rider.Team))
+                if(rider.Team != null)
                 {
-                    teams.Add(rider.Team, rider.Rank);
-                }
-                else
-                {
-                    teams[rider.Team] += rider.Rank;
+                    if (teams.Count == 0)
+                    {
+                        teams.Add(rider.Team, rider.Rank);
+                    }
+                    else
+                    {
+                        if (!teams.ContainsKey(rider.Team))
+                        {
+                            teams.Add(rider.Team, rider.Rank);
+                        }
+                        else
+                        {
+                            teams[rider.Team] += rider.Rank;
+                        }
+                    }
                 }
             }
             teams = teams.OrderByDescending(t => t.Value).ToDictionary(t => t.Key, t => t.Value);
