@@ -38,8 +38,14 @@
         </StackPanel>
         
         <StackPanel Grid.Row="2" Orientation="Vertical" Margin="0,20,0,0"  HorizontalAlignment="Center" VerticalAlignment="Center">
-            <TextBox x:Name="ResultTextBox" IsEnabled="False" TextWrapping="Wrap" VerticalScrollBarVisibility="Visible" AcceptsReturn="True" Width="750" Height="380" VerticalAlignment="Top" FontSize="14" HorizontalAlignment="Center"/>
-            <Button x:Name="PrintButton" Width="20" Height="20" Content="P" FontSize="10"  HorizontalAlignment="Right" VerticalAlignment="Center" Background="White"/>
+            <RichTextBox x:Name="ResultTextBox" IsReadOnly="True" VerticalScrollBarVisibility="Visible" AcceptsReturn="True" Width="750" Height="380" VerticalAlignment="Top" FontSize="14" HorizontalAlignment="Center" >
+                <FlowDocument>
+                    <Paragraph>
+
+                    </Paragraph>
+                </FlowDocument>
+            </RichTextBox>
+            <Button x:Name="PrintButton" Width="20" Height="20" Content="P" FontSize="10"  HorizontalAlignment="Right" VerticalAlignment="Center" Background="White" Click="PrintButton_Click"/>
 
         </StackPanel>
     </Grid>

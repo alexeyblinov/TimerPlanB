@@ -30,7 +30,7 @@ namespace PlanB.Wpf
             InitializeComponent();
             ClassesList.SelectedIndex = 0;
             riderController.Load();
-            ResultTextBox.Text = string.Empty;
+            ResultTextBox.Document.Blocks.Clear();
 
             RaceController.SetNewPlaces(riderController);
 
@@ -51,7 +51,7 @@ namespace PlanB.Wpf
         private void ResultButton_Click(object sender, RoutedEventArgs e)
         {
             var i = 1;
-            ResultTextBox.Text = string.Empty;
+            ResultTextBox.Document.Blocks.Clear();
             switch (ClassesList.SelectedIndex)
             {
                 case 0:
@@ -73,7 +73,7 @@ namespace PlanB.Wpf
                     }
                     if (i == 1)
                     {
-                        ResultTextBox.Text = "Нет данных об участниках в текущем классе.";
+                        ResultTextBox.AppendText("Нет данных об участниках в текущем классе.");
                     }
                     break;
                 case 2:
@@ -87,7 +87,7 @@ namespace PlanB.Wpf
                     }
                     if (i == 1)
                     {
-                        ResultTextBox.Text = "Нет данных об участниках в текущем классе.";
+                        ResultTextBox.AppendText("Нет данных об участниках в текущем классе.");
                     }
                     break;
                 case 3:
@@ -101,7 +101,7 @@ namespace PlanB.Wpf
                     }
                     if (i == 1)
                     {
-                        ResultTextBox.Text = "Нет данных об участниках в текущем классе.";
+                        ResultTextBox.AppendText("Нет данных об участниках в текущем классе.");
                     }
                     break;
                 case 4:
@@ -115,7 +115,7 @@ namespace PlanB.Wpf
                     }
                     if (i == 1)
                     {
-                        ResultTextBox.Text = "Нет данных об участниках в текущем классе.";
+                        ResultTextBox.AppendText("Нет данных об участниках в текущем классе.");
                     }
                     break;
                 case 5:
@@ -129,7 +129,7 @@ namespace PlanB.Wpf
                     }
                     if (i == 1)
                     {
-                        ResultTextBox.Text = "Нет данных об участниках в текущем классе.";
+                        ResultTextBox.AppendText("Нет данных об участниках в текущем классе.");
                     }
                     break;
                 case 6:
@@ -143,7 +143,7 @@ namespace PlanB.Wpf
                     }
                     if (i == 1)
                     {
-                        ResultTextBox.Text = "Нет данных об участниках в текущем классе.";
+                        ResultTextBox.AppendText("Нет данных об участниках в текущем классе.");
                     }
                     break;
                 case 7:
@@ -163,8 +163,9 @@ namespace PlanB.Wpf
                             i = position;
                             checkOverlap = true;
                         }
-                        var resultLine = string.Concat("Позиция: ", i, "  Команда: ", team.Key, ", количество очков: ", team.Value, Environment.NewLine);
-                        ResultTextBox.Text += resultLine;
+                        ResultTextBox.AppendText(Environment.NewLine);
+                        var resultLine = string.Concat("Позиция: ", i, "  Команда: ", team.Key, ", количество очков: ", team.Value);
+                        ResultTextBox.AppendText(resultLine);
                         overlap = team.Value;
                         position = i;
                         if(checkOverlap == true)
@@ -175,7 +176,7 @@ namespace PlanB.Wpf
                     }
                     if (i == 1)
                     {
-                        ResultTextBox.Text = "Нет данных об участниках в текущем классе.";
+                        ResultTextBox.AppendText("Нет данных об участниках в текущем классе.");
                     }
                     break;
                 case 8:
@@ -190,7 +191,7 @@ namespace PlanB.Wpf
                     }
                     if (i == 1)
                     {
-                        ResultTextBox.Text = "Нет данных об участниках в текущем классе.";
+                        ResultTextBox.AppendText("Нет данных об участниках в текущем классе.");
                     }
                     break;
                 case 9:
@@ -204,7 +205,7 @@ namespace PlanB.Wpf
                     }
                     if (i == 1)
                     {
-                        ResultTextBox.Text = "Нет данных об участниках в текущем классе.";
+                        ResultTextBox.AppendText("Нет данных об участниках в текущем классе.");
                     }
                     break;
                 case 10:
@@ -219,8 +220,9 @@ namespace PlanB.Wpf
                             i = position;
                             checkOverlap = true;
                         }
-                        var resultLine = string.Concat("Позиция: ", i, "  Команда: ", team.Key, ", количество очков: ", team.Value, Environment.NewLine);
-                        ResultTextBox.Text += resultLine;
+                        ResultTextBox.AppendText(Environment.NewLine);
+                        var resultLine = string.Concat("Позиция: ", i, "  Команда: ", team.Key, ", количество очков: ", team.Value);
+                        ResultTextBox.AppendText(resultLine);
                         overlap = team.Value;
                         position = i;
                         if (checkOverlap == true)
@@ -231,7 +233,7 @@ namespace PlanB.Wpf
                     }
                     if (i == 1)
                     {
-                        ResultTextBox.Text = "Нет данных об участниках в текущем классе.";
+                        ResultTextBox.AppendText("Нет данных об участниках в текущем классе.");
                     }
                     break;
             }
@@ -244,10 +246,24 @@ namespace PlanB.Wpf
         /// <param name="rider"> Участник, данные которого нужно вывести. </param>
         private void PrintRider(int number, Rider rider)
         {
+            ResultTextBox.AppendText(Environment.NewLine);
             var bestResult = TimemachineController.ToPrint(rider.BestResult);
             var resultLine = string.Concat("Позиция: ", number, "  Результат: ", bestResult, "  #", rider.RiderId, "  ", rider.Surname,
-                "  Класс: ", rider.PreviousClassId, "  Итоговый класс: ", rider.ResultClassId, Environment.NewLine);
-            ResultTextBox.Text += resultLine;
+                "  Класс: ", rider.PreviousClassId, "  Итоговый класс: ", rider.ResultClassId);
+            ResultTextBox.AppendText(resultLine);
+        }
+
+        private void PrintButton_Click(object sender, RoutedEventArgs e)
+        {
+            PrintDialog pd = new PrintDialog();
+            if ((pd.ShowDialog() == true))
+            {
+                ResultTextBox.Document.PagePadding = new Thickness(50);
+                ResultTextBox.Document.ColumnGap = 0;
+                ResultTextBox.Document.ColumnWidth = pd.PrintableAreaWidth;
+                pd.PrintDocument((((IDocumentPaginatorSource)ResultTextBox.Document).DocumentPaginator), "Печать результатов соревнования.");
+                ResultTextBox.Document.PagePadding = new Thickness(0);
+            }
         }
     }
 }
