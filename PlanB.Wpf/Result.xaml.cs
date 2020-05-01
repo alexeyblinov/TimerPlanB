@@ -55,11 +55,12 @@ namespace PlanB.Wpf
             switch (ClassesList.SelectedIndex)
             {
                 case 0:
-                    foreach(var rider in riderController.Riders)
-                    {
-                        PrintRider(i, rider);
-                        i++;
-                    }
+                    ResultTextBox.Document = new FlowDocument(RaceController.MakeTable(riderController.Riders));
+                    //foreach(var rider in riderController.Riders)
+                    //{
+                    //    PrintRider(i, rider);
+                    //    i++;
+                    //}
                     break;
                 case 1:
                     foreach (var rider in riderController.Riders)

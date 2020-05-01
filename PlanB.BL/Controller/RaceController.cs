@@ -1,7 +1,10 @@
 ﻿using PlanB.BL.Model;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Windows;
+using System.Windows.Documents;
 
 namespace PlanB.BL.Controller
 {
@@ -554,6 +557,72 @@ namespace PlanB.BL.Controller
                 rider.Rank = i;
                 i++;
             }
+        }
+
+        public static Table MakeTable(List<Rider> riders)
+        {
+            var rows = riders.Count;
+            var cols = 6;
+            string[,] matrix = new string[rows, cols];
+
+            for (int i = 0; i < rows; i++)
+            {
+                for (int j = 0; j < cols; j++)
+                {
+                    // понятия не имею как сделать проще. Но я записался на халявный интернет семинар, где меня обещали научить.
+                    // eсли после 15 мая я не исправил этот текст ниже, - значит не научили.
+                    switch (j)
+                    {
+                        case 0:
+                            matrix[i, j] = "Позиция: " + riders[i].Rank;
+                            break;
+                        case 1:
+                            matrix[i, j] = "Результат: " + TimemachineController.ToPrint(riders[i].BestResult);
+                            break;
+                        case 2:
+                            matrix[i, j] = "#" + riders[i].RiderId;
+                            break;
+                        case 3:
+                            matrix[i, j] = riders[i].Surname;
+                            break;
+                        case 4:
+                            matrix[i, j] = "Класс: " + riders[i].PreviousClassId;
+                            break;
+                        case 5:
+                            matrix[i, j] = "Итоговый класс: " + riders[i].ResultClassId;
+                            break;
+                    }
+                }
+            }
+
+            var table = new Table();
+            for (int i = 0; i < cols; i++)
+            {
+                table.Columns.Add(new TableColumn());
+            }
+            var group = new TableRowGroup();
+            table.RowGroups.Add(group);
+            for (int i = 0; i < rows; i++)
+            {
+                var row = new TableRow();
+                for (int j = 0; j < cols; j++)
+                {
+                    var background = System.Windows.Media.Brushes.White;
+                    if (i % 2 == 0)
+                    {
+                        background = System.Windows.Media.Brushes.LightGray;
+                    }
+                    var cell = new TableCell(new Paragraph(new Run(matrix[i, j])))
+                    {
+                        Background = background,
+                        IsEnabled = true,
+                        TextAlignment = TextAlignment.Center
+                    };
+                    row.Cells.Add(cell);
+                }
+                group.Rows.Add(row);
+            }
+            return table;
         }
     }
 }
