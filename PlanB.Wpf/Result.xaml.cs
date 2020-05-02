@@ -56,11 +56,6 @@ namespace PlanB.Wpf
             {
                 case 0:
                     ResultTextBox.Document = new FlowDocument(RaceController.MakeTable(riderController.Riders));
-                    //foreach(var rider in riderController.Riders)
-                    //{
-                    //    PrintRider(i, rider);
-                    //    i++;
-                    //}
                     break;
                 case 1:
                     foreach (var rider in riderController.Riders)

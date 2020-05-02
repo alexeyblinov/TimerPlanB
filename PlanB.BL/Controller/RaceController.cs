@@ -574,10 +574,10 @@ namespace PlanB.BL.Controller
                     switch (j)
                     {
                         case 0:
-                            matrix[i, j] = "Позиция: " + riders[i].Rank;
+                            matrix[i, j] = riders[i].Rank.ToString();
                             break;
                         case 1:
-                            matrix[i, j] = "Результат: " + TimemachineController.ToPrint(riders[i].BestResult);
+                            matrix[i, j] = TimemachineController.ToPrint(riders[i].BestResult);
                             break;
                         case 2:
                             matrix[i, j] = "#" + riders[i].RiderId;
@@ -589,7 +589,7 @@ namespace PlanB.BL.Controller
                             matrix[i, j] = "Класс: " + riders[i].PreviousClassId;
                             break;
                         case 5:
-                            matrix[i, j] = "Итоговый класс: " + riders[i].ResultClassId;
+                            matrix[i, j] = "Kласс: " + riders[i].ResultClassId;
                             break;
                     }
                 }

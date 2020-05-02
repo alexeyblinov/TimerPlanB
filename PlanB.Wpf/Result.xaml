@@ -38,6 +38,7 @@
         </StackPanel>
         
         <StackPanel Grid.Row="2" Orientation="Vertical" Margin="0,20,0,0"  HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock Text="Позиция                Лучшее время       Стартовый номер             Фамилия                    Класс                  Итоговый класс" VerticalAlignment="Top" FontSize="12" HorizontalAlignment="Center" FontWeight="Bold"/>
             <RichTextBox x:Name="ResultTextBox" IsReadOnly="True" VerticalScrollBarVisibility="Visible" AcceptsReturn="True" Width="750" Height="380" VerticalAlignment="Top" FontSize="14" HorizontalAlignment="Center" >
                 <FlowDocument>
                     <Paragraph>
