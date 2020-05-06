@@ -9,18 +9,79 @@ namespace PlanB.BL.Model
         /// Максимально возможное время заезда.
         /// </summary>
         public const int MAXTIME = 359999;
+
+        private int riderId;
+        private string name;
+        private string surname;
+        private string location;
+        private string team;
+        private int tryFirst;
+        private int trySecond;
+        private int bestResult;
+        private int rank;
+        private string previousClassId;
+        private string resultClassId;
+
         /// <summary>
         /// Стартовый номер участника.
         /// </summary>
-        public int RiderId { get; set; }
+        public int RiderId { 
+            get
+            {
+                return riderId;
+            }
+            set
+            {
+                if(value <= 0)
+                {
+                    throw new ArgumentException("Стартовый номер должен быть натуральным числом.", nameof(riderId));
+                }
+                else
+                {
+                    riderId = value;
+                }
+            }
+        }
         /// <summary>
         /// Имя участника.
         /// </summary>
-        public string Name { get; set; }
+        public string Name {
+            get
+            {
+                return name;
+            }
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                {
+                    throw new ArgumentException("Имя не указано.", nameof(name));
+                }
+                else
+                {
+                    name = value;
+                }
+            }
+        }
         /// <summary>
         /// Фамилия участника.
         /// </summary>
-        public string Surname { get; set; }
+        public string Surname {
+            get
+            {
+                return surname;
+            }
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                {
+                    throw new ArgumentException("Фамилия не указана.", nameof(surname));
+                }
+                else
+                {
+                    surname = value;
+                }
+            }
+        }
         /// <summary>
         /// Половая принадлежность. Пока реализована толька традиционная.
         /// </summary>
@@ -28,11 +89,43 @@ namespace PlanB.BL.Model
         /// <summary>
         /// Город, который представляет участник.
         /// </summary>
-        public string Location { get; set; }
+        public string Location {
+            get
+            {
+                return location;
+            }
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                {
+                    throw new ArgumentException("Населённый пункт не указан.", nameof(location));
+                }
+                else
+                {
+                    location = value;
+                }
+            }
+        }
         /// <summary>
         /// Команда, за которую выступает участник.
         /// </summary>
-        public string Team { get; set; }
+        public string Team {
+            get
+            {
+                return team;
+            }
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                {
+                    throw new ArgumentException("Команда не указана.", nameof(team));
+                }
+                else
+                {
+                    team = value;
+                }
+            }
+        }
         /// <summary>
         /// Является ли транспортное средство круизёром.
         /// </summary>
@@ -40,27 +133,128 @@ namespace PlanB.BL.Model
         /// <summary>
         /// Результат первого заезда.
         /// </summary>
-        public int TryFirst { get; set; }
+        public int TryFirst {
+            get
+            {
+                return tryFirst;
+            }
+            set
+            {
+                if (value < 0)
+                {
+                    throw new ArgumentException("Значение времени 1 попытки не может быть отрицательным.", nameof(tryFirst));
+                }
+                else
+                {
+                    tryFirst = value;
+                }
+            }
+        }
         /// <summary>
         /// Результат второго заезда.
         /// </summary>
-        public int TrySecond { get; set; }
+        public int TrySecond
+        {
+            get
+            {
+                return trySecond;
+            }
+            set
+            {
+                if (value < 0)
+                {
+                    throw new ArgumentException("Значение времени 2 попытки не может быть отрицательным.", nameof(trySecond));
+                }
+                else
+                {
+                    trySecond = value;
+                }
+            }
+        }
         /// <summary>
         /// Лучшее время из двух попыток.
         /// </summary>
-        public int BestResult { get; set; }
+        public int BestResult
+        {
+            get
+            {
+                return bestResult;
+            }
+            set
+            {
+                if (value < 0)
+                {
+                    throw new ArgumentException("Значение времени 1 попытки не может быть отрицательным.", nameof(bestResult));
+                }
+                else
+                {
+                    bestResult = value;
+                }
+            }
+        }
         /// <summary>
         /// Место участника в классе.
         /// </summary>
-        public int Rank { get; set; }
+        public int Rank
+        {
+            get
+            {
+                return rank;
+            }
+            set
+            {
+                if (value < 0)
+                {
+                    throw new ArgumentException("Номер позиции должен быть натуральным числом.", nameof(rank));
+                }
+                else
+                {
+                    rank = value;
+                }
+            }
+        }
         /// <summary>
         /// Класс участника перед соревнованиями.
         /// </summary>
-        public string PreviousClassId { get; set; }
+        public string PreviousClassId
+        {
+            get
+            {
+                return previousClassId;
+            }
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                {
+                    throw new ArgumentException("Идентификатор класса не определён.", nameof(previousClassId));
+                }
+                else
+                {
+                    previousClassId = value;
+                }
+            }
+        }
         /// <summary>
         /// Класс участника по итогам соревнования.
         /// </summary>
-        public string ResultClassId { get; set; }
+        public string ResultClassId
+        {
+            get
+            {
+                return resultClassId;
+            }
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                {
+                    throw new ArgumentException("Идентификатор класса не определён.", nameof(resultClassId));
+                }
+                else
+                {
+                    resultClassId = value;
+                }
+            }
+        }
 
         /// <summary>
         /// Конструктор для создания нового участника.
@@ -78,36 +272,6 @@ namespace PlanB.BL.Model
                      string location, 
                      string team)
         {
-            if (riderId <= 0)
-            {
-                throw new ArgumentOutOfRangeException("ID must be from 1 to 99.", nameof(riderId));
-            }
-
-            if (string.IsNullOrWhiteSpace(name))
-            {
-                throw new ArgumentException("Name is not exist.", nameof(name));
-            }
-
-            if (string.IsNullOrWhiteSpace(surname))
-            {
-                throw new ArgumentException("Surname is not exist.", nameof(surname));
-            }
-
-            if (gender is null)
-            {
-                throw new ArgumentNullException("You should use M or F.", nameof(gender));
-            }
-
-            if (string.IsNullOrWhiteSpace(location))
-            {
-                throw new ArgumentException("Hometown is not exist.", nameof(location));
-            }
-
-            if (string.IsNullOrWhiteSpace(team))
-            {
-                throw new ArgumentException("Team is not exist.", nameof(team));
-            }
-
             RiderId = riderId;
             Name = name;
             Surname = surname;
@@ -122,10 +286,6 @@ namespace PlanB.BL.Model
         /// <param name="riderId"></param>
         public Rider(int riderId)
         {
-            if (riderId <= 0)
-            {
-                throw new ArgumentOutOfRangeException("ID cannot be negative or 0 (Recommended option 1-99).", nameof(riderId));
-            }
             RiderId = riderId;
         }
 
