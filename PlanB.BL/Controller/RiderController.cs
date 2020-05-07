@@ -9,7 +9,7 @@ namespace PlanB.BL.Controller
 {
     [Serializable]
     /// <summary>
-    /// Rider controller.
+    /// Контроллер участника.
     /// </summary>
     public class RiderController
         
@@ -25,7 +25,7 @@ namespace PlanB.BL.Controller
         public Rider CurrentRider { get; }
 
         /// <summary>
-        /// Конструктор без параметров для контроллера участника (c).
+        /// Конструктор без параметров для контроллера участника.
         /// </summary>
         public RiderController() { }
 
@@ -36,11 +36,14 @@ namespace PlanB.BL.Controller
         /// <param name="classId"> Класс участника </param>
         public RiderController(int startNumber, string classId)
         {
-            // Строка списка возможных классов участников.
-            
-            if (startNumber <= 0)
+            if(startNumber <= 0)
             {
-                throw new ArgumentOutOfRangeException("Start number must be from 1 to 99.", nameof(startNumber));
+                throw new ArgumentException("Стартовый номер должен содержать значение от 1 до 99.", nameof(startNumber));
+            }
+
+            if(!Enum.IsDefined(typeof(ClassName), classId))
+            {
+                throw new ArgumentException("Класс участника определён неверно.", nameof(classId));
             }
 
             Riders = GetRiders();
@@ -99,27 +102,27 @@ namespace PlanB.BL.Controller
         {
             if (string.IsNullOrWhiteSpace(name))
             {
-                throw new ArgumentException("Name is not exist.", nameof(name));
+                throw new ArgumentException("Значение имени не должно быть пустым.", nameof(name));
             }
 
             if (string.IsNullOrWhiteSpace(surname))
             {
-                throw new ArgumentException("Surname is not exist.", nameof(surname));
+                throw new ArgumentException("Значение фамилии не должно быть пустым.", nameof(surname));
             }
 
             if (string.IsNullOrWhiteSpace(gender))
             {
-                throw new ArgumentException("You should use M or F.", nameof(gender));
+                throw new ArgumentException("Значение пола не должно быть пустым (M - мужской или F - женский).", nameof(gender));
             }
 
             if (string.IsNullOrWhiteSpace(location))
             {
-                throw new ArgumentException("Hometown is not exist.", nameof(location));
+                throw new ArgumentException("Название населённого пункта не должно быть пустым.", nameof(location));
             }
 
             if (string.IsNullOrWhiteSpace(team))
             {
-                throw new ArgumentException("Team is not exist.", nameof(team));
+                throw new ArgumentException("Название команды не должно быть пустым.", nameof(team));
             }
 
             CurrentRider.Name = name;
@@ -148,6 +151,9 @@ namespace PlanB.BL.Controller
             } 
         }
 
+        /// <summary>
+        /// Загрузка списка участников из файла.
+        /// </summary>
         public void Load()
         {
             var formatter = new BinaryFormatter();
@@ -157,12 +163,10 @@ namespace PlanB.BL.Controller
                 if (fileStream.Length != 0 && formatter.Deserialize(fileStream) is List<Rider> riders)
                 {
                     Riders = riders;
-                    //return this;
                 }
                 else
                 {
                     Riders = new List<Rider>();
-                    //return this;
                 }
             }
         }

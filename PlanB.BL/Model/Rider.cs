@@ -13,6 +13,7 @@ namespace PlanB.BL.Model
         private int riderId;
         private string name;
         private string surname;
+        private Gender gender;
         private string location;
         private string team;
         private int tryFirst;
@@ -85,7 +86,23 @@ namespace PlanB.BL.Model
         /// <summary>
         /// Половая принадлежность. Пока реализована толька традиционная.
         /// </summary>
-        public Gender Gender { get; set; }
+        public Gender Gender {
+            get 
+            {
+                return gender;
+            }
+            set 
+            { 
+                if(value == null)
+                {
+                    throw new ArgumentException("Пол не определён.", nameof(gender));
+                }
+                else
+                {
+                    gender = value;
+                }
+            } 
+        }
         /// <summary>
         /// Город, который представляет участник.
         /// </summary>
@@ -130,6 +147,7 @@ namespace PlanB.BL.Model
         /// Является ли транспортное средство круизёром.
         /// </summary>
         public bool IsCruiser { get; set; }
+
         /// <summary>
         /// Результат первого заезда.
         /// </summary>
@@ -224,7 +242,7 @@ namespace PlanB.BL.Model
             }
             set
             {
-                if (string.IsNullOrWhiteSpace(value))
+                if (string.IsNullOrWhiteSpace(value) || !Enum.IsDefined(typeof(ClassName), value))
                 {
                     throw new ArgumentException("Идентификатор класса не определён.", nameof(previousClassId));
                 }
@@ -245,7 +263,7 @@ namespace PlanB.BL.Model
             }
             set
             {
-                if (string.IsNullOrWhiteSpace(value))
+                if (string.IsNullOrWhiteSpace(value) || !Enum.IsDefined(typeof(ClassName), value))
                 {
                     throw new ArgumentException("Идентификатор класса не определён.", nameof(resultClassId));
                 }
@@ -307,7 +325,7 @@ namespace PlanB.BL.Model
 
         public override string ToString()
         {
-            string result = string.Concat(Rank, ":  #", RiderId, " ", Surname, " 1: ", TryFirst, " 2: ", TrySecond, " Total: ", BestResult, " Class: ", PreviousClassId, " Resalt: ", ResultClassId);
+            string result = string.Concat("#", RiderId, " ", Name, " ", Surname, " [", PreviousClassId, "]");
             return result;
         }
 

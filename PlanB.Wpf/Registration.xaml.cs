@@ -1,5 +1,6 @@
 ﻿using PlanB.BL.Controller;
 using PlanB.BL.Model;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -22,7 +23,10 @@ namespace PlanB.Wpf
             InitializeComponent();
             riderController.Load();
         }
-                
+           
+        /// <summary>
+        /// Создать нового участника по стартовому номеру, если он уникальный и установить ему указанный класс.
+        /// </summary>
         private void ClassList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if(ClassList.SelectedItem != null)
@@ -39,7 +43,22 @@ namespace PlanB.Wpf
                 }
                 else
                 {
-                    riderController = new RiderController(startNunber, classId);
+                    try
+                    {
+                        riderController = new RiderController(startNunber, classId);
+                    }
+                    catch (ArgumentException ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                        ClearRegistrationPage();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                        ClearRegistrationPage();
+                    }
+
+
                     if (!string.IsNullOrEmpty(riderController.CurrentRider.Name))
                     {
                         StatusBarText(riderController);
@@ -52,7 +71,9 @@ namespace PlanB.Wpf
             
         }
 
-        
+        /// <summary>
+        /// Заполнение поля пол на основании выбора пользователя.
+        /// </summary>
         private void GenderList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if(GenderList.SelectedItem != null)
@@ -64,6 +85,9 @@ namespace PlanB.Wpf
             
         }
 
+        /// <summary>
+        /// Заполнение дополнительных данных об участнике, если он не был ранее зарегистрирован.
+        /// </summary>
         private void RegButton_Click(object sender, RoutedEventArgs e)
         {
             if (string.IsNullOrEmpty(riderController.CurrentRider.Name))
@@ -74,7 +98,17 @@ namespace PlanB.Wpf
                 var location = LocationTextBox.Text;
                 var team = TeamTextBox.Text;
                 var isCruiser = (bool)IsCruiserCheckBox.IsChecked;
-                riderController.SetNewRiderData(name, surname, gender, location, team, isCruiser);
+
+                try
+                {
+                    riderController.SetNewRiderData(name, surname, gender, location, team, isCruiser);
+                }
+                catch(ArgumentException ex)
+                {
+                    MessageBox.Show(ex.Message);
+                    ClearRegistrationPage();
+                }
+                
                 StatusBarText(riderController);
                 ClearRegistrationPage();
             }
@@ -82,11 +116,18 @@ namespace PlanB.Wpf
 
         }
 
+        /// <summary>
+        /// Сделать кнопку регистрации неактивной.
+        /// </summary>
         private void StartNumberTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             RegButton.IsEnabled = false;
         }
 
+        /// <summary>
+        /// При начале ввода в строку имени команды, вывести список существующих команд в статусбар.
+        /// Если все поля заполнены, сделать кнопку регистрации активной.
+        /// </summary>
         private void TeamTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (string.IsNullOrEmpty(TeamStatusTextBlock.Text))
@@ -110,6 +151,7 @@ namespace PlanB.Wpf
                 if(RegButton.IsEnabled == true)
                 {
                     MessageBox.Show("Не все поля заполнены.");
+                    RegButton.IsEnabled = false;
                 }
                 
             }
@@ -133,17 +175,17 @@ namespace PlanB.Wpf
             IsCruiserCheckBox.IsChecked = false;
         }
 
+        /// <summary>
+        /// Форматирование вывода информации об участнике в статусбар.
+        /// </summary>
+        /// <param name="riderController"></param>
         private void StatusBarText(RiderController riderController)
         {
             NameTextBox.Text = riderController.CurrentRider.Name;
             SurnameTextBox.Text = riderController.CurrentRider.Surname;
             LocationTextBox.Text = riderController.CurrentRider.Location;
             TeamTextBox.Text = riderController.CurrentRider.Team;
-            var result = string.Concat("#", riderController.CurrentRider.RiderId, " ",
-                                       riderController.CurrentRider.Name, " ",
-                                       riderController.CurrentRider.Surname, " [",
-                                       riderController.CurrentRider.PreviousClassId, "]");
-            StatusTextBlock.Text = result;
+            StatusTextBlock.Text = riderController.CurrentRider.ToString();
         }
     }
 }

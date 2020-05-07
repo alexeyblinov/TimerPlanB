@@ -10,9 +10,11 @@ namespace PlanB.BL.Model
         /// </summary>
         public string Name { get; }
         /// <summary>
-        /// Create a new gender.
+        /// Создать новый экземпляр пола участника. Возможно, когда-нибудь, когда мы будем юридически ближе к Европе,
+        /// придётся сделать более сложную систему определения пола, может даже с возможностью динамической смены. 
+        /// Поэтому здесь класс.
         /// </summary>
-        /// <param name="name"> gender name </param>
+        /// <param name="name"> Буква, обозначающая пол. M - мужской, F - женский. </param>
         public Gender(string name)
         {
             if (name == "M" || name == "F")
@@ -21,7 +23,7 @@ namespace PlanB.BL.Model
             }
             else
             {
-                throw new ArgumentOutOfRangeException("Enter: M or F.", nameof(name));
+                throw new ArgumentException("Пол должен быть мужским либо женским, по крайней мере пока (M или F).", nameof(name));
             }    
         }
 
