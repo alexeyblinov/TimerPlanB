@@ -55,91 +55,73 @@ namespace PlanB.Wpf
             switch (ClassesList.SelectedIndex)
             {
                 case 0:
-                    ResultTextBox.Document = new FlowDocument(RaceController.MakeTable(riderController.Riders));
+                    try
+                    {
+                        ResultTextBox.Document = new FlowDocument(RaceController.CreateTable(riderController.Riders));
+                    }
+                    catch(ArgumentException ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
                     break;
                 case 1:
-                    foreach (var rider in riderController.Riders)
+                    try
                     {
-                        if(rider.PreviousClassId == "A" || rider.PreviousClassId == "B" || 
-                           rider.PreviousClassId == "C1" || rider.PreviousClassId == "C2")
-                        {
-                            PrintRider(i, rider);
-                            i++;
-                        }
+                        ResultTextBox.Document = new FlowDocument(RaceController.CreateTable(riderController.Riders, new List<string>() { "A", "B", "C1", "C2"}));
                     }
-                    if (i == 1)
+                    catch (ArgumentException ex)
                     {
-                        ResultTextBox.AppendText("Нет данных об участниках в текущем классе.");
+                        MessageBox.Show(ex.Message);
                     }
                     break;
                 case 2:
-                    foreach (var rider in riderController.Riders)
+                    try
                     {
-                        if (rider.PreviousClassId == "C3" || rider.PreviousClassId == "D1")
-                        {
-                            PrintRider(i, rider);
-                            i++;
-                        }
+                        ResultTextBox.Document = new FlowDocument(RaceController.CreateTable(riderController.Riders, new List<string>() { "C3", "D1" }));
                     }
-                    if (i == 1)
+                    catch (ArgumentException ex)
                     {
-                        ResultTextBox.AppendText("Нет данных об участниках в текущем классе.");
+                        MessageBox.Show(ex.Message);
                     }
                     break;
                 case 3:
-                    foreach (var rider in riderController.Riders)
+                    try
                     {
-                        if (rider.PreviousClassId == "D2" || rider.PreviousClassId == "D3")
-                        {
-                            PrintRider(i, rider);
-                            i++;
-                        }
+                        ResultTextBox.Document = new FlowDocument(RaceController.CreateTable(riderController.Riders, new List<string>() { "D2", "D3" }));
                     }
-                    if (i == 1)
+                    catch (ArgumentException ex)
                     {
-                        ResultTextBox.AppendText("Нет данных об участниках в текущем классе.");
+                        MessageBox.Show(ex.Message);
                     }
                     break;
                 case 4:
-                    foreach (var rider in riderController.Riders)
+                    try
                     {
-                        if (rider.PreviousClassId == "D4" || rider.PreviousClassId == "N")
-                        {
-                            PrintRider(i, rider);
-                            i++;
-                        }
+                        ResultTextBox.Document = new FlowDocument(RaceController.CreateTable(riderController.Riders, new List<string>() { "D4", "N" }));
                     }
-                    if (i == 1)
+                    catch (ArgumentException ex)
                     {
-                        ResultTextBox.AppendText("Нет данных об участниках в текущем классе.");
+                        MessageBox.Show(ex.Message);
                     }
                     break;
                 case 5:
-                    foreach (var rider in riderController.Riders)
+                    try
                     {
-                        if (rider.IsCruiser)
-                        {
-                            PrintRider(i, rider);
-                            i++;
-                        }
+                        ResultTextBox.Document = new FlowDocument(RaceController.CreateTable(riderController.Riders, new List<string>() { "C" }));
                     }
-                    if (i == 1)
+                    catch (ArgumentException ex)
                     {
-                        ResultTextBox.AppendText("Нет данных об участниках в текущем классе.");
+                        MessageBox.Show(ex.Message);
                     }
                     break;
                 case 6:
-                    foreach (var rider in riderController.Riders)
+                    try
                     {
-                        if (rider.Gender.Name == "F")
-                        {
-                            PrintRider(i, rider);
-                            i++;
-                        }
+                        ResultTextBox.Document = new FlowDocument(RaceController.CreateTable(riderController.Riders, new List<string>() { "F" }));
                     }
-                    if (i == 1)
+                    catch (ArgumentException ex)
                     {
-                        ResultTextBox.AppendText("Нет данных об участниках в текущем классе.");
+                        MessageBox.Show(ex.Message);
                     }
                     break;
                 case 7:
@@ -176,32 +158,23 @@ namespace PlanB.Wpf
                     }
                     break;
                 case 8:
-                    foreach (var rider in riderController.Riders)
+                    try
                     {
-                        if (rider.PreviousClassId == "A" || rider.PreviousClassId == "B" ||
-                           rider.PreviousClassId == "C1" || rider.PreviousClassId == "C2" || rider.PreviousClassId == "C3")
-                        {
-                            PrintRider(i, rider);
-                            i++;
-                        }
+                        ResultTextBox.Document = new FlowDocument(RaceController.CreateTable(riderController.Riders, new List<string>() { "A", "B", "C1", "C2", "C3" }));
                     }
-                    if (i == 1)
+                    catch (ArgumentException ex)
                     {
-                        ResultTextBox.AppendText("Нет данных об участниках в текущем классе.");
+                        MessageBox.Show(ex.Message);
                     }
                     break;
                 case 9:
-                    foreach (var rider in riderController.Riders)
+                    try
                     {
-                        if (rider.PreviousClassId == "D1")
-                        {
-                            PrintRider(i, rider);
-                            i++;
-                        }
+                        ResultTextBox.Document = new FlowDocument(RaceController.CreateTable(riderController.Riders, new List<string>() { "D1" }));
                     }
-                    if (i == 1)
+                    catch (ArgumentException ex)
                     {
-                        ResultTextBox.AppendText("Нет данных об участниках в текущем классе.");
+                        MessageBox.Show(ex.Message);
                     }
                     break;
                 case 10:
@@ -236,19 +209,8 @@ namespace PlanB.Wpf
         }
 
         /// <summary>
-        /// Вывод данных об участнике в формате, подходящем для просмотра результатов соревнования.
+        /// Распечатать результаты.
         /// </summary>
-        /// <param name="number"> Порядковый номер участника. </param>
-        /// <param name="rider"> Участник, данные которого нужно вывести. </param>
-        private void PrintRider(int number, Rider rider)
-        {
-            ResultTextBox.AppendText(Environment.NewLine);
-            var bestResult = TimemachineController.ToPrint(rider.BestResult);
-            var resultLine = string.Concat("Позиция: ", number, "  Результат: ", bestResult, "  #", rider.RiderId, "  ", rider.Surname,
-                "  Класс: ", rider.PreviousClassId, "  Итоговый класс: ", rider.ResultClassId);
-            ResultTextBox.AppendText(resultLine);
-        }
-
         private void PrintButton_Click(object sender, RoutedEventArgs e)
         {
             PrintDialog pd = new PrintDialog();

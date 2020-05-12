@@ -166,9 +166,11 @@ namespace PlanB.Wpf
         private Rider ThisRider()
         {
             int.TryParse(StartNumberTextBox.Text, out int number);
-            if(number <= 0)
+
+            if (number <= 0)
             {
-                throw new ArgumentOutOfRangeException("Rider's number have to be positive.", nameof(number));
+                MessageBox.Show("Номер участника должен быть натуральным числом.");
+                return null;
             }
             var result = riderController.Riders.FirstOrDefault(r => r.RiderId.Equals(number));
             if (result == null)

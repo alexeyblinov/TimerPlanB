@@ -559,10 +559,10 @@ namespace PlanB.BL.Controller
             }
         }
 
-        public static Table CreateTable(List<Rider> riders, List<string> classes)
+        public static Table CreateTable(List<Rider> riders, List<string> classes = null)
         {
             // если не указаны конкретные классы, вывести весь список участников.
-            if(classes.Count == 0)
+            if(classes == null)
             {
                 return MakeTable(riders);
             }
@@ -573,9 +573,43 @@ namespace PlanB.BL.Controller
                 {
                     if (!Enum.IsDefined(typeof(ClassName), c) && c != "C" && c != "F")
                     {
-                        throw new ArgumentException("Неверно указано название класса.", nameof(c));
+                        throw new ArgumentException("Неверно указано название класса (идентификатор номинации).", nameof(c));
                     }
                 }
+                var result = new List<Rider>();
+                
+                // номинацию можно выводить только одну, либо C - круизёр, либо F - девушка.
+                if (classes.Contains("C"))
+                {
+                    foreach(var rider in riders)
+                    {
+                        if (rider.IsCruiser)
+                        {
+                            result.Add(rider);
+                        }
+                    }
+                    return MakeTable(result);
+                }
+                if (classes.Contains("F"))
+                {
+                    foreach (var rider in riders)
+                    {
+                        if (rider.Gender.Name == "F")
+                        {
+                            result.Add(rider);
+                        }
+                    }
+                    return MakeTable(result);
+                }
+                // классов можно вывести сразу несколько, т.к. выводится класс награждения, который состоит из от 1 до 5 классов соревнования.
+                foreach(var rider in riders)
+                {
+                    if (classes.Contains(rider.PreviousClassId))
+                    {
+                        result.Add(rider);
+                    }
+                }
+                return MakeTable(result);
             }
             
             
@@ -589,6 +623,10 @@ namespace PlanB.BL.Controller
         /// <returns> Таблица результатов. </returns>
         private static Table MakeTable(List<Rider> riders)
         {
+            if(riders.Count == 0)
+            {
+                throw new ArgumentException("Нет данных об участниках в текущем классе.");
+            }
             var rows = riders.Count;
             var cols = 6;
             string[,] matrix = new string[rows, cols];
