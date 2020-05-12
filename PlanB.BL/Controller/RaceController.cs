@@ -559,7 +559,35 @@ namespace PlanB.BL.Controller
             }
         }
 
-        public static Table MakeTable(List<Rider> riders)
+        public static Table CreateTable(List<Rider> riders, List<string> classes)
+        {
+            // если не указаны конкретные классы, вывести весь список участников.
+            if(classes.Count == 0)
+            {
+                return MakeTable(riders);
+            }
+            // если указаны классы или номинации, вывести только участников указанных классов или номинаций.
+            else
+            {
+                foreach (var c in classes)
+                {
+                    if (!Enum.IsDefined(typeof(ClassName), c) && c != "C" && c != "F")
+                    {
+                        throw new ArgumentException("Неверно указано название класса.", nameof(c));
+                    }
+                }
+            }
+            
+            
+        }
+
+
+        /// <summary>
+        /// Создаёт таблицу вывода результатов.
+        /// </summary>
+        /// <param name="riders"> Отсортированный список участников, результаты которых отобразятся в таблице. </param>
+        /// <returns> Таблица результатов. </returns>
+        private static Table MakeTable(List<Rider> riders)
         {
             var rows = riders.Count;
             var cols = 6;
