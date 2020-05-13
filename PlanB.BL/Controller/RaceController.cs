@@ -185,9 +185,9 @@ namespace PlanB.BL.Controller
         /// <returns></returns>
         public static string FindCompetitionClassId(RiderController riderController, ref int bestTime)
         {
-            if (riderController is null)
+            if (riderController.Riders.Count == 0)
             {
-                throw new ArgumentNullException("Rider Controller cannot be null.", nameof(riderController));
+                throw new ArgumentException("Список участников пуст.");
             }
 
             // bestClass - класс соревнования.
@@ -196,7 +196,7 @@ namespace PlanB.BL.Controller
             bestClass = SetCompetitionClass(riderController);
             if (string.IsNullOrEmpty(bestClass))
             {
-                return null;
+                throw new ArgumentException("Нет трёх участников ни в одном из классов соревнования. Определить класс соревнования невозможно.");
             }
 
             // Находит лучшее время среди участников в классе соревнования.
@@ -323,7 +323,7 @@ namespace PlanB.BL.Controller
         {
             if (riderController is null || riderController.Riders == null)
             {
-                throw new ArgumentNullException("Rider controller cannot be null.",  nameof(riderController));
+                throw new ArgumentException("Список участников пуст.");
             }
 
             int count;
@@ -342,7 +342,7 @@ namespace PlanB.BL.Controller
                     count++;
                     if (count.Equals(2))
                     {
-                        bestClass = riderController.Riders[i].PreviousClassId;
+                        bestClass = Classes[i];
                         return bestClass;
                     }
                 }
@@ -611,10 +611,7 @@ namespace PlanB.BL.Controller
                 }
                 return MakeTable(result);
             }
-            
-            
         }
-
 
         /// <summary>
         /// Создаёт таблицу вывода результатов.
@@ -640,7 +637,26 @@ namespace PlanB.BL.Controller
                     switch (j)
                     {
                         case 0:
-                            matrix[i, j] = riders[i].Rank.ToString();
+                            if (i > 0)
+                            {
+                                // записывается лучший результат участника предыдущей итерации. 
+                                var overlap = riders[i - 1].BestResult;
+                                // записывается позиция участника предыдущей итерации.
+                                int.TryParse(matrix[i - 1, j], out int position);
+                                
+                                if (riders[i].BestResult == overlap)
+                                {
+                                    matrix[i, j] = matrix[i - 1, j];
+                                }
+                                else
+                                {
+                                    matrix[i, j] = (position + 1).ToString();
+                                }
+                            }
+                            else
+                            {
+                                matrix[i, j] = "1";
+                            }
                             break;
                         case 1:
                             matrix[i, j] = TimemachineController.ToPrint(riders[i].BestResult);

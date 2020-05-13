@@ -1,18 +1,9 @@
 ﻿using PlanB.BL.Controller;
-using PlanB.BL.Model;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 
 namespace PlanB.Wpf
 {
@@ -37,10 +28,13 @@ namespace PlanB.Wpf
             if (riderController != null)
             {
                 // если не найдёт эталонный класс, вернёт bestClass = null.
-                bestClass = RaceController.FindCompetitionClassId(riderController, ref bestTime);
-                if (bestClass == null)
+                try
                 {
-                    MessageBox.Show("Нет трёх участников ни в одном из классов соревнования. Определить класс соревнования невозможно.");
+                    bestClass = RaceController.FindCompetitionClassId(riderController, ref bestTime);
+                }
+                catch(ArgumentException ex)
+                {
+                    MessageBox.Show(ex.Message);
                     return;
                 }
             }
