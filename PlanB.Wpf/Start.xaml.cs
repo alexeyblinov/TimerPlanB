@@ -1,6 +1,5 @@
 ﻿using PlanB.BL.Controller;
 using PlanB.BL.Model;
-using System;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -138,7 +137,8 @@ namespace PlanB.Wpf
             int.TryParse(StartNumberTextBox.Text, out int number);
             if (number <= 0)
             {
-                throw new ArgumentOutOfRangeException("Rider number have to be positive.", nameof(number));
+                MessageBox.Show("Номер участника должен быть натуральным числом.");
+                return;
             }
             if (TryTextBox.Text.Contains("1"))
             {

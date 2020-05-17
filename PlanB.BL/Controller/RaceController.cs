@@ -1,7 +1,6 @@
 ﻿using PlanB.BL.Model;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Documents;
@@ -233,14 +232,16 @@ namespace PlanB.BL.Controller
                 throw new ArgumentNullException("Best time have to be positive.", nameof(bestTime));
             }
 
-            // Если кто-то из зарегистрированных участников не проехал ни одной попытки, удалить их из списка.
+            
+            // Если кто-то из зарегистрированных участников не проехал ни одной попытки, записать в конец списка.
             for(var i = 0; i < riderController.Riders.Count; i++)
             {
                 if(riderController.Riders[i].TryFirst == Rider.MAXTIME && riderController.Riders[i].TrySecond == Rider.MAXTIME)
                 {
-                    riderController.Riders.RemoveAt(i);
+                    riderController.Riders[i].BestResult = Rider.MAXTIME;
                 }
             }
+            riderController.Riders.Sort();
 
             var coefficients = new Dictionary<string, decimal>(9)
             {
@@ -498,7 +499,7 @@ namespace PlanB.BL.Controller
                 }
             }
 
-            // заполнениее словаря. Ключь - название команды, значение - суммерует места участников в классе награждения.
+            // заполнениее словаря. Ключ - название команды, значение - суммерует места участников в классе награждения.
             var teams = new Dictionary<string, int>();
             foreach(var rider in riderController.Riders)
             {
@@ -628,6 +629,10 @@ namespace PlanB.BL.Controller
             var cols = 6;
             string[,] matrix = new string[rows, cols];
 
+            // количество пропущенных позиций (участников с одинаковым результатом) 
+            var increment = 1;
+            // был ли прошлый результат совпадением с предыдущим. Если да, увеличить increment.
+            var checkOverlap = false;
             for (int i = 0; i < rows; i++)
             {
                 for (int j = 0; j < cols; j++)
@@ -646,11 +651,19 @@ namespace PlanB.BL.Controller
                                 
                                 if (riders[i].BestResult == overlap)
                                 {
+                                    if(checkOverlap == false)
+                                    {
+                                        increment = 1;
+                                    }
                                     matrix[i, j] = matrix[i - 1, j];
+                                    checkOverlap = true;
+                                    increment++;
                                 }
                                 else
                                 {
-                                    matrix[i, j] = (position + 1).ToString();
+                                    matrix[i, j] = (position + increment).ToString();
+                                    checkOverlap = false;
+                                    increment = 1;
                                 }
                             }
                             else

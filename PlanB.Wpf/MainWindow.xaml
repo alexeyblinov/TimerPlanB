@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PlanB.Wpf"
         mc:Ignorable="d"
-        Title="Moto Gymkhana Samara" Height="600" Width="800">
+        Title="Moto Gymkhana Samara" Height="640" Width="800">
     <Grid>
         <Menu Height="25" VerticalAlignment="Top" Background="LightBlue">
             <MenuItem x:Name="Start" Click="MenuItemStart_Click"> 

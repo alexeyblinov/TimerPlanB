@@ -108,7 +108,7 @@ namespace PlanB.Wpf
                     MessageBox.Show(ex.Message);
                     ClearRegistrationPage();
                 }
-                
+
                 StatusBarText(riderController);
                 ClearRegistrationPage();
             }
