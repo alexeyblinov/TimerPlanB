@@ -119,38 +119,47 @@ namespace PlanB.Wpf
                     }
                     break;
                 case 7:
-                    var teamsResult = RaceController.SetTeamsRank(riderController);
-                    // записывается количество очков команды предыдущей итерации. 
-                    var overlap = 0;
-                    // записывается позиция команды предыдущей итерации.
-                    var position = 0;
-                    // было ли совпадение очков на предыдущей итерации.
-                    var checkOverlap = false;
-                    foreach (var team in teamsResult)
+                    try
                     {
-                        // если у команд одинаковое количество очков, они должны занимать одинаковое место,
-                        // при этом следующая позиция пропускается.
-                        if(team.Value == overlap)
-                        {
-                            i = position;
-                            checkOverlap = true;
-                        }
-                        ResultTextBox.AppendText(Environment.NewLine);
-                        var resultLine = string.Concat("Позиция: ", i, "  Команда: ", team.Key, ", количество очков: ", team.Value);
-                        ResultTextBox.AppendText(resultLine);
-                        overlap = team.Value;
-                        position = i;
-                        if(checkOverlap == true)
-                        {
-                            checkOverlap = false;
-                        }
-                        i++;
+                        ResultTextBox.Document = new FlowDocument(RaceController.CreateTable(riderController));
                     }
-                    if (i == 1)
+                    catch (ArgumentException ex)
                     {
-                        ResultTextBox.AppendText("Нет данных об участниках в текущем классе.");
+                        MessageBox.Show(ex.Message);
                     }
                     break;
+                //var teamsResult = RaceController.SetTeamsRank(riderController);
+                //// записывается количество очков команды предыдущей итерации. 
+                //var overlap = 0;
+                //// записывается позиция команды предыдущей итерации.
+                //var position = 0;
+                //// было ли совпадение очков на предыдущей итерации.
+                //var checkOverlap = false;
+                //foreach (var team in teamsResult)
+                //{
+                //    // если у команд одинаковое количество очков, они должны занимать одинаковое место,
+                //    // при этом следующая позиция пропускается.
+                //    if(team.Value == overlap)
+                //    {
+                //        i = position;
+                //        checkOverlap = true;
+                //    }
+                //    ResultTextBox.AppendText(Environment.NewLine);
+                //    var resultLine = string.Concat("Позиция: ", i, "  Команда: ", team.Key, ", количество очков: ", team.Value);
+                //    ResultTextBox.AppendText(resultLine);
+                //    overlap = team.Value;
+                //    position = i;
+                //    if(checkOverlap == true)
+                //    {
+                //        checkOverlap = false;
+                //    }
+                //    i++;
+                //}
+                //if (i == 1)
+                //{
+                //    ResultTextBox.AppendText("Нет данных об участниках в текущем классе.");
+                //}
+                //break;
                 case 8:
                     try
                     {
@@ -172,33 +181,42 @@ namespace PlanB.Wpf
                     }
                     break;
                 case 10:
-                    overlap = 0;
-                    position = 0;
-                    checkOverlap = false;
-                    teamsResult = RaceController.SetTeamsRank(riderController, true);
-                    foreach (var team in teamsResult)
+                    try
                     {
-                        if (team.Value == overlap)
-                        {
-                            i = position;
-                            checkOverlap = true;
-                        }
-                        ResultTextBox.AppendText(Environment.NewLine);
-                        var resultLine = string.Concat("Позиция: ", i, "  Команда: ", team.Key, ", количество очков: ", team.Value);
-                        ResultTextBox.AppendText(resultLine);
-                        overlap = team.Value;
-                        position = i;
-                        if (checkOverlap == true)
-                        {
-                            checkOverlap = false;
-                        }
-                        i++;
+                        ResultTextBox.Document = new FlowDocument(RaceController.CreateTable(riderController));
                     }
-                    if (i == 1)
+                    catch (ArgumentException ex)
                     {
-                        ResultTextBox.AppendText("Нет данных об участниках в текущем классе.");
+                        MessageBox.Show(ex.Message);
                     }
                     break;
+                    //overlap = 0;
+                    //position = 0;
+                    //checkOverlap = false;
+                    //teamsResult = RaceController.SetTeamsRank(riderController, true);
+                    //foreach (var team in teamsResult)
+                    //{
+                    //    if (team.Value == overlap)
+                    //    {
+                    //        i = position;
+                    //        checkOverlap = true;
+                    //    }
+                    //    ResultTextBox.AppendText(Environment.NewLine);
+                    //    var resultLine = string.Concat("Позиция: ", i, "  Команда: ", team.Key, ", количество очков: ", team.Value);
+                    //    ResultTextBox.AppendText(resultLine);
+                    //    overlap = team.Value;
+                    //    position = i;
+                    //    if (checkOverlap == true)
+                    //    {
+                    //        checkOverlap = false;
+                    //    }
+                    //    i++;
+                    //}
+                    //if (i == 1)
+                    //{
+                    //    ResultTextBox.AppendText("Нет данных об участниках в текущем классе.");
+                    //}
+                    //break;
             }
         }
 

@@ -456,6 +456,7 @@ namespace PlanB.BL.Controller
                     }
                 }
             }
+            // если нужно считать очки в альтернативной системе классов.
             else
             {
                 foreach (var rider in riderController.Riders)
@@ -559,7 +560,119 @@ namespace PlanB.BL.Controller
                 i++;
             }
         }
+        
+        /// <summary>
+        /// Таблица результатов команд, отформатированная в зависимости от классов награждения.
+        /// </summary>
+        /// <param name="controller"> Контроллер участников. </param>
+        /// <returns> Таблица результатов командного зачёта. </returns>
+        public static Table CreateTable(RiderController controller)
+        {
+            var teamsResult = SetTeamsRank(controller);
+            KeyValuePair<string, int>[] tabResult = new KeyValuePair<string, int>[teamsResult.Count];
+            var count = 0;
+            foreach (var r in teamsResult)
+            {
+                tabResult[count] = r;
+                count++;
+            }
 
+            if (teamsResult.Count == 0)
+            {
+                throw new ArgumentException("Нет зарегистрированных команд.");
+            }
+            var rows = teamsResult.Count;
+            var cols = 3;
+            string[,] matrix = new string[rows, cols];
+
+            // количество пропущенных позиций (участников с одинаковым результатом) 
+            var increment = 1;
+            // был ли прошлый результат совпадением с предыдущим. Если да, увеличить increment.
+            var checkOverlap = false;
+            for (int i = 0; i < rows; i++)
+            {
+                for (int j = 0; j < cols; j++)
+                {
+                    // понятия не имею как сделать проще. Но я записался на халявный интернет семинар, где меня обещали научить.
+                    // eсли после 15 мая я не исправил этот текст ниже, - значит не научили.
+                    switch (j)
+                    {
+                        case 0:
+                            if (i > 0)
+                            {
+                                // записывается лучший результат команды предыдущей итерации. 
+                                var overlap = tabResult[i - 1].Value;
+                                // записывается позиция команды предыдущей итерации.
+                                int.TryParse(matrix[i - 1, j], out int position);
+
+                                if (tabResult[i].Value == overlap)
+                                {
+                                    if (checkOverlap == false)
+                                    {
+                                        increment = 1;
+                                    }
+                                    matrix[i, j] = matrix[i - 1, j];
+                                    checkOverlap = true;
+                                    increment++;
+                                }
+                                else
+                                {
+                                    matrix[i, j] = (position + increment).ToString();
+                                    checkOverlap = false;
+                                    increment = 1;
+                                }
+                            }
+                            else
+                            {
+                                matrix[i, j] = "1";
+                            }
+                            break;
+                        case 1:
+                            matrix[i, j] = tabResult[i].Key;
+                            break;
+                        case 2:
+                            matrix[i, j] = tabResult[i].Value.ToString();
+                            break;
+                    }
+                }
+            }
+
+            var table = new Table();
+            for (int i = 0; i < cols; i++)
+            {
+                table.Columns.Add(new TableColumn());
+            }
+            var group = new TableRowGroup();
+            table.RowGroups.Add(group);
+            for (int i = 0; i < rows; i++)
+            {
+                var row = new TableRow();
+                for (int j = 0; j < cols; j++)
+                {
+                    var background = System.Windows.Media.Brushes.White;
+                    if (i % 2 == 0)
+                    {
+                        background = System.Windows.Media.Brushes.LightGray;
+                    }
+                    var cell = new TableCell(new Paragraph(new Run(matrix[i, j])))
+                    {
+                        Background = background,
+                        IsEnabled = true,
+                        TextAlignment = TextAlignment.Center
+                    };
+                    row.Cells.Add(cell);
+                }
+                group.Rows.Add(row);
+            }
+            return table;
+        }
+        
+        /// <summary>
+        /// Таблица результатов участников, отформатированная в зависимости от классов награждения.
+        /// </summary>
+        /// <param name="riders"> Список всех участников. </param>
+        /// <param name="classes"> Классы, которые должны быть отображены. </param>
+        /// <returns> Таблица результатов по классам награждения. </returns>
         public static Table CreateTable(List<Rider> riders, List<string> classes = null)
         {
             // если не указаны конкретные классы, вывести весь список участников.
