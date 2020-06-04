@@ -3,7 +3,7 @@
     /// <summary>
     /// Возможные классы участников.
     /// </summary>
-    enum ClassName
+    public enum ClassName
     {
         A,
         B,
