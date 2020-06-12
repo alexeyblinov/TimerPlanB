@@ -1,4 +1,5 @@
 ﻿using PlanB.BL.Model;
+using PlanB.Validators;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -14,6 +15,8 @@ namespace PlanB.BL.Controller
     public class RiderController
         
     {
+        public RiderValidator riderValidator;
+
         /// <summary>
         /// Список участников.
         /// </summary>
@@ -36,15 +39,7 @@ namespace PlanB.BL.Controller
         /// <param name="classId"> Класс участника </param>
         public RiderController(int startNumber, string classId)
         {
-            if(startNumber <= 0)
-            {
-                throw new ArgumentException("Стартовый номер должен содержать значение от 1 до 99.", nameof(startNumber));
-            }
-
-            if(!Enum.IsDefined(typeof(ClassName), classId))
-            {
-                throw new ArgumentException("Класс участника определён неверно.", nameof(classId));
-            }
+            riderValidator = new RiderValidator();
 
             Riders = GetRiders();
 
@@ -57,6 +52,11 @@ namespace PlanB.BL.Controller
                     PreviousClassId = classId,
                     ResultClassId = classId
                 };
+                var validationResult = riderValidator.Validate(CurrentRider);
+                if (!validationResult.IsValid)
+                {
+                    throw new ArgumentException(validationResult.ToString());
+                }
                 Riders.Add(CurrentRider);
                 Save();
             }

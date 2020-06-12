@@ -36,36 +36,28 @@ namespace PlanB.Wpf
                 classId = selectedItem.Content.ToString();
 
                 int.TryParse(StartNumberTextBox.Text, out startNunber);
-                if (startNunber <= 0)
+                try
                 {
-                    MessageBox.Show("Введите стартовый номер (число от 1 до 99).");
-                    ClearRegistrationPage();
+                    riderController = new RiderController(startNunber, classId);
                 }
-                else
+                catch(ArgumentException ex)
                 {
-                    try
-                    {
-                        riderController = new RiderController(startNunber, classId);
-                    }
-                    catch (ArgumentException ex)
-                    {
-                        MessageBox.Show(ex.Message);
-                        ClearRegistrationPage();
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(ex.Message);
-                        ClearRegistrationPage();
-                    }
+                    MessageBox.Show(ex.Message);
+                    ClearRegistrationPage();
+                    return;
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("Стартовый номер участника должен быть натуральным числом от 1 до 99.");
+                    ClearRegistrationPage();
+                    return;
+                }
 
-
-                    if (!string.IsNullOrEmpty(riderController.CurrentRider.Name))
-                    {
-                        StatusBarText(riderController);
-
-                        MessageBox.Show("Участник с таким номером уже зарегистрирован.");
-                        ClearRegistrationPage();
-                    }
+                if (!string.IsNullOrEmpty(riderController.CurrentRider.Name))
+                {
+                    StatusBarText(riderController);
+                    MessageBox.Show("Участник с таким номером уже зарегистрирован.");
+                    ClearRegistrationPage();
                 }
             }
             
