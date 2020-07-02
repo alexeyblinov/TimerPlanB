@@ -9,20 +9,6 @@ namespace PlanB.BL.Model
         /// Максимально возможное время заезда.
         /// </summary>
         public const int MAXTIME = 359999;
-
-        //private int riderId;
-        //private string name;
-        //private string surname;
-        //private Gender gender;
-        //private string location;
-        //private string team;
-        //private int tryFirst;
-        //private int trySecond;
-        //private int bestResult;
-        //private int rank;
-        //private string previousClassId;
-        //private string resultClassId;
-
         /// <summary>
         /// Стартовый номер участника.
         /// </summary>
@@ -51,7 +37,6 @@ namespace PlanB.BL.Model
         /// Является ли транспортное средство круизёром.
         /// </summary>
         public bool IsCruiser { get; set; }
-
         /// <summary>
         /// Результат первого заезда.
         /// </summary>

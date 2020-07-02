@@ -25,7 +25,6 @@ namespace PlanB.Validators
                                    .Must(surname => surname.All(ch => char.IsLetter(ch) || ch == '-'))
                                    .WithName("Фамилия")
                                    .WithMessage("{PropertyName} должна состоять из букв, составная фамилия может содержать дефис.");
-            // Gender
             RuleFor(r => r.Location).NotNull()
                                     .MinimumLength(1)
                                     .Must(loc => loc.All(ch => char.IsLetter(ch) || ch == '-'))

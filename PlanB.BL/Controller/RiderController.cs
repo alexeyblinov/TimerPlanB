@@ -100,31 +100,6 @@ namespace PlanB.BL.Controller
                                     string team,
                                     bool isCruiser = false)
         {
-            if (string.IsNullOrWhiteSpace(name))
-            {
-                throw new ArgumentException("Значение имени не должно быть пустым.", nameof(name));
-            }
-
-            if (string.IsNullOrWhiteSpace(surname))
-            {
-                throw new ArgumentException("Значение фамилии не должно быть пустым.", nameof(surname));
-            }
-
-            if (string.IsNullOrWhiteSpace(gender))
-            {
-                throw new ArgumentException("Значение пола не должно быть пустым (M - мужской или F - женский).", nameof(gender));
-            }
-
-            if (string.IsNullOrWhiteSpace(location))
-            {
-                throw new ArgumentException("Название населённого пункта не должно быть пустым.", nameof(location));
-            }
-
-            if (string.IsNullOrWhiteSpace(team))
-            {
-                throw new ArgumentException("Название команды не должно быть пустым.", nameof(team));
-            }
-
             CurrentRider.Name = name;
             CurrentRider.Surname = surname;
             CurrentRider.Gender = new Gender(gender);
