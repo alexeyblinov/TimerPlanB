@@ -15,8 +15,6 @@ namespace PlanB.BL.Controller
     public class RiderController
         
     {
-        public RiderValidator riderValidator;
-
         /// <summary>
         /// Список участников.
         /// </summary>
@@ -39,8 +37,6 @@ namespace PlanB.BL.Controller
         /// <param name="classId"> Класс участника </param>
         public RiderController(int startNumber, string classId)
         {
-            riderValidator = new RiderValidator();
-
             Riders = GetRiders();
 
             CurrentRider = Riders.SingleOrDefault(r => r.RiderId == startNumber);
@@ -52,11 +48,6 @@ namespace PlanB.BL.Controller
                     PreviousClassId = classId,
                     ResultClassId = classId
                 };
-                var validationResult = riderValidator.Validate(CurrentRider);
-                if (!validationResult.IsValid)
-                {
-                    throw new ArgumentException(validationResult.ToString());
-                }
                 Riders.Add(CurrentRider);
                 Save();
             }

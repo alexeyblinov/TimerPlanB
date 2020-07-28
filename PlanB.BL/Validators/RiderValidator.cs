@@ -11,10 +11,18 @@ namespace PlanB.Validators
         {
             ValidatorOptions.CascadeMode = FluentValidation.CascadeMode.StopOnFirstFailure;
 
-            RuleFor(r => r.RiderId).Must(id => id.ToString().All(ch => char.IsDigit(ch)))
+            RuleSet("FirstRegistration", () =>
+            {
+                RuleFor(r => r.RiderId).Must(id => id.ToString().All(ch => char.IsDigit(ch)))
                                    .InclusiveBetween(1, 99)
                                    .WithName("Номер участника")
-                                   .WithMessage("{PropertyName} должен быть от 1 до 99.");
+                                   .WithMessage("{PropertyName} должен быть числом от 1 до 99.");
+                RuleFor(r => r.PreviousClassId).NotNull()
+                                           .Must(cl => Enum.IsDefined(typeof(ClassName), cl))
+                                           .WithName("Класс участника")
+                                           .WithMessage("{PropertyName} не определён.");
+            });
+            
             RuleFor(r => r.Name).NotNull()
                                 .MinimumLength(1)
                                 .Must(name => name.All(ch => char.IsLetter(ch) || ch == '-'))
@@ -47,10 +55,6 @@ namespace PlanB.Validators
             RuleFor(r => r.Rank).GreaterThan(0)
                                 .WithName("Позиция")
                                 .WithMessage("{PropertyName} должна быть натуральным числом.");
-            RuleFor(r => r.PreviousClassId).NotNull()
-                                           .Must(cl => Enum.IsDefined(typeof(ClassName), cl))
-                                           .WithName("Класс участника")
-                                           .WithMessage("{PropertyName} не определён.");
             RuleFor(r => r.ResultClassId).NotNull()
                                          .Must(cl => Enum.IsDefined(typeof(ClassName), cl))
                                          .WithName("Итоговый класс участника")

@@ -1,8 +1,10 @@
 ﻿using PlanB.BL.Controller;
 using PlanB.BL.Model;
+using PlanB.Validators;
 using System;
 using System.Windows;
 using System.Windows.Controls;
+using FluentValidation;
 
 
 namespace PlanB.Wpf
@@ -17,7 +19,8 @@ namespace PlanB.Wpf
         private int startNunber;
         private string classId;
         private Gender gender = new Gender("M");
-        
+        public RiderValidator riderValidator;
+
         public Registration()
         {
             InitializeComponent();
@@ -36,19 +39,16 @@ namespace PlanB.Wpf
                 classId = selectedItem.Content.ToString();
 
                 int.TryParse(StartNumberTextBox.Text, out startNunber);
-                try
+
+                riderController = new RiderController(startNunber, classId);
+                riderValidator = new RiderValidator();
+                var validationResult = riderValidator.Validate(riderController.CurrentRider, ruleSet: "FirstRegistration");
+                if (!validationResult.IsValid)
                 {
-                    riderController = new RiderController(startNunber, classId);
-                }
-                catch(ArgumentException ex)
-                {
-                    MessageBox.Show(ex.Message);
-                    ClearRegistrationPage();
-                    return;
-                }
-                catch (Exception)
-                {
-                    MessageBox.Show("Стартовый номер участника должен быть натуральным числом от 1 до 99.");
+                    foreach (var failure in validationResult.Errors)
+                    {
+                        MessageBox.Show(failure.ErrorMessage);
+                    }
                     ClearRegistrationPage();
                     return;
                 }
