@@ -1,5 +1,4 @@
 ﻿using PlanB.BL.Model;
-using PlanB.Validators;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -121,6 +120,23 @@ namespace PlanB.BL.Controller
         /// Загрузка списка участников из файла.
         /// </summary>
         public void Load()
+        {
+            var formatter = new BinaryFormatter();
+
+            using (var fileStream = new FileStream("riders.dat", FileMode.OpenOrCreate))
+            {
+                if (fileStream.Length != 0 && formatter.Deserialize(fileStream) is List<Rider> riders)
+                {
+                    Riders = riders;
+                }
+                else
+                {
+                    Riders = new List<Rider>();
+                }
+            }
+        }
+
+        public void Delete()
         {
             var formatter = new BinaryFormatter();
 

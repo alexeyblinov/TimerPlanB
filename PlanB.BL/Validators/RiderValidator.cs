@@ -22,27 +22,31 @@ namespace PlanB.Validators
                                            .WithName("Класс участника")
                                            .WithMessage("{PropertyName} не определён.");
             });
-            
-            RuleFor(r => r.Name).NotNull()
+
+            RuleSet("CompletedRegistration", () =>
+            {
+                RuleFor(r => r.Name).NotNull()
                                 .MinimumLength(1)
                                 .Must(name => name.All(ch => char.IsLetter(ch) || ch == '-'))
                                 .WithName("Имя")
                                 .WithMessage("{PropertyName} должно состоять из букв, составное имя может содержать дефис.");
-            RuleFor(r => r.Surname).NotNull()
-                                   .MinimumLength(1)
-                                   .Must(surname => surname.All(ch => char.IsLetter(ch) || ch == '-'))
-                                   .WithName("Фамилия")
-                                   .WithMessage("{PropertyName} должна состоять из букв, составная фамилия может содержать дефис.");
-            RuleFor(r => r.Location).NotNull()
+                RuleFor(r => r.Surname).NotNull()
+                                       .MinimumLength(1)
+                                       .Must(surname => surname.All(ch => char.IsLetter(ch) || ch == '-'))
+                                       .WithName("Фамилия")
+                                       .WithMessage("{PropertyName} должна состоять из букв, составная фамилия может содержать дефис.");
+                RuleFor(r => r.Location).NotNull()
+                                        .MinimumLength(1)
+                                        .Must(loc => loc.All(ch => char.IsLetter(ch) || ch == '-'))
+                                        .WithName("Населённый пункт")
+                                        .WithMessage("{PropertyName} должен состоять из букв, может включать дефис.");
+                RuleFor(r => r.Team).NotNull()
                                     .MinimumLength(1)
-                                    .Must(loc => loc.All(ch => char.IsLetter(ch) || ch == '-'))
-                                    .WithName("Населённый пункт")
-                                    .WithMessage("{PropertyName} должен состоять из букв, может включать дефис.");
-            RuleFor(r => r.Team).NotNull()
-                                .MinimumLength(1)
-                                .Must(team => team.All(ch => char.IsLetter(ch) || ch == '-'))
-                                .WithName("Команда")
-                                .WithMessage("Название {PropertyName} должно состоять из букв, может включать дефис.");
+                                    .Must(team => team.All(ch => char.IsLetterOrDigit(ch) || ch == '-'))
+                                    .WithName("Команда")
+                                    .WithMessage("Название {PropertyName} должно состоять из букв или цифр, может включать дефис.");
+            });
+            
             RuleFor(r => r.TryFirst).InclusiveBetween(0, Rider.MAXTIME)
                                     .WithName("Результат первой попытки")
                                     .WithMessage("{PropertyName} должен быть от 00:00:00 до 59:59:99.");

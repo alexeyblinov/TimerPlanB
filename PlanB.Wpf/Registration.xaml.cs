@@ -1,7 +1,6 @@
 ﻿using PlanB.BL.Controller;
 using PlanB.BL.Model;
 using PlanB.Validators;
-using System;
 using System.Windows;
 using System.Windows.Controls;
 using FluentValidation;
@@ -28,7 +27,7 @@ namespace PlanB.Wpf
         }
            
         /// <summary>
-        /// Создать нового участника по стартовому номеру, если он уникальный и установить ему указанный класс.
+        /// Создать нового участника по стартовому номеру, если он уникальный, и установить ему указанный класс.
         /// </summary>
         private void ClassList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -49,6 +48,7 @@ namespace PlanB.Wpf
                     {
                         MessageBox.Show(failure.ErrorMessage);
                     }
+                    riderController = null;
                     ClearRegistrationPage();
                     return;
                 }
@@ -91,14 +91,18 @@ namespace PlanB.Wpf
                 var team = TeamTextBox.Text;
                 var isCruiser = (bool)IsCruiserCheckBox.IsChecked;
 
-                try
+                riderController.SetNewRiderData(name, surname, gender, location, team, isCruiser);
+                riderValidator = new RiderValidator();
+                var validationResult = riderValidator.Validate(riderController.CurrentRider, ruleSet: "CompletedRegistration");
+                if (!validationResult.IsValid)
                 {
-                    riderController.SetNewRiderData(name, surname, gender, location, team, isCruiser);
-                }
-                catch(ArgumentException ex)
-                {
-                    MessageBox.Show(ex.Message);
+                    foreach (var failure in validationResult.Errors)
+                    {
+                        MessageBox.Show(failure.ErrorMessage);
+                    }
+                    riderController = null;
                     ClearRegistrationPage();
+                    return;
                 }
 
                 StatusBarText(riderController);
