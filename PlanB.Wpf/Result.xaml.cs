@@ -39,7 +39,7 @@ namespace PlanB.Wpf
                     return;
                 }
             }
-            // Рассчёт эталонного времени трассы и установка новых классов по результатам соревнования.
+            
             riderController = RaceController.SetNewClasses(riderController, bestClass, bestTime);
         }
 

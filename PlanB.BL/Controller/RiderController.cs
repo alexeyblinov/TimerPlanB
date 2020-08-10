@@ -48,7 +48,7 @@ namespace PlanB.BL.Controller
                     ResultClassId = classId
                 };
                 Riders.Add(CurrentRider);
-                Save();
+                //Save();
             }
         }
 
@@ -75,7 +75,7 @@ namespace PlanB.BL.Controller
         }
 
         /// <summary>
-        /// Добавление данных об участнике, если у него есть только номер.
+        /// Добавление данных об участнике, если у него был только номер.
         /// </summary>
         /// <param name="name"> Имя. </param>
         /// <param name="surname"> Фамилия. </param>
@@ -100,7 +100,7 @@ namespace PlanB.BL.Controller
             CurrentRider.BestResult = 0;
             CurrentRider.Rank = 0;
             CurrentRider.IsCruiser = isCruiser;
-            Save();
+            //Save();
         }
 
         /// <summary>
@@ -120,23 +120,6 @@ namespace PlanB.BL.Controller
         /// Загрузка списка участников из файла.
         /// </summary>
         public void Load()
-        {
-            var formatter = new BinaryFormatter();
-
-            using (var fileStream = new FileStream("riders.dat", FileMode.OpenOrCreate))
-            {
-                if (fileStream.Length != 0 && formatter.Deserialize(fileStream) is List<Rider> riders)
-                {
-                    Riders = riders;
-                }
-                else
-                {
-                    Riders = new List<Rider>();
-                }
-            }
-        }
-
-        public void Delete()
         {
             var formatter = new BinaryFormatter();
 

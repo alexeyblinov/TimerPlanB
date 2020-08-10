@@ -48,7 +48,6 @@ namespace PlanB.Wpf
                     {
                         MessageBox.Show(failure.ErrorMessage);
                     }
-                    riderController = null;
                     ClearRegistrationPage();
                     return;
                 }
@@ -100,11 +99,11 @@ namespace PlanB.Wpf
                     {
                         MessageBox.Show(failure.ErrorMessage);
                     }
-                    riderController = null;
                     ClearRegistrationPage();
                     return;
                 }
 
+                riderController.Save();
                 StatusBarText(riderController);
                 ClearRegistrationPage();
             }
