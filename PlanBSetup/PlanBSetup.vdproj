@@ -3,7 +3,7 @@
 "VSVersion" = "3:800"
 "ProjectType" = "8:{978C614F-708E-4E1A-B201-565925725DBA}"
 "IsWebType" = "8:FALSE"
-"ProjectName" = "8:MotoGymkhanaResults"
+"ProjectName" = "8:Release"
 "LanguageId" = "3:1049"
 "CodePage" = "3:1251"
 "UILanguageId" = "3:1049"
@@ -16,12 +16,18 @@
         "Entry"
         {
         "MsmKey" = "8:_0F6EB76F9DA56B1F450094085F239E54"
-        "OwnerKey" = "8:_EB758319B18443CC9102263E6FB854EC"
+        "OwnerKey" = "8:_A3B51E78AB41498C87F4DBBD485D6769"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_0F6EB76F9DA56B1F450094085F239E54"
+        "OwnerKey" = "8:_EB758319B18443CC9102263E6FB854EC"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_36519550F7ED8E32FA5376F8BC8AE10D"
         "OwnerKey" = "8:_A3B51E78AB41498C87F4DBBD485D6769"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -39,7 +45,7 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_7BFFF916F7A0FE3A1BBFE04E7BFFF9AB"
+        "MsmKey" = "8:_9991D4FC12A753099D892E3DFFCBDB95"
         "OwnerKey" = "8:_A3B51E78AB41498C87F4DBBD485D6769"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -47,12 +53,6 @@
         {
         "MsmKey" = "8:_9991D4FC12A753099D892E3DFFCBDB95"
         "OwnerKey" = "8:_EB758319B18443CC9102263E6FB854EC"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_9991D4FC12A753099D892E3DFFCBDB95"
-        "OwnerKey" = "8:_A3B51E78AB41498C87F4DBBD485D6769"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -64,43 +64,25 @@
         "Entry"
         {
         "MsmKey" = "8:_B468868AC34C17C248349514CE1BAA66"
+        "OwnerKey" = "8:_A3B51E78AB41498C87F4DBBD485D6769"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_B468868AC34C17C248349514CE1BAA66"
         "OwnerKey" = "8:_EB758319B18443CC9102263E6FB854EC"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_B468868AC34C17C248349514CE1BAA66"
-        "OwnerKey" = "8:_7BFFF916F7A0FE3A1BBFE04E7BFFF9AB"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_B468868AC34C17C248349514CE1BAA66"
-        "OwnerKey" = "8:_A3B51E78AB41498C87F4DBBD485D6769"
+        "OwnerKey" = "8:_36519550F7ED8E32FA5376F8BC8AE10D"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_EB758319B18443CC9102263E6FB854EC"
         "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_0F6EB76F9DA56B1F450094085F239E54"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_7BFFF916F7A0FE3A1BBFE04E7BFFF9AB"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_A3B51E78AB41498C87F4DBBD485D6769"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -118,6 +100,18 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_A3B51E78AB41498C87F4DBBD485D6769"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_36519550F7ED8E32FA5376F8BC8AE10D"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_9991D4FC12A753099D892E3DFFCBDB95"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -125,6 +119,12 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_B468868AC34C17C248349514CE1BAA66"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_0F6EB76F9DA56B1F450094085F239E54"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -145,6 +145,14 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+            }
         }
         "Release"
         {
@@ -161,6 +169,14 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+            }
         }
     }
     "Deployable"
@@ -206,7 +222,38 @@
             "SourcePath" = "8:System.Net.Http.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
-            "Folder" = "8:_E5647594E948443D9B09DDD6C134B67E"
+            "Folder" = "8:_22FF0825577B402880BAA3BFB1764C9E"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_36519550F7ED8E32FA5376F8BC8AE10D"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:PlanB.BL, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_36519550F7ED8E32FA5376F8BC8AE10D"
+                    {
+                    "Name" = "8:PlanB.BL.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:PlanB.BL.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_22FF0825577B402880BAA3BFB1764C9E"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -226,7 +273,7 @@
             "SourcePath" = "8:..\\PlanB.Wpf\\mgico.ico"
             "TargetName" = "8:mgico.ico"
             "Tag" = "8:"
-            "Folder" = "8:_E5647594E948443D9B09DDD6C134B67E"
+            "Folder" = "8:_22FF0825577B402880BAA3BFB1764C9E"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -257,38 +304,7 @@
             "SourcePath" = "8:System.ValueTuple.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
-            "Folder" = "8:_E5647594E948443D9B09DDD6C134B67E"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_7BFFF916F7A0FE3A1BBFE04E7BFFF9AB"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:PlanB.BL, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_7BFFF916F7A0FE3A1BBFE04E7BFFF9AB"
-                    {
-                    "Name" = "8:PlanB.BL.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:PlanB.BL.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_E5647594E948443D9B09DDD6C134B67E"
+            "Folder" = "8:_22FF0825577B402880BAA3BFB1764C9E"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -319,7 +335,7 @@
             "SourcePath" = "8:System.ComponentModel.Annotations.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
-            "Folder" = "8:_E5647594E948443D9B09DDD6C134B67E"
+            "Folder" = "8:_22FF0825577B402880BAA3BFB1764C9E"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -350,7 +366,7 @@
             "SourcePath" = "8:FluentValidation.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
-            "Folder" = "8:_E5647594E948443D9B09DDD6C134B67E"
+            "Folder" = "8:_22FF0825577B402880BAA3BFB1764C9E"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -403,6 +419,17 @@
             "Property" = "8:TARGETDIR"
                 "Folders"
                 {
+                    "{9EF0B969-E518-4E46-987F-47570745A589}:_22FF0825577B402880BAA3BFB1764C9E"
+                    {
+                    "Name" = "8:Race Controller"
+                    "AlwaysCreate" = "11:FALSE"
+                    "Condition" = "8:"
+                    "Transitive" = "11:FALSE"
+                    "Property" = "8:_8DCF2052867B4B0294679062BDBCA524"
+                        "Folders"
+                        {
+                        }
+                    }
                 }
             }
         }
@@ -544,7 +571,7 @@
         {
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_94DD35C5A8EA4C5CB0ED004BB92B626B"
             {
-            "Name" = "8:Фиксация результатов MG"
+            "Name" = "8:MG Racecontroller"
             "Arguments" = "8:"
             "Description" = "8:"
             "ShowCmd" = "3:1"
@@ -960,7 +987,7 @@
             "SourcePath" = "8:..\\PlanB.Wpf\\obj\\Release\\PlanB.Wpf.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
-            "Folder" = "8:_E5647594E948443D9B09DDD6C134B67E"
+            "Folder" = "8:_22FF0825577B402880BAA3BFB1764C9E"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -988,7 +1015,7 @@
             "SourcePath" = "8:..\\PlanB.BL\\obj\\Release\\PlanB.BL.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
-            "Folder" = "8:_E5647594E948443D9B09DDD6C134B67E"
+            "Folder" = "8:_22FF0825577B402880BAA3BFB1764C9E"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"

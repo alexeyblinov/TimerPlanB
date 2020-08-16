@@ -418,37 +418,44 @@ namespace PlanB.BL.Controller
             {
                 foreach (var rider in riderController.Riders)
                 {
-                    switch (rider.PreviousClassId)
+                    if(rider.BestResult != Rider.MAXTIME)
                     {
-                        case "A":
-                        case "B":
-                        case "C1":
-                        case "C2":
-                            rider.Rank = a;
-                            a++;
-                            break;
+                        switch (rider.PreviousClassId)
+                        {
+                            case "A":
+                            case "B":
+                            case "C1":
+                            case "C2":
+                                rider.Rank = a;
+                                a++;
+                                break;
 
-                        case "C3":
-                        case "D1":
-                            rider.Rank = i;
-                            i++;
-                            break;
+                            case "C3":
+                            case "D1":
+                                rider.Rank = i;
+                                i++;
+                                break;
 
-                        case "D2":
-                        case "D3":
-                            rider.Rank = j;
-                            j++;
-                            break;
+                            case "D2":
+                            case "D3":
+                                rider.Rank = j;
+                                j++;
+                                break;
 
-                        case "D4":
-                        case "N":
-                            rider.Rank = k;
-                            k++;
-                            break;
-                    }
-                    if (rider.Rank < 11)
-                    {
-                        rider.Rank = ranks[rider.Rank - 1];
+                            case "D4":
+                            case "N":
+                                rider.Rank = k;
+                                k++;
+                                break;
+                        }
+                        if (rider.Rank < 11)
+                        {
+                            rider.Rank = ranks[rider.Rank - 1];
+                        }
+                        else
+                        {
+                            rider.Rank = 0;
+                        }
                     }
                     else
                     {
@@ -461,42 +468,49 @@ namespace PlanB.BL.Controller
             {
                 foreach (var rider in riderController.Riders)
                 {
-                    switch (rider.PreviousClassId)
+                    if (rider.BestResult != Rider.MAXTIME)
                     {
-                        case "A":
-                        case "B":
-                        case "C1":
-                        case "C2":
-                        case "C3":
-                            rider.Rank = a;
-                            a++;
-                            break;
+                        switch (rider.PreviousClassId)
+                        {
+                            case "A":
+                            case "B":
+                            case "C1":
+                            case "C2":
+                            case "C3":
+                                rider.Rank = a;
+                                a++;
+                                break;
 
-                        case "D1":
-                            rider.Rank = i;
-                            i++;
-                            break;
+                            case "D1":
+                                rider.Rank = i;
+                                i++;
+                                break;
 
-                        case "D2":
-                        case "D3":
-                            rider.Rank = j;
-                            j++;
-                            break;
+                            case "D2":
+                            case "D3":
+                                rider.Rank = j;
+                                j++;
+                                break;
 
-                        case "D4":
-                        case "N":
-                            rider.Rank = k;
-                            k++;
-                            break;
-                    }
-                    if (rider.Rank < 11)
-                    {
-                        rider.Rank = ranks[rider.Rank - 1];
+                            case "D4":
+                            case "N":
+                                rider.Rank = k;
+                                k++;
+                                break;
+                        }
+                        if (rider.Rank < 11)
+                        {
+                            rider.Rank = ranks[rider.Rank - 1];
+                        }
+                        else
+                        {
+                            rider.Rank = 0;
+                        }
                     }
                     else
                     {
                         rider.Rank = 0;
-                    }
+                    }   
                 }
             }
 

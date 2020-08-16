@@ -48,7 +48,6 @@ namespace PlanB.BL.Controller
                     ResultClassId = classId
                 };
                 Riders.Add(CurrentRider);
-                //Save();
             }
         }
 
@@ -100,7 +99,6 @@ namespace PlanB.BL.Controller
             CurrentRider.BestResult = 0;
             CurrentRider.Rank = 0;
             CurrentRider.IsCruiser = isCruiser;
-            //Save();
         }
 
         /// <summary>
